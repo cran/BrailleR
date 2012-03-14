@@ -1,12 +1,12 @@
-R2txt.vars <- list(a='test',b=letters,c=1:10)
+R2txt.vars <- new.env()
 
 R2txt <- function(cmd,res,s,vis) {
   if(R2txt.vars$first) {
-      R2txt.vars$first <<- FALSE
+      R2txt.vars$first <- FALSE
       if( R2txt.vars$res ) {
           sink()
           close(R2txt.vars$outcon)
-          R2txt.vars$outcon <<- textConnection(NULL, open='w')
+          R2txt.vars$outcon <- textConnection(NULL, open='w')
           sink(R2txt.vars$outcon, split=TRUE)
       }
   } else {
@@ -33,7 +33,7 @@ R2txt <- function(cmd,res,s,vis) {
               cat(tmp,sep='\n',file=R2txt.vars$con)
               sink()
               close(R2txt.vars$outcon)
-              R2txt.vars$outcon <<- textConnection(NULL, open='w')
+              R2txt.vars$outcon <- textConnection(NULL, open='w')
               sink(R2txt.vars$outcon, split=TRUE)
           }
       }
@@ -44,8 +44,6 @@ R2txt <- function(cmd,res,s,vis) {
 
 txtStart <- function(file, commands=TRUE, results=TRUE, append=FALSE,
                      cmdfile, visible.only=TRUE) {
-data(R2txt.vars, package="BrailleR")
-  unlockBinding('R2txt.vars', environment(R2txt))
 
   tmp <- TRUE
   if(is.character(file)){
@@ -61,9 +59,9 @@ data(R2txt.vars, package="BrailleR")
     stop('file must be a character string or connection')
   }
   if( tmp && isOpen(con) ) {
-    R2txt.vars$closecon <<- FALSE
+    R2txt.vars$closecon <- FALSE
   } else {
-    R2txt.vars$closecon <<- TRUE
+    R2txt.vars$closecon <- TRUE
     if(tmp){
         if(append) {
             open(con, open='a')
@@ -72,14 +70,14 @@ data(R2txt.vars, package="BrailleR")
         }
     }
   }
-  R2txt.vars$vis <<- visible.only
-  R2txt.vars$cmd <<- commands
-  R2txt.vars$res <<- results
-  R2txt.vars$con <<- con
-  R2txt.vars$first <<- TRUE
+  R2txt.vars$vis <- visible.only
+  R2txt.vars$cmd <- commands
+  R2txt.vars$res <- results
+  R2txt.vars$con <- con
+  R2txt.vars$first <- TRUE
 
   if(results) {
-      R2txt.vars$outcon <<- textConnection(NULL, open='w')
+      R2txt.vars$outcon <- textConnection(NULL, open='w')
       sink(R2txt.vars$outcon, split=TRUE)
   }
 
@@ -92,21 +90,21 @@ data(R2txt.vars, package="BrailleR")
       con2 <- cmdfile
     }
     if( tmp && isOpen(con2) ) {
-      R2txt.vars$closecon2 <<- FALSE
+      R2txt.vars$closecon2 <- FALSE
     } else {
-      R2txt.vars$closecon2 <<- TRUE
+      R2txt.vars$closecon2 <- TRUE
       if(tmp) {
           open(con2, open='w')
       }
     }
-    R2txt.vars$con2 <<- con2
-    R2txt.vars$cmdfile <<- TRUE
+    R2txt.vars$con2 <- con2
+    R2txt.vars$cmdfile <- TRUE
   } else {
-    R2txt.vars$cmdfile <<- FALSE
+    R2txt.vars$cmdfile <- FALSE
   }
 
-  R2txt.vars$prompt <<- unlist(options('prompt'))
-  R2txt.vars$continue <<- unlist(options('continue'))
+  R2txt.vars$prompt <- unlist(options('prompt'))
+  R2txt.vars$continue <- unlist(options('continue'))
 
   options(prompt= paste('txt',R2txt.vars$prompt,sep=''),
           continue= paste('txt',R2txt.vars$continue,sep='') )
@@ -130,12 +128,12 @@ txtStop <- function() {
       sink()
       close(R2txt.vars$outcon)
   }
-  R2txt.vars <<- list()
+  evalq( rm(list=ls()), envir=R2txt.vars )
   invisible(NULL)
 }
 
 txtComment <- function(txt,cmdtxt) {
-    R2txt.vars$first <<- TRUE
+    R2txt.vars$first <- TRUE
     if(!missing(txt)) {
         cat("\n",txt,"\n\n", file=R2txt.vars$con)
     }
@@ -145,19 +143,9 @@ txtComment <- function(txt,cmdtxt) {
 }
 
 txtSkip <- function(expr) {
-    R2txt.vars$first <<- TRUE
+    R2txt.vars$first <- TRUE
     expr
 }
 
 
-txtOut=function(){
-Now=date()
-Year=substr(Now,21,24)
-Month=substr(Now,5,7)
-Day=substr(Now,9,10)
-Hour=substr(Now,12,13)
-Minute=substr(Now,15,16)
-Filename=paste("Term",Year,Month,Day, "-",Hour,Minute,".txt",sep="")
-CommandSet=paste("Hist",Year,Month,Day,"-",Hour,Minute,".R",sep="")
-txtStart(file=Filename, cmdfile=CommandSet)
-}
+

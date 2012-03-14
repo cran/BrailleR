@@ -14,8 +14,8 @@ Ultimately, the functions here are created so that blind people can make even be
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.3\cr
-Date: \tab 2012-02-27\cr
+Version: \tab 0.4\cr
+Date: \tab 2012-03-13\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
