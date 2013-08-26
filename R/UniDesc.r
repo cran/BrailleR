@@ -1,12 +1,6 @@
-require(moments)
-require(nortest)
-require(xtable)
 
 UniDesc = function(ResponseName, Response=NULL, Basic = TRUE, Graphs = TRUE, Normality=TRUE, Tests=TRUE, Folder="", VI=TRUE){
 
-require(moments)
-require(nortest)
-require(xtable)
 
 if(!Folder==""){
 if (!file.exists(Folder)) dir.create(Folder)
@@ -43,6 +37,7 @@ cat(paste("\nIQR: ",IQR(x, na.rm = TRUE), "\n", sep=""), file=FullFile, append=T
 if(Graphs){
 MyHist=hist(x, xlab=ResponseName, main=paste("Histogram of ",ResponseName, sep=""))
 dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-Hist.eps", sep=""))
+dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-Hist.pdf", sep=""))
 dev.off()
 if(VI){
 sink(FullFile, append=TRUE)
@@ -56,6 +51,7 @@ cat("\n")
 
 MyDensity=plot(density(x, na.rm=TRUE), xlab=ResponseName, main=paste("Density plot for ", ResponseName, sep=""))
 dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-Density.eps", sep=""))
+dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-Density.pdf", sep=""))
 dev.off()
 if(VI){
 sink(FullFile, append=TRUE)
@@ -93,6 +89,7 @@ if(Graphs){
 qqnorm(x, main = paste("Normality Plot for ",ResponseName, sep=""))
  qqline(x)
 dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-NormPlot.eps", sep=""))
+dev.copy2eps(file = paste(Folder, "\\", ResponseName, "-NormPlot.pdf", sep=""))
 dev.off()
 }
 

@@ -18,7 +18,7 @@
 txtStart(file, commands=TRUE, results=TRUE, append=FALSE, cmdfile,
           visible.only=TRUE)
 
-txtOut()
+txtOut(Filename=NULL)
 
 txtStop()
 
@@ -28,6 +28,7 @@ txtSkip(expr)
 }
 \arguments{
   \item{file}{ Text file to save transcript in }
+\item{Filename}{A filename to be given for the \code{txtOut} command. If this is not specified, the user will be prompted for a filename. If the user presses the enter key, a filename will be automatically generated that is based on the current date and time.}
   \item{commands}{ Logical, should the commands be echoed to the
          transcript file }
   \item{results}{ Logical, should the results be saved in the transcript

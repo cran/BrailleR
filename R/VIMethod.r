@@ -37,15 +37,16 @@ print(x)
 
 
 VI.data.frame=function(x,...){
+ThisDF=x
 cat("\nThe summary of each variable is\n")
-attach(x)
-for(i in names(x)){
+attach(ThisDF)
+on.exit(detach(ThisDF)) 
+for(i in names(ThisDF)){
 cat(paste(i,": ", sep=""))
 Wanted=summary(get(i))
 cat(paste(names(Wanted),Wanted," "))
 cat("\n")
 }
-detach(x)
 cat("\n")
 }
 
