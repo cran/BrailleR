@@ -14,8 +14,8 @@ Ultimately, the functions here are created so that blind people can make even be
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.8\cr
-Date: \tab 2013-08-27\cr
+Version: \tab 0.9\cr
+Date: \tab 2014-06-27\cr
 License: \tab GPL-2\cr
 }
 }
@@ -25,6 +25,6 @@ Jonathan Godfrey
 Maintainer: Jonathan Godfrey <a.j.godfrey@massey.ac.nz>
 }
 \references{
-~~ Literature or other references for background information ~~
+Godfrey, A.J.R. (2013) \sQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-80.
 }
 \keyword{ package }
