@@ -14,15 +14,15 @@ Ultimately, the functions here are created so that blind people can make even be
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.9\cr
-Date: \tab 2014-06-27\cr
+Version: \tab 0.11\cr
+Date: \tab 2014-09-27\cr
 License: \tab GPL-2\cr
 }
 }
 \author{
-Jonathan Godfrey
+A. Jonathan R. Godfrey
 
-Maintainer: Jonathan Godfrey <a.j.godfrey@massey.ac.nz>
+Maintainer: A. Jonathan R. Godfrey <a.j.godfrey@massey.ac.nz>
 }
 \references{
 Godfrey, A.J.R. (2013) \sQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-80.

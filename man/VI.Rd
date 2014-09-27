@@ -36,7 +36,7 @@ In general, the output is a series of text strings printed in the console/termin
 These functions do not create objects as do many \R commands. Manipulations on the objects created by regular \R expressions will need those regular expressions issued in addition to those of the VI family of functions.
 }
 \author{
-Jonathan Godfrey
+A. Jonathan R. Godfrey
 }
 
 \examples{

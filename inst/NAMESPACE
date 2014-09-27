@@ -1,5 +1,0 @@
-exportPattern("^[[:alpha:]]+")
-import(xtable)
-import(nortest)
-import(moments)
-
