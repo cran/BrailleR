@@ -1,5 +1,5 @@
 
-WhereXY = function(x,y=NULL, grid=c(3,3), Dist="uniform"){
+WhereXY = function(x,y=NULL, grid=c(4,4), xDist="uniform", yDist=xDist, addmargins=TRUE){
 
 if(is.null(y)){
 x=as.matrix(x)
@@ -16,20 +16,30 @@ YMax=max(y, na.rm=TRUE)
 XRange=XMax-XMin
 YRange=YMax-YMin
 
-if(Dist=="uniform"){
-XNew=cut(x,breaks=grid[1], labels=FALSE)
-YNew=cut(y,breaks=grid[2], labels=FALSE)
-}
+if(xDist=="uniform"){
+XNew=cut(x,breaks=grid[1], labels=FALSE)}
 else{
 XMean=mean(x, na.rm=TRUE)
-YMean=mean(y, na.rm=TRUE)
 XSD=sd(x, na.rm=TRUE)
-YSD=sd(y, na.rm=TRUE)
 XBreaks=c(0.9*XMin, XMean+XSD*qnorm((1:(grid[1]-1))/grid[1]), 1.1*XMax)
-YBreaks=c(0.9*YMin, YMean+YSD*qnorm((1:(grid[2]-1))/grid[2]), 1.1*YMax)
 XNew=cut(x, breaks=XBreaks, labels=FALSE)
+}
+
+if(yDist=="uniform"){
+YNew=cut(y,breaks=grid[2], labels=FALSE)}
+else{
+YMean=mean(y, na.rm=TRUE)
+YSD=sd(y, na.rm=TRUE)
+YBreaks=c(0.9*YMin, YMean+YSD*qnorm((1:(grid[2]-1))/grid[2]), 1.1*YMax)
 YNew=cut(y, breaks=YBreaks, labels=FALSE)
 }
+XNew=paste0("(", XNew, ")")
+YNew=paste0("(", YNew, ")")
 Output=tapply(x, list(YNew,XNew), length)
-return(Output[rev(1:grid[2]),])
+Output[is.na(Output)]=0
+Output=Output[rev(1:grid[2]),]
+if(addmargins){
+Output=addmargins(Output)
+}
+return(Output)
 }

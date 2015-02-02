@@ -3,10 +3,10 @@
 \alias{BrailleR}
 \docType{package}
 \title{
-Improved access for blind useRs}
-\description{Blind useRs do not have access to the graphical output from R without printing the content of graph windows to an embosser of some kind. This is not as immediate as is required for efficient access to statistical output. 
+Improved Access for Blind Users}
+\description{Blind users do not have access to the graphical output from R without printing the content of graph windows to an embosser of some kind. This is not as immediate as is required for efficient access to statistical output. 
 
-Various functions are also being developed to make text output (that is visually appealing) more useful for a blind useR who is reliant on synthesized speech or braille output to interpret the results.
+Various functions are also being developed to make text output (that is visually appealing) more useful for a blind user who is reliant on synthesized speech or braille output to interpret the results.
 
 Ultimately, the functions here are created so that blind people can make even better use of R.
 }
@@ -14,8 +14,8 @@ Ultimately, the functions here are created so that blind people can make even be
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.11\cr
-Date: \tab 2014-09-27\cr
+Version: \tab 0.16.1\cr
+Date: \tab 2015-02-02\cr
 License: \tab GPL-2\cr
 }
 }

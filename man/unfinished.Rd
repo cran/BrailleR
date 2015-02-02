@@ -1,13 +1,10 @@
 \name{unfinished}
 \alias{VI.barplot}
-\alias{VI.boxplot}
 \alias{VI.density}
-\alias{VI.aov}
 \alias{VI.aovlist}
 \alias{VI.Date}
 \alias{VI.factor}
 \alias{VI.glm}
-\alias{VI.lm}
 \alias{VI.manova}
 \alias{VI.mlm}
 \alias{VI.stepfun}

@@ -1,5 +1,5 @@
 
-UniDesc = function(Response=NULL, ResponseName=as.character(match.call()$Response), Basic = TRUE, Graphs = TRUE, Normality=TRUE, Tests=TRUE, Filename=NULL, Folder=ResponseName, VI=TRUE, Latex=TRUE, View=TRUE){
+UniDesc = function(Response=NULL, ResponseName=as.character(match.call()$Response), Basic = TRUE, Graphs = TRUE, Normality=TRUE, Tests=TRUE, Title=NULL, Filename=NULL, Folder=ResponseName, Process = TRUE, VI=getOption("BrailleR.VI"), Latex=getOption("BrailleR.Latex"), View=getOption("BrailleR.View")){
 
 if(is.null(Response)){
 if(length(ResponseName)==0) stop("You must specify either the Response or the ResponseName.")
@@ -25,51 +25,63 @@ Filename = paste0(ResponseName, "-UniDesc.Rmd")
 
 
 # Start writing mark down here.
-cat('\n# Univariate analysis for', ResponseName, '\n', file=Filename)
-cat(paste0('```{r setup, include=FALSE}\nopts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))\nopts_chunk$set(comment="", echo=FALSE, fig.path="', Folder, '/', ResponseName, '-", fig.width=7)\n```    \n'), file=Filename, append=TRUE)
+if(is.null(Title)) {Title=paste0('Univariate analysis for ', ResponseName)}
 
-#paste0('fig.path="', Folder, '/', ResponseName, '-"'),
+cat('\n#', Title, '  \n\n', file=Filename)
+
+cat(paste0('```{r setup, purl=FALSE, include=FALSE}
+opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
+opts_chunk$set(comment="", echo=FALSE, fig.path="', Folder, '/', ResponseName, '-", fig.width=7)
+```  \n\n'), file=Filename, append=TRUE)
 
 
 if(Basic){
-cat("\n## Basic summary measures    \n### Counts    \n", 
-paste0("`r length(", ResponseName, ")`"), "values in all, made up of  ",
-paste0("\n`r length(unique(", ResponseName, "))`"), "unique values,  ",
-paste0("\n`r sum(!is.na(", ResponseName, "))`"), "observed, and  ",
-paste0("\n`r sum(is.na(", ResponseName, "))`"), "missing values.   \n", 
-file=Filename, append=TRUE)
+cat(paste0('## Basic summary measures    
 
-cat("\n### Measures of location    \n\n", 
-"Mean | Value  \n",
-"----- | ------  \n",
-paste0("All data |  `r mean(", ResponseName, ", na.rm = TRUE)`    \n"), 
-paste0("Trimmed 5% | `r mean(", ResponseName, ", trim =0.025, na.rm = TRUE)`    \n"), 
-paste0("Trimmed 10% | `r mean(", ResponseName, ", trim =0.05, na.rm = TRUE)`    \n"), 
-file=Filename, append=TRUE)
+### Counts    
+
+`r length(', ResponseName, ')` values in all, made up of  
+`r length(unique(', ResponseName, '))` unique values,  
+`r sum(!is.na(', ResponseName, '))` observed, and  
+`r sum(is.na(', ResponseName, '))` missing values.   \n\n
+
+### Measures of location    
+
+Mean | Value  
+----- | ------  
+All data |  `r mean(', ResponseName, ', na.rm = TRUE)`     
+Trimmed 5% | `r mean(', ResponseName, ', trim =0.025, na.rm = TRUE)`     
+Trimmed 10% | `r mean(', ResponseName, ', trim =0.05, na.rm = TRUE)`     
 
 
-cat("\n### Quantiles    \n",
-'```{r Quantiles1}  \n',
-paste0('Quantiles=quantile(', ResponseName, ', na.rm=TRUE)\n'),
-'QList=c("Minimum", "Lower Quartile", "Median", "Upper Quartile", "Maximum")  
+### Quantiles    
+
+```{r Quantiles1}  
+Quantiles=quantile(', ResponseName, ', na.rm=TRUE)  
+QList=c("Minimum", "Lower Quartile", "Median", "Upper Quartile", "Maximum")  
 Results=data.frame(Quantile=QList, Value=Quantiles[1:5])  
 ```  
 
 ```{r Quantiles2, results="asis", purl=FALSE}  
-kable(Results) \n```  \n', file=Filename, append=TRUE)
+kable(Results) 
+```  
 
-cat("\n### Measures of spread    \n", file=Filename, append=TRUE)
-cat(paste0("Measure | Value  
--------- | ------  
-IQR | `r IQR(", ResponseName, ", na.rm = TRUE)`    \n"), 
-paste0("Standard deviation | `r sd(", ResponseName, ", na.rm = TRUE)`   \n"), 
-paste0("Variance | `r var(", ResponseName, ", na.rm = TRUE)`   \n"), file=Filename, append=TRUE)
+### Measures of spread    
 
-cat("\n### Other moments     \n", file=Filename, append=TRUE)
-cat(paste0("Moment | Value  
+Measure | Value  
+-------- | ------   
+IQR | `r IQR(', ResponseName, ', na.rm = TRUE)`    
+Standard deviation | `r sd(', ResponseName, ', na.rm = TRUE)`   
+Variance | `r var(', ResponseName, ', na.rm = TRUE)`   \n\n'), file=Filename, append=TRUE)
+
+if(!Tests){
+cat(paste0('### Other moments     
+
+Moment | Value  
 -------- | ------  
-Skewness | `r moments::skewness(", ResponseName, ", na.rm = TRUE)`    \n"), file=Filename, append=TRUE)
-cat(paste0("Kurtosis | `r moments::kurtosis(", ResponseName, ", na.rm = TRUE)`   \n"), file=Filename, append=TRUE)
+Skewness | `r moments::skewness(', ResponseName, ', na.rm = TRUE)`    
+Kurtosis | `r moments::kurtosis(', ResponseName, ', na.rm = TRUE)`   \n\n'), file=Filename, append=TRUE)
+}
 }
 
 if(Graphs){
@@ -102,7 +114,8 @@ cat("\n## Assessing normality    \n", file=Filename, append=TRUE)
 
 cat('\n### Formal tests for normality    \n', file=Filename, append=TRUE)
 
-cat('```{r NormalityTests, results="asis"}\nResults = matrix(0, nrow=6, ncol=2)
+cat('```{r NormalityTests, eval=-16}
+Results = matrix(0, nrow=6, ncol=2)
 dimnames(Results) = list(c("Shapiro-Wilk", "Anderson-Darling", "Cramer-von Mises", "Lilliefors (Kolmogorov-Smirnov)", "Pearson chi-square", "Shapiro-Francia"),
  c("Statistic", "P Value"))
  SW =shapiro.test(', ResponseName, ')
@@ -117,10 +130,19 @@ PE = pearson.test(', ResponseName, ')
 Results[5,] = c(PE$statistic, PE$p.value)
 SF = sf.test(', ResponseName, ')
 Results[6,] = c(SF$statistic, SF$p.value)
+Results
+```   \n', file=Filename, append=TRUE)
+cat('```{r NormalityTests2, results="asis", purl=FALSE}
+kable(Results)
+```   \n', file=Filename, append=TRUE)
+
+if(Latex){
+cat('```{r NormalityTestsTex, purl=FALSE}
 ', paste0('ThisTexFile = "', Folder, "/", ResponseName, '-Normality.tex"'),'
 TabCapt= "Tests for normality: Variable is', ResponseName, '"
-print(xtable(Results, caption=TabCapt, label=paste0(ResponseName,"Normality"), digits=4, align="lrr"), file = ThisTexFile)
-kable(Results)    \n```   \n', file=Filename, append=TRUE)
+print(xtable(Results, caption=TabCapt, label=paste0(ResponseName,"Normality"), digits=4, align="lrr"), file=ThisTexFile)
+```   \n', file=Filename, append=TRUE)
+}
 }# end of normality test statistics section
 
 if(Graphs){
@@ -131,24 +153,37 @@ CloseChunk()
 }# end of normality plot section
 
 if(Tests){
-cat('\n## Formal tests of moments    \n', file=Filename, append=TRUE)
+cat(paste0('\n## Formal tests of moments    
 
-cat('```{r MomentsTests, results="asis"}\nResults = matrix(0, nrow=2, ncol=3)
+```{r MomentsTests, eval=-8}  
+Results = matrix(0, nrow=2, ncol=3)  
 dimnames(Results)= list(c( "D\'Agostino skewness", "Anscombe-Glynn kurtosis"), 
- c("Statistic","Z",  "P Value"))
+ c("Statistic","Z",  "P Value"))  
 AG = moments::agostino.test(', ResponseName, ')
 AN = moments::anscombe.test(', ResponseName, ')
 Results[1,] = c(AG$statistic, AG$p.value)
 Results[2,] = c(AN$statistic, AN$p.value)
-',paste0('ThisTexFile = "', Folder, "/", ResponseName, '-Moments.tex"'),'
-TabCapt= "Tests on moments: Variable is', ResponseName, '"
-print(xtable(Results, caption=TabCapt, label=', paste0('\"', ResponseName, 'Moments\"'), ', digits=4, align=\"lrrr\"), file = ThisTexFile)
-kable(Results)    \n```   \n', file=Filename, append=TRUE)
+Results
+```   
+
+```{r MomentsTests2, results="asis", purl=FALSE}
+kable(Results)
+```   \n\n'), file=Filename, append=TRUE)
+
+if(Latex){
+cat(paste0('```{r MomentsTestsTex, purl=FALSE}
+ThisTexFile = "', Folder, "/", ResponseName, '-Moments.tex"  
+TabCapt= "Tests on moments: Variable is', ResponseName, '"  
+print(xtable(Results, caption=TabCapt, label=\"', ResponseName, 'Moments", digits=4, align="lrrr"), file=ThisTexFile)
+```   \n\n'), file=Filename, append=TRUE)
+}
 }# end of formal tests of normality via moments section
 
+if(Process){
 # stop writing markdown and process the written file into html and an R script
 knit2html(Filename, quiet=TRUE)
 file.remove(sub(".Rmd", ".md", Filename))
 purl(Filename, quiet=TRUE)
 if(View) browseURL(sub(".Rmd", ".html", Filename))
+} # end of processing chunk
 }# end of UniDesc function definition

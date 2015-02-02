@@ -5,9 +5,11 @@ boxplot=function(x,...){
 names(MC)[2]=""
     Out <- eval(MC, parent.frame())
 Out$main = as.character(MC$main)
-Out$xlab = as.character(MC$xlab)
-Out$ylab = as.character(MC$ylab)
-Out$horizontal = as.character(MC$horizontal)
+if(length(MC$horizontal)>0){Out$horizontal = as.logical(MC$horizontal)}
+else{Out$horizontal=FALSE}
+# then overwrite if user has specified (even if in error)
+if(length(MC$xlab)>0)Out$xlab = as.character(MC$xlab)
+if(length(MC$ylab)>0)Out$ylab = as.character(MC$ylab)
 Out$call = MC
 class(Out)="boxplot"
 return(invisible(Out))
@@ -20,5 +22,6 @@ hist=function(x,...){
     Out <- eval(MC, parent.frame())
 if(length(MC$main)>0)Out$main = as.character(MC$main)
 if(length(MC$xlab)>0)Out$xlab = as.character(MC$xlab)
+if(length(MC$ylab)>0)Out$ylab = as.character(MC$ylab)
 return(invisible(Out))
 }

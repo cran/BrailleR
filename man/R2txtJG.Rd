@@ -45,7 +45,7 @@ txtSkip(expr)
 }
 \details{
 These functions are used to create transcript/command files of your R
-         session.  In the original {TeachingDemos} package from which the functions were obtained, there are 3 sets of functions. Those starting with
+         session.  In the original \pkg{TeachingDemos} package from which the functions were obtained, there are 3 sets of functions. Those starting with
          "txt",those starting with "etxt", and those starting with
 	 wdtxt.  
 
@@ -58,7 +58,7 @@ The "txt" functions
  The "wdtxt" functions will insert the commands and results into
  a Microsoft Word document. 
 
-Users wishing to have the additional functionality that the "etxt" and "wdtxt" functions provide are advised to make use of the {TeachingDemos} package.
+Users wishing to have the additional functionality that the "etxt" and "wdtxt" functions provide are advised to make use of the \pkg{TeachingDemos} package.
 
 	 If \code{results} is TRUE and \code{commands} is FALSE then the result
 	 is similar to the results of \code{sink}.  If \code{commands}
@@ -80,7 +80,7 @@ Users wishing to have the additional functionality that the "etxt" and "wdtxt" f
 	 that the commands/results are being copied to the transcript.
 	 The Stop function stops the recording and resets the prompts.
 
-The txtOut function is a short cut for the txtStart command that uses the current date and time in the filenames for the transcript and command files. This function is not part of the TeachingDemos package.
+The txtOut function is a short cut for the txtStart command that uses the current date and time in the filenames for the transcript and command files. This function is not part of the \pkg{TeachingDemos} package.
 
 	 The R parser strips comments and does some reformating so the
 	 transcript file may not match exactly with the terminal
@@ -101,13 +101,13 @@ The txtOut function is a short cut for the txtStart command that uses the curren
 \code{txtSkip} returns the value of \code{expr}.
 }
 %\references{ ~put references to the literature/web site here ~ }
-\author{ Greg Snow, \email{greg.snow@imail.org} is the original author, but Jonathan Godfrey \email{a.j.godfrey@massey.ac.nz} is responsible for the implementation in the BrailleR package (including the txtOut function), and should therefore be your first point of contact with any problems. If you find the functions useful, you may wish to send  a vote of thanks in Greg's direction.}
+\author{ Greg Snow, \email{greg.snow@imail.org} is the original author, but Jonathan Godfrey \email{a.j.godfrey@massey.ac.nz} is responsible for the implementation in the \pkg{BrailleR} package (including the \code{txtOut()} function), and should therefore be your first point of contact with any problems. If you find the functions useful, you may wish to send  a vote of thanks in Greg's direction.}
 \note{
 These commands do not do any fancy formatting of output, just what you
 see in the regular terminal window.  If you want more formatted output
-then you should look into \code{Sweave} or the R2HTML package.
+then you should look into \code{Sweave} or the use of markdown documents..
 
-Do not use these functions in combination with R2HTML or \code{sink}.
+Do not use these functions in combination with the \pkg{R2HTML} package or \code{sink}.
 }
 \seealso{\code{\link{sink}}, \code{\link{history}},
   \code{\link{Sweave}}, the odfWeave package, the R2HTML package, the
