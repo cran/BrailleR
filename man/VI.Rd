@@ -9,6 +9,7 @@
 \alias{VI.list}
 \alias{VI.lm}
 \alias{VI.matrix}
+\alias{VI.TukeyHSD}
 \title{
 Methods to help vision impaired users
 }
@@ -43,7 +44,7 @@ In general, the output is a series of text strings printed in the console/termin
 In general, these functions do not create objects as do many \R commands. Manipulations on the objects created by regular \R expressions will need those regular expressions issued in addition to those of the VI family of functions. The \code{VI.lm()} method does create objects in the current workspace and then deletes them once the HTML document is compiled.
 }
 \author{
-A. Jonathan R. Godfrey
+A. Jonathan R. Godfrey and Timothy P. Bilton
 }
 
 \examples{

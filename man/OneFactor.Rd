@@ -10,30 +10,22 @@ VI = getOption("BrailleR.VI"), Latex = getOption("BrailleR.Latex"),
 View = getOption("BrailleR.View"))
 }
 \arguments{
-  \item{Response}{A continuous variable.}
+  \item{Response}{Name of the continuous response variable.}
   \item{Factor}{The grouping factor.}
-  \item{Data}{The data.frame that contains both the response and hte factor.}
-  \item{HSD}{Logical. Should the Tukey HSD analysis be performed.}
-  \item{AlphaE}{The familywise level of significance used for the Tukey HSD analysis.}
-  \item{Filename}{The filename used for the markdown and html files.}
-  \item{Folder}{The folder in which files for graphs and tables will be saved.}
-  \item{VI}{Logical. Should the VI method be employed? This is set using the package options.}
-  \item{Latex}{Logical. Should tables be created using the \pkg{xtable} package? This is set using the package options.}
-  \item{View}{Logical. Should the resulting HTML file be opened for viewing? This is set using the package options.}
+  \item{Data}{The data.frame that contains both the response and the factor.}
+  \item{HSD}{Logical: Should Tukey's HSD be evaluated for the data?}
+  \item{AlphaE}{The family-wise Type I error rate for Tukey's HSD calculations.}
+  \item{Filename}{Name of the Rmarkdown and HTML files to be created. A default will be created that uses the names of the variables if this is left set to NULL.}
+  \item{Folder}{Name of the folder to store graph and LaTeX files. A default will be created based on the name of the data.frame being used.}
+  \item{VI}{Logical: Should the VI method for blind users be employed?}
+  \item{Latex}{Logical: Should the tabulated sections be saved in LaTeX format?}
+  \item{View}{Logical: Should the HTML file be opened for inspection?}
 }
-\details{
-to do
-}
-\value{
-to do
-}
-\author{
-A. Jonathan R. Godfrey
-}
+\details{to complete}
+\value{to complete}
+\author{A. Jonathan R. Godfrey and Timothy P. Bilton}
 
-\seealso{
-to do
-}
+\seealso{to complete}
 \examples{
 data(airquality)
 

@@ -11,7 +11,10 @@ packageStartupMessage("Options BrailleR.VI and BrailleR.Latex have been set to T
 options(BrailleR.VI=TRUE)
 options(BrailleR.View=interactive())
 options(BrailleR.Latex=TRUE)
+options(BrailleR.SigLevel=0.05)
 options(BrailleR.PValDigits=4)
+options(BrailleR.Author=readLines(system.file("Settings", "Author.txt", package="BrailleR"), warn=FALSE))
+BrailleR=new.env(parent=.GlobalEnv)
 if(interactive()){
 chooseCRANmirror(ind=1)
 options("menu.graphics"=FALSE)

@@ -89,16 +89,24 @@ print(xtable(DataSummary, caption=TabCapt, label="', ResponseName, 'GroupSummary
 
 cat("The ratio of the largest group standard deviation to the smallest is `r round(max(Data.StDev)/min(Data.StDev),2)`  \n\n", file=Filename, append=TRUE)
 
+nNonMissing <- function(x){
+  length(na.omit(x)) # length() includes NAs
+}
+Data.n <- with(get(DataName), tapply(get(ResponseName), get(FactorName), nNonMissing))
+
+if(min(Data.n)>4){
 cat('## Comparative boxplots  \n\n',
-'```{r boxplots, fig.cap="Comparative boxplots", eval=min(Data.n)>4}  \n',
+'```{r boxplots, fig.cap="Comparative boxplots"}  \n',
 paste0(ifelse(VI,'VI(',''), 'boxplot(', ResponseName, '~', FactorName, ', data=', DataName, ifelse(VI,')', ''), ')  \n'),
 '``` \n',
-file=Filename, append=TRUE)
-cat('\n\n',
-'```{r NoBoxplots, eval=min(Data.n)<5, purl=FALSE}  \n',
+file=Filename, append=TRUE) }
+
+else{
+cat('## Comparative boxplots  \n\n',
+'```{r NoBoxplots, purl=FALSE}  \n',
 'cat("When boxplots are not included, it is  because at least one group size is too small.")  \n',
 '``` \n',
-file=Filename, append=TRUE)
+file=Filename, append=TRUE) }
 
 cat('## Comparative dotplots  \n\n',
 '```{r dotplots, fig.cap="Comparative dotplots"}  \n',
@@ -145,8 +153,9 @@ cat(paste0('## Tukey Honestly Significant Difference test
 
 ```{r TukeyHSD, fig.cap="Plot of Tukey HSD"}  
 MyHSD <- TukeyHSD(MyANOVA, ordered=TRUE, conf.level=', 1-AlphaE,')  
+', ifelse(VI, "VI(MyHSD)  \n", ""),' 
 MyHSD  
-plot(MyHSD)  
+plot(MyHSD) 
 ``` \n\n'), file=Filename, append=TRUE)
 }
 

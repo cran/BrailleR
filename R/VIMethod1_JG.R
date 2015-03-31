@@ -11,15 +11,6 @@ print(x)
 }
 
 
-VI.aov=function(x){
-cat('\nFactor p value is', round(anova(x)[1,5],4), 
-'\n\n',
-'The ratios of the group standard deviations to the overall standard deviation \n',
-'(groups ordered by increasing mean) are:\n',
-round(tapply(x$residuals, x$fitted.values, sd)/sqrt(sum(x$residuals^2)/x$df.residual), 2)) 
-cat('\n  \n')
-return(invisible(NULL))
-}
 
 VI.boxplot = function(x){
 NBox=length(x$n)
