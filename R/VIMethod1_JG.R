@@ -21,14 +21,13 @@ Boxplots = ifelse(NBox>1, paste(NBox, 'boxplots'), 'a boxplot')
 VertHorz = ifelse(x$horizontal, 'horizontally', 'vertically')
 if(NBox>1) {x$names=paste0('"', x$names, '"')}
 else {x$names = NULL}
-
 cat(paste0('This graph has ', Boxplots, ' printed ', VertHorz, '\n',
 ifelse(length(x$main)>0, 'with the title: ', 'but has no title'), x$main, '\n',
-ifelse(length(x$xlab)>0, paste0('"', x$xlab, '"'), 'Nothing'), 
-' is marked on the x-axis.\n',
-ifelse(length(x$ylab)>0, paste0('"', x$ylab, '"'), 'Nothing'), 
-' is marked on the y-axis.\n'))
-
+ifelse(length(x$xlab)>0, InQuotes(x$xlab), 'No label'), ' appears on the x-axis.\n',
+ifelse(length(x$ylab)>0, paste0('"', x$ylab, '"'), 'No label'), 
+' appears on the y-axis.\n'))
+if(x$horizontal){cat("Tick marks for the x-axis are at:", GetAxisTicks(x$xaxp), "\n")}
+else{cat("Tick marks for the y-axis are at:", GetAxisTicks(x$yaxp), "\n")}
 for(i in 1:NBox){
 cat(VarGroupUpp, x$names[i], 'has', x$n[i], 'values.\n') 
 if(any(x$group == i)){
@@ -37,8 +36,8 @@ else{cat('There are no outliers marked for this', VarGroup, '\n')}
 cat('The whiskers extend to', x$stats[1,i], 'and', x$stats[5,i], 'from the ends of the box, \nwhich are at', x$stats[2,i], 'and', x$stats[4,i], '\n')
 BoxLength=x$stats[4,i]-x$stats[2,i]
 cat('The median,', x$stats[3,i], 'is', round(100* (x$stats[3,i]-x$stats[2,i])/BoxLength,0), 
-'% from the lower end of the box to the upper end.\n')
-cat('The upper whisker is', round((x$stats[5,i]-x$stats[4,i])/(x$stats[2,i]-x$stats[1,i]),2), 'times the length of the lower whisker.\n')
+'% from the', ifelse(x$horizontal, 'left', 'lower'), 'end of the box to the', ifelse(x$horizontal, 'right', 'upper'), 'end.\n')
+cat('The', ifelse(x$horizontal, 'right', 'upper'), 'whisker is', round((x$stats[5,i]-x$stats[4,i])/(x$stats[2,i]-x$stats[1,i]),2), 'times the length of the', ifelse(x$horizontal, 'left', 'lower'), 'whisker.\n')
 }
 cat('\n')
 }
@@ -57,10 +56,41 @@ cat("\n")
 cat("\n")
 }
 
+VI.dotplot=function(x){
+NPlot=length(x$vals)
+VarGroup = ifelse(NPlot>1, 'group', 'variable')
+VarGroupUpp = ifelse(NPlot>1, 'Group', 'This variable')
+IsAre = ifelse(NPlot>1, 'are', 'is')
+dotplots = ifelse(NPlot>1, paste(NPlot, 'dotplots'), 'a dotplot')
+VertHorz = ifelse(x$vertical, 'vertically', 'horizontally')
+MinVal=min(unlist(x$vals))
+MaxVal=max(unlist(x$vals))
+Bins=getOption("BrailleR.DotplotBins")
+Cuts=seq(MinVal, MaxVal, (MaxVal-MinVal)/Bins)
+# now do the description bit
+cat(paste0('This graph has ', dotplots, ' printed ', VertHorz, '\n',
+ifelse(length(x$main)>0, 'with the title: ', 'but has no title'), x$main, '\n'))
+if(!is.null(x$dlab) | !is.null(x$glab)){warning("Use of dlab or glab arguments is not advised. Use xlab and ylab instead.")}
+else{ cat(paste0(ifelse(length(x$xlab)>0, InQuotes(x$xlab), 'No label'), ' appears on the x-axis.\n',
+ifelse(length(x$ylab)>0, paste0('"', x$ylab, '"'), 'No label'), 
+' appears on the y-axis.\n'))}
+if(x$vertical){cat("Tick marks for the y-axis are at:", GetAxisTicks(x$yaxp), "\n")}
+else{cat("Tick marks for the x-axis are at:", GetAxisTicks(x$xaxp), "\n")}
+cat(paste("the data that range from", MinVal, "to", MaxVal, "has been broken into", Bins, "bins.\nThe counts are:\n"))
+for(i in 1:NPlot){
+cat(paste0(names(x$vals)[i], ": "))
+cat(graphics::hist(x$vals[[i]], breaks=Cuts, plot=FALSE)$counts, "\n")
+}
+return(invisible(NULL))
+}
+
+
 VI.histogram = function(x){
 cat('This is a histogram, with the title:', ifelse(length(x$main)>0, x$main, paste("Histogram of", x$xname)), '\n',
-ifelse(length(x$xlab)>0,x$xlab,x$xname), 'is marked on the x-axis.\n')
+ifelse(length(x$xlab)>0, InQuotes(x$xlab), InQuotes(x$xname)), 'is marked on the x-axis.\n')
+cat("Tick marks for the x-axis are at:", GetAxisTicks(x$xaxp), "\n")
 cat('There are a total of', sum(x$counts), 'elements for this variable.\n')
+cat("Tick marks for the y-axis are at:", GetAxisTicks(x$yaxp), "\n")
 NoBins=length(x$breaks)-1
 if(x$equidist){
 cat('It has', NoBins, 'bins with equal widths, starting at', x$breaks[1], 'and ending at', x$breaks[NoBins+1], '.\n')
@@ -137,6 +167,7 @@ InflObs = data.frame(', ModelName, '$model, Fit=Fits, St.residual=Residuals, Lev
 ```  
 
 ```{r ListInfObsLatex, purl=FALSE}  
+library(xtable)  
 print(xtable(InflObs, caption="Listing of suspected outliers and influential observations.", label="InflObs', ModelName, '", digits=4), file = "', FolderName, '/InflObs.tex")  
 ```  
 
@@ -151,7 +182,7 @@ purl(RmdName, quiet=TRUE)
 if(interactive()) browseURL(sub(".Rmd", ".html", RmdName))
 
 # do the clean up
-rm(list=c("Residuals", "Fits", "Leverages", "Cooks"), envir=.GlobalEnv)
+#rm(list=c("Residuals", "Fits", "Leverages", "Cooks"), envir=.GlobalEnv)
 return(invisible(TRUE))
 }
 

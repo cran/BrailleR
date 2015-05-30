@@ -1,7 +1,13 @@
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Example 1: Histograms}
--->
+---
+title: "The BrailleR package Example 1"
+author: "A. Jonathan R. Godfrey"
+bibliography: BrailleRPublications.bib
+vignette: >
+  %\VignetteIndexEntry{Example 1: Histograms}
+    %\VignetteEngine{knitr::rmarkdown}
+output: knitr:::html_vignette
+---
+
 
 ```{r setup, include=FALSE}
 library(knitr)

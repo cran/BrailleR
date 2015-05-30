@@ -1,7 +1,13 @@
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Example 3: Univariate Description}
--->
+---
+title: "The BrailleR package Example 3"
+author: "A. Jonathan R. Godfrey"
+bibliography: BrailleRPublications.bib
+vignette: >
+  %\VignetteIndexEntry{Example 3: Univariate Description}
+    %\VignetteEngine{knitr::rmarkdown}
+output: knitr:::html_vignette
+---
+
 
 ```{r setup, include=FALSE}
 library(knitr)

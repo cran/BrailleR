@@ -54,7 +54,8 @@ if(Folder!="" & !file.exists(Folder)) dir.create(Folder)
 if(is.null(Filename)) Filename = paste0(ResponseName, ".", Factor1Name, ".", Factor2Name, "-TwoFactors.Rmd")
 
 # start writing to the R markdown file
-cat('# Analysis of the', DataName, 'data, using', ResponseName, 'as the response variable and the variables', Factor1Name,  'and', Factor2Name, 'as factors.  \n\n', file=Filename)
+cat('# Analysis of the', DataName, 'data, using', ResponseName, 'as the response variable and the variables', Factor1Name,  'and', Factor2Name, 'as factors.  
+#### Prepared by `r getOption("BrailleR.Author")`  \n\n', file=Filename)
 
 cat(paste0('```{r setup, purl=FALSE, include=FALSE}  
 opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))  
@@ -85,6 +86,7 @@ kable(as.matrix(DataSummary), row.names=FALSE)
 
 if(Latex){
 cat(paste0('```{r DataSummaryTex, purl=FALSE}  
+library(xtable)  
 ThisTexFile = "', Folder, '/', ResponseName, '.', Factor1Name, '.', Factor2Name, '-GroupSummary.tex"  
 TabCapt = "Summary statistics for ', ResponseName, ' by level of ', Factor1Name, ' and ', Factor2Name, '"  
 print(xtable(DataSummary, caption=TabCapt, label="', ResponseName, 'GroupSummary", digits=4, align="llrrrrr"), include.rownames = FALSE, file = ThisTexFile)  
@@ -171,6 +173,7 @@ summary(MyANOVA2)
 
 if(Latex){
 cat(paste0('```{r ANOVA-TEX, purl=FALSE}  
+library(xtable)  
 ThisTexFile = "', Folder, '/', ResponseName, '-', Factor1Name, '-', Factor2Name, '-ANOVA.tex"  
 TabCapt = "Two-way ANOVA for ', ResponseName, ' with the group factors ', Factor1Name, 'and', Factor2Name, '."  
 print(xtable(MyANOVA, caption=TabCapt, label="', ResponseName, '-', Factor1Name, '-ANOVA", digits=4), file = ThisTexFile)  
@@ -216,7 +219,7 @@ plot( MyHSD )
 }
 
 # stop writing markdown and process the written file into html and an R script
-knit2html(Filename, quiet=TRUE)
+knit2html(Filename, quiet=TRUE, stylesheet=system.file("css", "BrailleR.css", package="BrailleR"))
 file.remove(sub(".Rmd", ".md", Filename))
 purl(Filename, quiet=TRUE, documentation=0)
 if(View) browseURL(sub(".Rmd", ".html", Filename))

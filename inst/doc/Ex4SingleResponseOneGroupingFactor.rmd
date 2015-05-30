@@ -1,16 +1,18 @@
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Example 4: A single continuous response with one grouping factor}
--->
+---
+title: "The BrailleR package Example 4"
+author: "A. Jonathan R. Godfrey"
+bibliography: BrailleRPublications.bib
+vignette: >
+  %\VignetteIndexEntry{Example 4: A single continuous response with one grouping factor}
+    %\VignetteEngine{knitr::rmarkdown}
+output: knitr:::html_vignette
+---
 
 ```{r setup, include=FALSE}
 library(knitr)
 opts_chunk$set(fig.width=7, fig.height=5, comment="")
 library(BrailleR)
 ```
-
-
-# The BrailleR package Example 4.
 
 ## Analysis of a single continuous variable with respect to a single grouping factor
 

@@ -1,0 +1,52 @@
+v0.20
+- uploaded to CRAN
+
+v0.19-5
+- replaced settings folder with individual files for each setting with a single devian control file called PREFERENCES
+- updated zzz.R functions so that they use the dcf format for settings
+- updated all functions for updating the package settings values to use the dcf format
+- Included the OnePredictor() convenience function, and related additions to the VI() method
+
+v0.19-4
+- added analysis of tick marks for axes to existing graph types
+- introduced dotplot() as wrapper  for graphics::stripchart()
+- added VI.dotplot()
+- made adding quote marks to strings easier using in internal function InQuotes()
+- made sure the boxes in HTML documents are appropriate and that spacing is nicer.
+
+v0.19-3
+- incorporated the BrailleR.css file for use in formatting HTML content from the convenience functions.
+- updated UniDesc(), OneFactor(), TwoFactors() to use the BrailleR.css
+- fixed the example for SetOptionsRd so that the author setting is not altered during package creation.
+- included the author in the HTML files for convenience functions.
+- added a choice for the css style file to use
+
+v0.19-2
+- tried (unsuccessfully) to make the tables in UniDesc() more visually appealing, without altering their accessibility.
+- Added links to Getting Started vignette for RStudio and pandoc downloads.
+- cross references in vignettes sorted out.
+- found the vignettes were unacceptably large files and how to get them smaller without loss of information.
+- more tidy up of vignettes
+
+v0.19-1
+- updated the primary vignette on the BrailleR package's history.
+- added a getting started vignette
+- included the previously overlooked need for the rmarkdown package.
+- added the SetPValDigits() function and improved the SetSigLevel() which now both mirror the SetAuthor() behaviour.
+- Added detail to the GetGoing() function for these options.
+- Updated UniDesc() so it uses the BrailleR.PValDigits option.
+- updated UniDesc() so it generates a more complete R script when purled.
+
+
+v0.19-0
+- Made some minor changes to UniDesc(), OneFactor(), TwoFactors()  so that packages are explicitly loaded when a code chunk needs them. Notably moments, xtable, and nortest
+- added GetGoing() function for setting options. Altered package startup message to mention it.
+- altered VI.boxplot() so that lower/upper terminology is only used for vertical boxplots and left/right is used for horizontal ones.
+- NEWS file established.
+
+v0.18-1
+- Move gridSVG and gridGraphics to Imports. Neither is actually used in this version but will be in a subsequent release
+- Satisfactory CRAN release version
+
+v0.18-0 
+- This version was rejected by CRAN because it had too many other packages listed as depends and CRAN wants them to be imports instead.

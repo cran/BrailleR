@@ -1,7 +1,12 @@
-<!--
-%\VignetteEngine{knitr::rmarkdown}
-%\VignetteIndexEntry{Example 2: Basic numerical summaries}
--->
+---
+title: "The BrailleR package Example 2"
+author: "A. Jonathan R. Godfrey"
+bibliography: BrailleRPublications.bib
+vignette: >
+  %\VignetteIndexEntry{Example 2: Basic numerical summaries}
+    %\VignetteEngine{knitr::rmarkdown}
+output: knitr:::html_vignette
+---
 
 ```{r setup, include=FALSE}
 library(knitr)

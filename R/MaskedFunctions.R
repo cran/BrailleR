@@ -11,6 +11,8 @@ else{Out$horizontal=FALSE}
 if(length(MC$xlab)>0)Out$xlab = as.character(MC$xlab)
 if(length(MC$ylab)>0)Out$ylab = as.character(MC$ylab)
 Out$call = MC
+Out$xaxp = par()$xaxp
+Out$yaxp = par()$yaxp
 class(Out)="boxplot"
 return(invisible(Out))
 }
@@ -23,5 +25,7 @@ hist=function(x,...){
 if(length(MC$main)>0)Out$main = as.character(MC$main)
 if(length(MC$xlab)>0)Out$xlab = as.character(MC$xlab)
 if(length(MC$ylab)>0)Out$ylab = as.character(MC$ylab)
+Out$xaxp = par()$xaxp
+Out$yaxp = par()$yaxp
 return(invisible(Out))
 }

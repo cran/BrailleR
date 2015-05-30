@@ -6,7 +6,6 @@ if(interactive()){
 if(version$arch %in% c("i386", "x64")){
 RHome = gsub("/", "\\\\", Sys.getenv("R_HOME"))
 if(is.null(file)){
-
 # write a batch file for processing R scripts
 cat(paste0(RHome, "\\bin\\", version$arch, "\\R.exe CMD BATCH --vanilla --quiet %1\n"), file="RBatch.bat")
 cat("RBatch.bat created successfully.\n")
@@ -17,26 +16,27 @@ cat("These files need to be moved to a folder that is on your system path.\n")
 # write a file to show the system path settings
 cat(Sys.getenv("PATH"), file="path.txt")
 cat("These details are saved in path.txt for reference.\n")
-
 # write a test Rmd file
 cat("# a test file
 ## created by the BrailleR package
 
 My R version is `r version$major`.`r version$minor` and is being used to create this test file
-It will then be used to process the test file later once the necessary actions are taken in Windows Explorer.  \n", file="test.Rmd")
-cat("test.Rmd created successfully.\n")
-
+It will then be used to process the test file later once the necessary actions are taken in Windows Explorer.  \n", file="test1.Rmd")
+cat("test1.Rmd created successfully.\n")
+MakeBatch("test1.Rmd")
 # write a test R script
 cat("# a test file
 ## created by the BrailleR package
 
 MySample=sample(100, 10)
 MySample
-mean(MySample)  \n", file="test.R")
-cat("test.R created successfully.\n")
+mean(MySample)  \n", file="test2.R")
+cat("test2.R created successfully.\n")
+MakeBatch("test2.R")
 cat("Consult the help page for guidance on using these files in Windows Explorer.\n")
 }
 else{
+if(!file.exists(file)) warning(paste0('The specified file "', file, '" does not currently exist.\n'))
 FullFile=unlist(strsplit(file, split=".", fixed=TRUE))
 if(FullFile[2]=="R"){
 # write a batch file for processing the R script

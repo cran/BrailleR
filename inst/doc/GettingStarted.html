@@ -11,7 +11,7 @@
 <meta name="author" content="A. Jonathan R. Godfrey" />
 
 
-<title>The BrailleR package Example 3</title>
+<title>Getting started with the BrailleR package</title>
 
 
 
@@ -51,24 +51,71 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 <div id="header">
-<h1 class="title">The BrailleR package Example 3</h1>
+<h1 class="title">Getting started with the BrailleR package</h1>
 <h4 class="author"><em>A. Jonathan R. Godfrey</em></h4>
 </div>
 
 
-<div id="the-brailler-package-example-3." class="section level1">
-<h1>The BrailleR package Example 3.</h1>
-<div id="description-of-a-single-numeric-variable" class="section level2">
-<h2>Description of a single numeric variable</h2>
-<p>There are many commands needed to get the numeric and graphic summary measures that might be required to collect all relevant information on a single numeric variable. The UniDesc() command has been written as a shortcut for a blind user who wishes to obtain: - the counts of points in the sample that were observed and not observed, - the mean and trimmed mean, - the five number summary: minimum, lower quartile, median, upper quartile, and maximum, - the interquartile range (IQR) and standard deviation, - measures of skewness and kurtosis (thanks to the moments package), - a histogram and/or a boxplot, - a normality (quantile-quantile) plot, - various tests for normality (thanks to the nortest package), and - tests on the significance of the skewness and kurtosis (again, thanks to the moments package).</p>
-<p>In addition, the blind user may need any/all of the graphs in a variety of formats (png, pdf, eps, or svg), nicely formatted tables for insertion into documents (LaTeX or HTML), and access to the code that generated these graphs and tables (an R script).</p>
-<p>The UniDesc() function can deliver all of this with minimal effort from the user. In addition, the output HTML file is opened automatically if R is being used interactively, giving the blind user immediate access to the information. The content is presented using sufficiently marked up HTML code including headings and tables so that the blind user can make best use of their screen reading software. All graphs included in the HTML file can be presented using a text description available from the VI() functionality of the BrailleR package.</p>
-<p>The main output document (HTML) can be viewed by issuing the command</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">example</span>(UniDesc)</code></pre>
-<p>while running R interactively.</p>
+<p>The BrailleR package has been created for the benefit of blind people wishing to get more out of R than it already offers — which is actually quite a lot!</p>
+<div id="what-you-need" class="section level2">
+<h2>What you need</h2>
+<p>You obviously have R installed or an intention to do so soon if you are reading this document. Aside from R and the add-on packages that BrailleR needs, there are no other software requirements. There are several optional software installations that could make life easier if they are installed before you need them. In order of necessity, they are:</p>
+<div id="the-document-converter-pandoc" class="section level3">
+<h3>The document converter — pandoc</h3>
+<p>Future versions of BrailleR will require the very useful file converter called pandoc. Get it from the <a href="https://github.com/jgm/pandoc/releases">pandoc download page</a></p>
+</div>
+<div id="the-principal-integrated-development-environment-rstudio" class="section level3">
+<h3>The principal integrated development environment — RStudio</h3>
+<p>It is a good idea to install RStudio, even if you can’t actually use it as a blind person using screen reading software. The reason is that RStudio installs a few other useful tools that we will make use of by other means. Get it from the <a href="http://www.RStudio.com/products/rstudio/download">RStudio download page</a></p>
+</div>
+<div id="one-programming-language-python" class="section level3">
+<h3>One programming language — Python</h3>
+<p>WriteR is a simple text editor written in wxPython that needs Python27 and wxPython. Unfortunately, they are two separate downloads at present. You do not need this editor so do not install Python unless you are really keen.</p>
+</div>
+</div>
+<div id="installing-the-brailler-package" class="section level2">
+<h2>Installing the BrailleR package</h2>
+<p>To use the functionality of the BrailleR package you need to have it installed. The package has several dependencies so installation from the CRAN repository is recommended. This would be done by issuing the following two commands in an R session:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chooseCRANmirror</span>(<span class="dt">ind=</span><span class="dv">1</span>)
+<span class="kw">install.packages</span>(<span class="st">&quot;BrailleR&quot;</span>)</code></pre>
+<p>If for some reason you have difficulty with the CRAN repository, you can install the BrailleR package using a zip file version available from .</p>
+<p>From time to time, you should check that you are using the most recent version of the BrailleR package. You can update all installed packages using the commands:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">chooseCRANmirror</span>(<span class="dt">ind=</span><span class="dv">1</span>)
+<span class="kw">update.packages</span>(<span class="dt">ask=</span><span class="ot">FALSE</span>)</code></pre>
+<p>Once you’ve got the package installed, you still need to get it running in your current R session by issuing one last command. When you issue the first of hte following lines, the package start messages will also appear.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(BrailleR)</code></pre>
+<p>You’re ready to go!</p>
+</div>
+<div id="why-will-i-use-the-brailler-package-as-a-novice" class="section level2">
+<h2>Why will I use the BrailleR package as a novice?</h2>
+<p>Blind users will want to use the BrailleR package while they are novice R users, but may also want to continue using some of the tools as their skill levels increase. Each of the following reasons for using the BrailleR package have their own example document which goes into more detail.</p>
+<div id="brailler-improves-the-accessibility-of-graphical-information" class="section level3">
+<h3>BrailleR improves the accessibility of graphical information</h3>
+<p>BrailleR converts standard graphs created by standard R commands into a textual form that can be interpretted by blind students who cannot access the graphs without printing the image to a tactile embosser, or who need the extra text to support any tactile images they do create.</p>
+<p>At present this is limited to only a few graph types found in base R functionality. <a href="Ex1histograms.html">Example 1 shows how histogram</a> can be converted to a text representation.</p>
+</div>
+<div id="brailler-helps-gain-access-to-the-content-of-the-r-console" class="section level3">
+<h3>BrailleR helps gain access to the content of the R console</h3>
+<p>BrailleR makes text output (that is visually appealing) more useful for a blind user who is reliant on synthesized speech or braille output to interpret the results.</p>
+<p><a href="Ex2BasicNumerical.html">Example 2 on data summaries</a> shows this for a data frame.</p>
+</div>
+<div id="brailler-includes-convenience-functions" class="section level3">
+<h3>BrailleR includes convenience functions</h3>
+<p>Many analyses get repeated over and over again with different variables. Some people like a graphical user interface (GUI) but none of the GUIs developed for R to date are accessible by screen reader users.</p>
+<p>BrailleR includes some functions which generate pro forma analyses. When these functions are employed, they generate an HTML document that includes the analysis in an easy to use format. The R commands used to create the analysis are stored in an R script file so that a user can modify the commands if changes are necessary.</p>
+<p><a href="Ex3UnivariateDescription.html">Example 3 Univariate Description</a> shows how the UniDesc() function works, and <a href="Ex4SingleResponseOneGroupingFactor.html">Example 4 for one response and one factor</a> shows how descriptive tools are created before a simple one-way analysis of variance model is fitted.</p>
+</div>
+</div>
+<div id="why-will-i-use-the-brailler-package-if-i-am-not-a-novice" class="section level2">
+<h2>Why will I use the BrailleR package if I am not a novice?</h2>
+<p>I think some of the reasons for using the package while you are a novice R user remain relevant to more-experienced users, but perhaps the main reason for continuing to use BrailleR is that of efficiency. The convenience functions give you a starting point for analyses. Behind those convenience functions was an R markdown file that generated the Rscript and the HTML document. Getting into markdown is a great idea and will not take you long to learn.</p>
+<p>BrailleR also includes some tools for helping run your R jobs without running R. Experienced users do this all the time so these tools aren’t really meant for blind users alone.</p>
+</div>
+<div id="personalising-brailler" class="section level2">
+<h2>Personalising BrailleR</h2>
+<p>Once you’ve played with a few examples, you might want to settle on the way you want BrailleR to work for you.</p>
 <div class="references">
 
-</div>
 </div>
 </div>
 

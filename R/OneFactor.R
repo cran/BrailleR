@@ -50,7 +50,8 @@ if(is.null(Filename)) Filename = paste0(ResponseName, ".", FactorName, "-OneFact
 
 
 # start writing to the R markdown file
-cat('# Analysis of the', DataName, 'data, using', ResponseName, 'as the response variable and', FactorName, 'as the single grouping factor.  \n\n', file=Filename)
+cat('# Analysis of the', DataName, 'data, using', ResponseName, 'as the response variable and', FactorName, 'as the single grouping factor.  
+#### Prepared by `r getOption("BrailleR.Author")`  \n\n', file=Filename)
 
 cat(paste0('```{r setup, purl=FALSE, include=FALSE}  
 opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))  
@@ -80,6 +81,7 @@ kable(as.matrix(DataSummary), row.names=FALSE)
 
 if(Latex){
 cat(paste0('```{r DataSummaryTex, purl=FALSE}  
+library(xtable)  
 ThisTexFile = "', Folder, '/', ResponseName, '.', FactorName, '-GroupSummary.tex"  
 TabCapt = "Summary statistics for ', ResponseName, ' by level of ', FactorName, '"  
 print(xtable(DataSummary, caption=TabCapt, label="', ResponseName, 'GroupSummary", digits=4, align="llrrrr"), include.rownames = FALSE, file = ThisTexFile)  
@@ -97,7 +99,7 @@ Data.n <- with(get(DataName), tapply(get(ResponseName), get(FactorName), nNonMis
 if(min(Data.n)>4){
 cat('## Comparative boxplots  \n\n',
 '```{r boxplots, fig.cap="Comparative boxplots"}  \n',
-paste0(ifelse(VI,'VI(',''), 'boxplot(', ResponseName, '~', FactorName, ', data=', DataName, ifelse(VI,')', ''), ')  \n'),
+paste0(ifelse(VI,'VI(',''), 'boxplot(', ResponseName, '~', FactorName, ', data=', DataName, ', ylab=', InQuotes(ResponseName), ', xlab=', InQuotes(FactorName), ifelse(VI,')', ''), ')  \n'),
 '``` \n',
 file=Filename, append=TRUE) }
 
@@ -110,7 +112,7 @@ file=Filename, append=TRUE) }
 
 cat('## Comparative dotplots  \n\n',
 '```{r dotplots, fig.cap="Comparative dotplots"}  \n',
-paste0(ifelse(VI,'VI(',''), 'stripchart(', ResponseName, '~', FactorName, ', data=', DataName, ifelse(VI,')', ''), ')  \n'),
+paste0('with(', DataName, ', ', ifelse(VI,'VI(dotplot(', 'stripchart('), ResponseName, '~', FactorName, ', xlab=', InQuotes(ResponseName), ', ylab=', InQuotes(FactorName), ifelse(VI,')', ''), '))  \n'),
 '``` \n\n',
 file=Filename, append=TRUE)
 
@@ -124,13 +126,14 @@ ifelse(VI, ")", "")),
 
 if(Latex){
 cat(paste0('```{r ANOVA-TEX, purl=FALSE}  
+library(xtable)  
 ThisTexFile = "', Folder, '/', ResponseName, '-', FactorName, '-ANOVA.tex"  
 TabCapt = "One-way ANOVA for ', ResponseName, ' with the group factor ', FactorName, '."  
 print(xtable(MyANOVA, caption=TabCapt, label="', ResponseName, '-', FactorName, '-ANOVA", digits=4), file = ThisTexFile)  
 ```  \n\n'), file=Filename, append=TRUE)
 }
 
-cat(paste0('```{r OneWayANOVA2, fig.cap="Residual analysis"}  
+cat(paste0('```{r OneWayANOVA, fig.cap="Residual analysis"}  
 summary(MyANOVA)  
 par(mfrow=c(2,2))  
 plot(MyANOVA)  
@@ -161,7 +164,7 @@ plot(MyHSD)
 
 
 # stop writing markdown and process the written file into html and an R script
-knit2html(Filename, quiet=TRUE)
+knit2html(Filename, quiet=TRUE, stylesheet=system.file("css", "BrailleR.css", package="BrailleR"))
 file.remove(sub(".Rmd", ".md", Filename))
 purl(Filename, quiet=TRUE, documentation=0)
 if(View) browseURL(sub(".Rmd", ".html", Filename))

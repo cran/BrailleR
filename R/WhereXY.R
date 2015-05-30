@@ -21,20 +21,22 @@ XNew=cut(x,breaks=grid[1], labels=FALSE)}
 else{
 XMean=mean(x, na.rm=TRUE)
 XSD=sd(x, na.rm=TRUE)
-XBreaks=c(0.9*XMin, XMean+XSD*qnorm((1:(grid[1]-1))/grid[1]), 1.1*XMax)
+XBreaks=c((1-0.1*sign(XMin))*XMin, XMean+XSD*qnorm((1:(grid[1]-1))/grid[1]), (1+0.1*sign(XMax))*XMax)
 XNew=cut(x, breaks=XBreaks, labels=FALSE)
 }
 
 if(yDist=="uniform"){
-YNew=cut(y,breaks=grid[2], labels=FALSE)}
+YBreaks <- seq(YMax,YMin,length.out=grid[2]-1)
+YNew=cut(y,breaks=YBreaks, labels=FALSE)}
 else{
 YMean=mean(y, na.rm=TRUE)
 YSD=sd(y, na.rm=TRUE)
-YBreaks=c(0.9*YMin, YMean+YSD*qnorm((1:(grid[2]-1))/grid[2]), 1.1*YMax)
+YBreaks=c((1-0.1*sign(YMin))*YMin, YMean+YSD*qnorm((1:(grid[2]-1))/grid[2]), (1+0.1*sign(YMax))*YMax)
 YNew=cut(y, breaks=YBreaks, labels=FALSE)
 }
-XNew=paste0("(", XNew, ")")
-YNew=paste0("(", YNew, ")")
+
+XNew <- factor(XNew, levels=c(1:grid[1]))
+YNew <- factor(YNew, levels=c(1:grid[2]))
 Output=tapply(x, list(YNew,XNew), length)
 Output[is.na(Output)]=0
 Output=Output[rev(1:grid[2]),]
@@ -43,3 +45,5 @@ Output=addmargins(Output)
 }
 return(Output)
 }
+
+

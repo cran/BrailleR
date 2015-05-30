@@ -13,11 +13,13 @@ These batch files are not for use in an interactive R session. They need to be c
 
 If a file is specified, the function will create a single batch file that will process the file appropriately. Processing an R script will generate a Rout file, while an Rmd file is converted into HTML.
 
-If no file is specified, the function creates various files in the current working directory. The batch files (ending in .bat) need to be moved to a folder on the user's path so that they can be called from anywhere.
+If no file is specified, the function creates various files in the current working directory. 
 
-The path.txt file shows the user what folders are already on the path list. The user can review this list and decide to alter the system variable if they so choose. The path.txt file has no value otherwise.
+Files starting with the word test are for testing the batch files. An R script and an Rmarkdown file were created as well as the batch files that will process them into a Rout file and  an HTML document respectively. Pressing <enter> on these test*.bat files will process the test files appropriately.
 
-Files starting with the word test are for testing the batch files.}
+The other two batch files (ending in .bat) need to be moved to a folder on the user's path so that they can be called from anywhere. They could also be manually edited ot suit the user's needs.
+
+The path.txt file shows the user what folders are already on the path list. The user can review this list and decide to alter the system variable if they so choose. The path.txt file has no value otherwise.}
 \author{A. Jonathan R. Godfrey}
 \section{Further instructions}{
 Once the RBatch.bat file has been moved to the desired folder that is included in the path for your system you can follow the following steps to get this function working fully.

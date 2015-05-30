@@ -4,11 +4,13 @@
 \alias{VI.aov}
 \alias{VI.boxplot}
 \alias{VI.data.frame}
+\alias{VI.dotplot}
 \alias{VI.histogram}
 \alias{VI.hist}
 \alias{VI.list}
 \alias{VI.lm}
 \alias{VI.matrix}
+\alias{VI.summary.lm}
 \alias{VI.TukeyHSD}
 \title{
 Methods to help vision impaired users

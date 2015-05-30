@@ -9,7 +9,7 @@ UniDesc(Response = NULL, ResponseName = as.character(match.call()$Response),
     Basic = TRUE, Graphs = TRUE, Normality = TRUE, Tests = TRUE, 
     Title = NULL, Filename = NULL, Folder = ResponseName, Process = TRUE,
 VI = getOption("BrailleR.VI"), Latex = getOption("BrailleR.Latex"), 
-View = getOption("BrailleR.View"))
+View = getOption("BrailleR.View"), PValDigits=getOption("BrailleR.PValDigits"))
 }
 \arguments{
   \item{Response}{The numeric vector to be analyzed. This must be specified as a variable that is directly available in the workspace, not as a data.frame$variable construct.}
@@ -22,9 +22,10 @@ View = getOption("BrailleR.View"))
   \item{Filename}{Specify the name of the R markdown and html files (without extensions).}
   \item{Folder}{the folder where results and graph files will be saved.}
   \item{Process}{logical, should the R markdown file be processed?}
-  \item{VI}{logical, should the VI method be used to give added text descriptions of graphs. This is most easily  set via the package options.}
+  \item{VI}{logical, should the VI method be used to give added text descriptions of graphs? This is most easily  set via the package options.}
   \item{Latex}{logical, Should the \pkg{xtable} package be used to convert the tabulated results into LaTeX tables? This is most easily  set via the package options.}
-  \item{View}{logical, should the resulting HTML file  be opened in a browser. This is most easily  set via the package options.}
+  \item{View}{logical, should the resulting HTML file  be opened in a browser? This is most easily  set via the package options.}
+  \item{PValDigits}{Integer. The number of decimal places to use for p values. This is most easily  set via the package options.}
 }
 
 \value{
