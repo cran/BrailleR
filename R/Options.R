@@ -3,6 +3,21 @@
 # these ones do have arguments
 
 
+ChooseEmbosser=function(Embosser="none", Permanent=TRUE){
+if(is.character(Embosser)){
+options(BrailleR.Embosser=Embosser)
+cat(paste0("The BrailleR.Embosser option has been updated to ", Embosser, ".\n"))
+if(Permanent){
+Prefs=system.file("PREFERENCES", package="BrailleR")
+OpSet=read.dcf(Prefs, all=TRUE)
+OpSet$BrailleR.Embosser=Embosser
+write.dcf(OpSet, file=Prefs)
+cat("and will remain in effect next time you load the package.\n")}
+}
+else{warning("A text string was expected. No action taken.\n")}
+return(invisible(NULL))
+}
+
 ChooseStyle=function(css="BrailleR.css", Permanent=TRUE){
 if(is.character(css)){
 options(BrailleR.Style=css)
@@ -37,6 +52,60 @@ cat("and will remain in effect next time you load the package.\n")}
 else{warning("A text string was expected. No action taken.\n")}
 return(invisible(NULL))
 }
+
+
+SetBRLPointSize = function(pt, Permanent=FALSE){
+if((10<pt)&(pt<40)){
+options(BrailleR.BRLPointSize=pt)
+cat(paste0("The BrailleR.BRLPointSize option for the braille font has been changed to ", pt, " inches.\n"))
+if(Permanent){
+Prefs=system.file("PREFERENCES", package="BrailleR")
+OpSet=read.dcf(Prefs, all=TRUE)
+OpSet$BrailleR.BRLPointSize=pt
+write.dcf(OpSet, file=Prefs)
+cat("...and will remain in effect next time you load the package.\n")}
+}
+else{
+warning("The point size must be between 10 and 40 . \nNo change has been made to this setting.\n")
+}
+return(invisible(NULL))
+}
+
+
+SetPaperHeight = function(Inches, Permanent=FALSE){
+if((5<Inches)&(Inches<14)){
+options(BrailleR.PaperHeight=Inches)
+cat(paste0("The BrailleR.PaperHeight option for the height of the embossed images has been changed to ", Inches, " inches.\n"))
+if(Permanent){
+Prefs=system.file("PREFERENCES", package="BrailleR")
+OpSet=read.dcf(Prefs, all=TRUE)
+OpSet$BrailleR.PaperHeight=Inches
+write.dcf(OpSet, file=Prefs)
+cat("...and will remain in effect next time you load the package.\n")}
+}
+else{
+warning("The height must be between 5 and 14 inches. \nNo change has been made to this setting.\n")
+}
+return(invisible(NULL))
+}
+
+SetPaperWidth = function(Inches, Permanent=FALSE){
+if((5<Inches)&(Inches<14)){
+options(BrailleR.PaperWidth=Inches)
+cat(paste0("The BrailleR.PaperWidth option for the width of the embossed images has been changed to ", Inches, " inches.\n"))
+if(Permanent){
+Prefs=system.file("PREFERENCES", package="BrailleR")
+OpSet=read.dcf(Prefs, all=TRUE)
+OpSet$BrailleR.PaperWidth=Inches
+write.dcf(OpSet, file=Prefs)
+cat("...and will remain in effect next time you load the package.\n")}
+}
+else{
+warning("The width must be between 5 and 14 inches. \nNo change has been made to this setting.\n")
+}
+return(invisible(NULL))
+}
+
 
 
 SetPValDigits=function(digits, Permanent=TRUE){
@@ -109,5 +178,15 @@ return(invisible(NULL))
 LatexOff = function(){
 options(BrailleR.Latex=FALSE)
 cat("You have turned the automatic generation of LaTeX tables off.\n")
+return(invisible(NULL))
+}
+
+
+ResetDefaults = function(){
+    DefSettings=system.file("DEFAULTS", package="BrailleR")
+    PrefSettings=sub("DEFAULTS", "PREFERENCES", DefSettings)
+    file.copy(DefSettings, PrefSettings, overwrite=TRUE)
+cat("You have reset all preferences to the original package defaults.\n")
+devtools::reload("BrailleR")
 return(invisible(NULL))
 }

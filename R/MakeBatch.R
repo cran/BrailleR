@@ -45,7 +45,7 @@ cat(paste0(FullFile[1], ".bat created successfully.\n"))
 }
 if(FullFile[2]=="Rmd"){
 # write a batch file for processing the R markdown file
-cat(paste0(RHome, "\\bin\\", version$arch, "\\RScript.exe -e \"rmarkdown::render('", FullFile[1], ".Rmd')\"\n"), file=paste0(FullFile[1], ".bat"))
+cat(paste0(RHome, "\\bin\\", version$arch, "\\RScript.exe -e \"knitr::knit2html('", FullFile[1], ".Rmd')\"\n"), file=paste0(FullFile[1], ".bat"))
 cat(paste0(FullFile[1], ".bat created successfully.\n"))
 }
 }

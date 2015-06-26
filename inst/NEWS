@@ -1,3 +1,26 @@
+v0.22.0
+Upload to CRAN
+
+v0.21.1
+- added option for braille font installation status
+- ensured BRL options are of correct type on load of BrailleR.
+- created functions to change paper size and braille font point size.- included options for paper size and embosser type
+- established DEFAULTS and PREFERENCES files so an update does not overwrite a user's preferences. If PREFERENCES does not exist, then it is created when next the package is loaded.
+- created ResetDefaults() to overwrite PREFERENCES with DEFAULTS.
+- added package dependency to devtools so that package reload can be managed.
+- added package dependency to extrafont so that braille fonts can be embedded in pdf files.
+- added functions for setting specific embosser models.
+- added SVGThis into package as experimental function.
+- added BRLThis into package as experimental function.
+
+v0.21.0
+- fixed bug in the batch file that converted an Rmd file to html. Now uses knitr::knit2html instead of rmarkdown::render.
+- altered startup so that explicit use of the packages is initiated
+- investigated using Roxygen for package documentation. Conclusion is that it must be all or nothing. Nothing preferred at present.
+- fixed use of css for VI.lm()
+- added extr braille options in readiness for the experimental BRLThis() function.
+- added fonts folder to package that includes the single font file "BRAILLE1.ttf" for Windows users and its licence file.
+
 v0.20
 - uploaded to CRAN
 

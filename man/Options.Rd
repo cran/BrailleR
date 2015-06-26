@@ -11,15 +11,12 @@ A set of convenience functions to alter the settings that control how much outpu
 }
 \usage{
 GoBlind()
-
 GoSighted()
 
 LatexOn()
-
 LatexOff()
 
 ViewOn()
-
 ViewOff()
 }
 \details{
@@ -37,4 +34,3 @@ A. Jonathan R. Godfrey
 See these settings applied as default arguments to \code{\link{UniDesc}}
 }
 \keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
