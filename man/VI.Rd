@@ -43,7 +43,10 @@ This will vary according to the needs of vision impaired users and the specific 
 
 In general, the output is a series of text strings printed in the console/terminal window in addition to the embedded command's normal functionality. The \code{VI.lm()} method is the first to move away from this idea and use a process that builds on the \code{UniDesc()} function. In this case, the method creates an R markdown file and compiles it into HTML. The HTML document is opened if the R session is interactive.
 
-In general, these functions do not create objects as do many \R commands. Manipulations on the objects created by regular \R expressions will need those regular expressions issued in addition to those of the VI family of functions. The \code{VI.lm()} method does create objects in the current workspace and then deletes them once the HTML document is compiled.
+These functions do not create objects as do many \R commands. Manipulations on the objects created by regular \R expressions will need those regular expressions issued in addition to those of the VI family of functions. The \code{VI.lm()} method does create objects in the current workspace and then deletes them once the HTML document is compiled.
+}
+\note{
+The \code{VI.lm} method fails if you use  the one line \code{VI(lm(...))} even if the model is named using \code{VI(Model1 <- lm(...))}. It does work if two explicit commands are used. For example \code{Model1 = lm(...)} followed by \code{VI(Model1)}.
 }
 \author{
 A. Jonathan R. Godfrey and Timothy P. Bilton

@@ -18,23 +18,41 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
+div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -43,7 +61,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </style>
 
 
-<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20800px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%2020px%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%200%3B%0A%20%20padding%3A%204px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20margin%3A%20auto%3B%0A%20%20min%2Dwidth%3A%2040%25%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%5Bsummary%3D%22R%20argblock%22%5D%20%7B%0A%20%20width%3A%20100%25%3B%0A%20%20border%3A%20none%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%2C%20table%3Anot%28%5Bclass%5D%29%20th%2C%20table%3Anot%28%5Bclass%5D%29%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20tr%2Eodd%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%2013px%3B%0A%20%20padding%2Dbottom%3A%201px%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f5f5f5%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20overflow%2Dx%3A%20auto%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200%2010px%200%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20white%3B%0A%20%20border%3A%20%23f5f5f5%201px%20solid%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20code%20%7B%0A%20%20color%3A%20%23444%3B%0A%20%20background%2Dcolor%3A%20white%3B%0A%7D%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20monospace%3B%0A%20%20font%2Dsize%3A%2090%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%204px%3B%0A%20%20color%3A%20%23d14%3B%0A%20%20border%3A%201px%20solid%20%23e1e1e8%3B%0A%20%20white%2Dspace%3A%20inherit%3B%0A%7D%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Atable%20%3E%20caption%2C%20div%2Efigure%20p%2Ecaption%20%7B%0A%20%20font%2Dstyle%3A%20italic%3B%0A%7D%0Atable%20%3E%20caption%20span%2C%20div%2Efigure%20p%2Ecaption%20span%20%7B%0A%20%20font%2Dstyle%3A%20normal%3B%0A%20%20font%2Dweight%3A%20bold%3B%0A%7D%0Ap%20%7B%0A%20%20margin%3A%200%200%2010px%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20margin%3A%20auto%20auto%2010px%20auto%3B%0A%7D%0A%0Aimg%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%20%20max%2Dwidth%3A%20100%25%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f5f5f5%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f5f5f5%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f5f5f5%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0Adiv%2Er%2Dhelp%2Dpage%20%7B%0A%20%20background%2Dcolor%3A%20%23f9f9f9%3B%0A%20%20border%2Dbottom%3A%20%23ddd%201px%20solid%3B%0A%20%20margin%2Dbottom%3A%2010px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Adiv%2Er%2Dhelp%2Dpage%3Ahover%20%7B%0A%20%20background%2Dcolor%3A%20%23f4f4f4%3B%0A%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+<link href="data:text/css;charset=utf-8,body%7Bbackground%2Dcolor%3A%23fff%3Bmargin%3A1emauto%3Bmax%2Dwidth%3A800px%3Boverflow%3Avisible%3Bpadding%2Dleft%3A2em%3Bpadding%2Dright%3A2em%3Bfont%2Dfamily%3A%22HelveticaNeue%22%2CHelvetica%2CArial%2Csans%2Dserif%3Bfont%2Dsize%3A14px%3Bline%2Dheight%3A20px%3B%7D%23header%7Btext%2Dalign%3Acenter%3B%7D%23TOC%7Bclear%3Aboth%3Bmargin%3A0010px0%3Bpadding%3A4px%3Bborder%3A1pxsolid%23CCCCCC%3Bborder%2Dradius%3A5px%3Bbackground%2Dcolor%3A%23f6f6f6%3Bfont%2Dsize%3A13px%3Bline%2Dheight%3A1%2E3%3B%7D%23TOC%2Etoctitle%7Bfont%2Dweight%3Abold%3Bfont%2Dsize%3A15px%3Bmargin%2Dleft%3A5px%3B%7D%23TOCul%7Bpadding%2Dleft%3A40px%3Bmargin%2Dleft%3A%2D1%2E5em%3Bmargin%2Dtop%3A5px%3Bmargin%2Dbottom%3A5px%3B%7D%23TOCulul%7Bmargin%2Dleft%3A%2D2em%3B%7D%23TOCli%7Bline%2Dheight%3A16px%3B%7Dtable%3Anot%28%5Bclass%5D%29%7Bmargin%3Aauto%3Bmin%2Dwidth%3A40%25%3Bborder%2Dwidth%3A1px%3Bborder%2Dcolor%3A%23DDDDDD%3Bborder%2Dstyle%3Aoutset%3Bborder%2Dcollapse%3Acollapse%3B%7Dtable%5Bsummary%3D%22Rargblock%22%5D%7Bwidth%3A100%25%3Bborder%3Anone%3B%7Dtable%3Anot%28%5Bclass%5D%29th%7Bborder%2Dwidth%3A2px%3Bpadding%3A5px%3Bborder%2Dstyle%3Ainset%3B%7Dtable%3Anot%28%5Bclass%5D%29td%7Bborder%2Dwidth%3A1px%3Bborder%2Dstyle%3Ainset%3Bline%2Dheight%3A18px%3Bpadding%3A5px5px%3B%7Dtable%3Anot%28%5Bclass%5D%29%2Ctable%3Anot%28%5Bclass%5D%29th%2Ctable%3Anot%28%5Bclass%5D%29td%7Bborder%2Dleft%2Dstyle%3Anone%3Bborder%2Dright%2Dstyle%3Anone%3B%7Dtable%3Anot%28%5Bclass%5D%29tr%2Eodd%7Bbackground%2Dcolor%3A%23f7f7f7%3B%7Dp%7Bmargin%3A0%2E5em0%3B%7Dblockquote%7Bbackground%2Dcolor%3A%23f6f6f6%3Bpadding%3A13px%3Bpadding%2Dbottom%3A1px%3B%7Dhr%7Bborder%2Dstyle%3Asolid%3Bborder%3Anone%3Bborder%2Dtop%3A1pxsolid%23777%3Bmargin%3A28px0%3B%7Ddl%7Bmargin%2Dleft%3A0%3B%7Ddldd%7Bmargin%2Dbottom%3A13px%3Bmargin%2Dleft%3A13px%3B%7Ddldt%7Bfont%2Dweight%3Abold%3B%7Dul%7Bmargin%2Dtop%3A0%3B%7Dulli%7Blist%2Dstyle%3Acircleoutside%3B%7Dulul%7Bmargin%2Dbottom%3A0%3B%7Dpre%2Ccode%7Bbackground%2Dcolor%3A%23f5f5f5%3Bborder%2Dradius%3A3px%3Bcolor%3A%23333%3B%7Dpre%7Boverflow%2Dx%3Aauto%3Bborder%2Dradius%3A3px%3Bmargin%3A5px010px0%3Bpadding%3A10px%3B%7Dpre%3Anot%28%5Bclass%5D%29%7Bbackground%2Dcolor%3Awhite%3Bborder%3A%23f5f5f51pxsolid%3B%7Dpre%3Anot%28%5Bclass%5D%29code%7Bcolor%3A%23444%3Bbackground%2Dcolor%3Awhite%3B%7Dcode%7Bfont%2Dfamily%3Amonospace%3Bfont%2Dsize%3A90%25%3B%7Dp%3Ecode%2Cli%3Ecode%7Bpadding%3A2px4px%3Bcolor%3A%23d14%3Bborder%3A1pxsolid%23e1e1e8%3Bwhite%2Dspace%3Ainherit%3B%7Ddiv%2Efigure%7Btext%2Dalign%3Acenter%3B%7Dtable%3Ecaption%2Cdiv%2Efigurep%2Ecaption%7Bfont%2Dstyle%3Aitalic%3B%7Dtable%3Ecaptionspan%2Cdiv%2Efigurep%2Ecaptionspan%7Bfont%2Dstyle%3Anormal%3Bfont%2Dweight%3Abold%3B%7Dp%7Bmargin%3A0010px%3B%7Dtable%3Anot%28%5Bclass%5D%29%7Bmargin%3Aautoauto10pxauto%3B%7Dimg%3Anot%28%5Bclass%5D%29%7Bbackground%2Dcolor%3A%23FFFFFF%3Bpadding%3A2px%3Bborder%2Dradius%3A3px%3Bborder%3A1pxsolid%23CCCCCC%3Bmargin%3A05px%3Bmax%2Dwidth%3A100%25%3B%7Dh1%7Bmargin%2Dtop%3A0%3Bfont%2Dsize%3A35px%3Bline%2Dheight%3A40px%3B%7Dh2%7Bborder%2Dbottom%3A4pxsolid%23f5f5f5%3Bpadding%2Dtop%3A10px%3Bpadding%2Dbottom%3A2px%3Bfont%2Dsize%3A145%25%3B%7Dh3%7Bborder%2Dbottom%3A2pxsolid%23f5f5f5%3Bpadding%2Dtop%3A10px%3Bfont%2Dsize%3A120%25%3B%7Dh4%7Bborder%2Dbottom%3A1pxsolid%23f5f5f5%3Bmargin%2Dleft%3A8px%3Bfont%2Dsize%3A105%25%3B%7Dh5%2Ch6%7Bborder%2Dbottom%3A1pxsolid%23ccc%3Bfont%2Dsize%3A105%25%3B%7Da%7Bcolor%3A%230033dd%3Btext%2Ddecoration%3Anone%3B%7Da%3Ahover%7Bcolor%3A%236666ff%3B%7Da%3Avisited%7Bcolor%3A%23800080%3B%7Da%3Avisited%3Ahover%7Bcolor%3A%23BB00BB%3B%7Da%5Bhref%5E%3D%22http%3A%22%5D%7Btext%2Ddecoration%3Aunderline%3B%7Da%5Bhref%5E%3D%22https%3A%22%5D%7Btext%2Ddecoration%3Aunderline%3B%7Ddiv%2Er%2Dhelp%2Dpage%7Bbackground%2Dcolor%3A%23f9f9f9%3Bborder%2Dbottom%3A%23ddd1pxsolid%3Bmargin%2Dbottom%3A10px%3Bpadding%3A10px%3B%7Ddiv%2Er%2Dhelp%2Dpage%3Ahover%7Bbackground%2Dcolor%3A%23f4f4f4%3B%7Dcode%3Espan%2Ekw%7Bcolor%3A%23555%3Bfont%2Dweight%3Abold%3B%7Dcode%3Espan%2Edt%7Bcolor%3A%23902000%3B%7Dcode%3Espan%2Edv%7Bcolor%3A%2340a070%3B%7Dcode%3Espan%2Ebn%7Bcolor%3A%23d14%3B%7Dcode%3Espan%2Efl%7Bcolor%3A%23d14%3B%7Dcode%3Espan%2Ech%7Bcolor%3A%23d14%3B%7Dcode%3Espan%2Est%7Bcolor%3A%23d14%3B%7Dcode%3Espan%2Eco%7Bcolor%3A%23888888%3Bfont%2Dstyle%3Aitalic%3B%7Dcode%3Espan%2Eot%7Bcolor%3A%23007020%3B%7Dcode%3Espan%2Eal%7Bcolor%3A%23ff0000%3Bfont%2Dweight%3Abold%3B%7Dcode%3Espan%2Efu%7Bcolor%3A%23900%3Bfont%2Dweight%3Abold%3B%7Dcode%3Espan%2Eer%7Bcolor%3A%23a61717%3Bbackground%2Dcolor%3A%23e3d2d2%3B%7D" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -68,88 +86,130 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="getting-started" class="section level2">
 <h2>getting started</h2>
 <p>I used to keep my research interests separate from my blindness, but I was regularly called upon to discuss how a blind person could study and teach Statistics by many people within New Zealand and occasionly from overseas. In 2009, I attended the Workshop on E-Inclusion in Mathematics and Science (WEIMS09) where I met other people interested in improving the success rates of blind students in the mathematical sciences. My paper was about accessibility of statistics courses, but I did point out the usefulness of R in preference to other tools I had used to that point in time <span class="citation">(Godfrey 2009a; Godfrey 2009b)</span>.</p>
-<p>I discovered that there is room for me to take a leading role in the development of ideas that can help other blind people learn about statistical concepts. I have been invited to all five Summer University events run by the organizers of the International Conference on Computers Helping People (ICCHP), but have been unable to attend twice due to the high cost of transporting me to Europe. I have delivered an introductory workshop on using R at three of these events <span class="citation">(Godfrey 2011; Godfrey 2013a; and Godfrey 2014a)</span>.</p>
-<p>Having observed the attendees at the 2011 Summer University as they came to grips with R, I knew there was more I could do to help them and other blind students. I started work on the BrailleR package <span class="citation">(Godfrey 2015a)</span> in the second half of 2011 and first proposed it could work for blind users at the Digitisation and E-Inclusion in Mathematics and Science (DEIMS12) workshop held in Tokyo during February 2012 <span class="citation">(Godfrey 2012a; Godfrey 2012b)</span>.</p>
-<p>I wasn’t to know the value of another talk I gave at DEIMS12 for another two years; this second talk and associated conference paper focused on how I was using Sweave to create accessible statistical reports for me and more beautifully formatted ones for my statistical consulting clients. <span class="citation">(Godfrey 2012c; Godfrey 2012d)</span>. I now know that the groundwork I had done contributed to my desire to present my workflow as a workshop at the 5<sup>th</sup> Summer University in 2014 <span class="citation">(Godfrey 2014b)</span>. It also stood me in good stead for the work that followed in the way the package developed in late 2014 and early 2015.</p>
+<p>I discovered that there is room for me to take a leading role in the development of ideas that can help other blind people learn about statistical concepts. I have been invited to all five Summer University events run by the organizers of the International Conference on Computers Helping People (ICCHP), but have been unable to attend twice due to the high cost of transporting me to Europe. I have delivered an introductory workshop on using R at three of these events <span class="citation">(Godfrey 2011; Godfrey 2013a; and Godfrey 2014b)</span>.</p>
+<p>Having observed the attendees at the 2011 Summer University as they came to grips with R, I knew there was more I could do to help them and other blind students. I started work on the BrailleR package <span class="citation">(Godfrey 2015a)</span> in the second half of 2011 and first proposed it could work for blind users at the Digitisation and E-Inclusion in Mathematics and Science (DEIMS12) workshop held in Tokyo during February 2012 <span class="citation">(Godfrey 2012c; Godfrey 2012d)</span>.</p>
+<p>I wasn’t to know the value of another talk I gave at DEIMS12 for another two years; this second talk and associated conference paper focused on how I was using Sweave to create accessible statistical reports for me and more beautifully formatted ones for my statistical consulting clients. <span class="citation">(Godfrey 2012a; Godfrey 2012b)</span>. I now know that the groundwork I had done contributed to my desire to present my workflow as a workshop at the 5<sup>th</sup> Summer University in 2014 <span class="citation">(Godfrey 2014d)</span>. It also stood me in good stead for the work that followed in the way the package developed in late 2014 and early 2015.</p>
 </div>
 <div id="the-starting-point-example" class="section level2">
 <h2>The starting point example</h2>
 <p>The basic graph that has been used for almost every presentation of the BrailleR package is a histogram. There is a more detailed example, but the following commands create a set of numbers that can be kept for further processing once the graph has been created. It is the re-processing of these numbers that leads to the text description that follows.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(BrailleR)</code></pre>
-<pre><code>## Loading required package: knitr
-## The BrailleR.View,  option is set to FALSE.
-## 
-## Attaching package: 'BrailleR'
-## 
-## The following objects are masked from 'package:graphics':
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(BrailleR)</code></pre></div>
+<pre><code>## Loading required package: knitr</code></pre>
+<pre><code>## The BrailleR.View,  option is set to FALSE.</code></pre>
+<pre><code>## 
+## Attaching package: 'BrailleR'</code></pre>
+<pre><code>## The following objects are masked from 'package:graphics':
 ## 
 ##     boxplot, hist</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">x=<span class="kw">rnorm</span>(<span class="dv">1000</span>)
-<span class="kw">VI</span>(<span class="kw">hist</span>(x))</code></pre>
+<pre><code>## The following object is masked from 'package:utils':
+## 
+##     history</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x=<span class="kw">rnorm</span>(<span class="dv">1000</span>)
+<span class="kw">VI</span>(<span class="kw">hist</span>(x))</code></pre></div>
 <div class="figure">
-<img src="data:image/png;base64,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" alt="A histogram of 1000 random values from a normal distribution" />
-<p class="caption">A histogram of 1000 random values from a normal distribution</p>
+<img src="data:image/png;base64,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" alt="A histogram of 1000 random values from a normal distribution" />
+<p class="caption">
+A histogram of 1000 random values from a normal distribution
+</p>
 </div>
 <pre><code>## This is a histogram, with the title: Histogram of x 
 ##  &quot;x&quot; is marked on the x-axis.
 ## Tick marks for the x-axis are at: -3, and 3 
 ## There are a total of 1000 elements for this variable.
 ## Tick marks for the y-axis are at: 0, 50, 100, 150, and 200 
-## It has 13 bins with equal widths, starting at -3.5 and ending at 3 .
+## It has 13 bins with equal widths, starting at -3 and ending at 3.5 .
 ## The mids and counts for the bins are:
-## mid = -3.25  count = 2 
-## mid = -2.75  count = 2 
-## mid = -2.25  count = 14 
-## mid = -1.75  count = 35 
-## mid = -1.25  count = 79 
-## mid = -0.75  count = 166 
-## mid = -0.25  count = 211 
-## mid = 0.25  count = 198 
-## mid = 0.75  count = 139 
-## mid = 1.25  count = 88 
-## mid = 1.75  count = 47 
-## mid = 2.25  count = 15 
-## mid = 2.75  count = 4</code></pre>
+## mid = -2.75  count = 4 
+## mid = -2.25  count = 22 
+## mid = -1.75  count = 38 
+## mid = -1.25  count = 89 
+## mid = -0.75  count = 152 
+## mid = -0.25  count = 193 
+## mid = 0.25  count = 197 
+## mid = 0.75  count = 146 
+## mid = 1.25  count = 91 
+## mid = 1.75  count = 46 
+## mid = 2.25  count = 14 
+## mid = 2.75  count = 5 
+## mid = 3.25  count = 3</code></pre>
 <p>This first example showed me what was possible if only I could get a few things sorted out. All histograms are created by a function that stores the results (both numeric and text details) and called the stored set of numbers a “histogram”. The main issue is that storing the set of details is not consistent in R, nor is the fact that the stored object gets given a “class” to tell me what type of object it is. This problem haunted me for quite some time because I was talking to the wrong people about the problem; it was time to find people that held the solution instead of talking to the people that would benefit if a solution was found.</p>
 </div>
 <div id="exposure-of-the-brailler-package-outside-the-blind-community" class="section level2">
 <h2>Exposure of the BrailleR package outside the blind community</h2>
 <p>It was obvious to me that getting the word out to the masses about the usefulness of R for blind students and professionals was crucial. I started to compile my notes built up from various posts made to email groups and individuals over the years, as well as the lessons I learned from attendance at the 2<sup>nd</sup> Summer University event. This led to the eventual publication of my findings in <span class="citation">(Godfrey 2013b)</span>. I know that this was a worthwhile task because it was read by teachers of blind students who were already using R for their courses. One such person tested R and a screen reader and managed to find a solution to a problem posed in <span class="citation">Godfrey (2013b)</span> which led to an addendum <span class="citation">(Godfrey and Erhardt 2014)</span>.</p>
 <p>I presented some of my work via a poster <span class="citation">(Godfrey 2013c)</span> at the NZ Statistical Association conference in Hamilton during November 2013. This `poster’ presentation was developed as a multimedia presentation so that the audience could observe video footage, handle tactile images and be able to talk with me about the BrailleR Project. The plan to get talking with people instead of talking at them worked and I started a really useful collaboration with Paul Murrell from the University of Auckland. His major contributions don’t feature in the BrailleR package yet, but we’re making some relly nice progress. Paul is an expert in graphics, especially their creation and manipulation in R. Our discussions about graphics has yielded a few titbits for my own work that have been tested for the package.</p>
-<p>I have been asked about the use of R in preference to other statistical software by many blind students, their support staff, and their teachers. Eventually I joined forces with the only other blind lecturer of statistics (Theodor Loots, University of Pretoria) to compare the most commonly used statistical software for its accessibility <span class="citation">(Godfrey and Loots 2014)</span>. I summarised this paper at the 5<sup>th</sup> Summer University event <span class="citation">(Godfrey 2014c)</span>.</p>
-<p>On my way to the 5<sup>th</sup> Summer University event, I managed to attend the principal conference for R users (UseR!2015) in Los Angeles where I presented my findings <span class="citation">(Godfrey 2014d)</span>. Perhaps the most valuable outcome of this conference was the ability to attend a tutorial on use of the knitr package and then talk to its author, Yihui Xie. I’d already seen the knitr package before attending UseR!2014 and implemented it for some of my teaching material by updating the Sweave documents already in use. The real value came in realising what I could probably do if I used R markdown to do a few things I had found very hard using the Sweave way of working. More specifically, generating an R markdown file (Rmd) from an R script was much easier than generating a Sweave file (Rnw). Writing the convenience functions for the package started to look very achievable at this point, and so work began. I dug out some old work that wasn’t fit for sharing and converted it to the markdown way of working. There has been sufficient progress in the BrailleR Project that I am encouraged to attend UseR!2015 <span class="citation">(Godfrey 2015b)</span>.</p>
+<p>I have been asked about the use of R in preference to other statistical software by many blind students, their support staff, and their teachers. Eventually I joined forces with the only other blind lecturer of statistics (Theodor Loots, University of Pretoria) to compare the most commonly used statistical software for its accessibility <span class="citation">(Godfrey and Loots 2014)</span>. I summarised this paper at the 5<sup>th</sup> Summer University event <span class="citation">(Godfrey 2014a)</span>.</p>
+<p>On my way to the 5<sup>th</sup> Summer University event, I managed to attend the principal conference for R users (UseR!2015) in Los Angeles where I presented my findings <span class="citation">(Godfrey 2014c)</span>. Perhaps the most valuable outcome of this conference was the ability to attend a tutorial on use of the knitr package and then talk to its author, Yihui Xie. I’d already seen the knitr package before attending UseR!2014 and implemented it for some of my teaching material by updating the Sweave documents already in use. The real value came in realising what I could probably do if I used R markdown to do a few things I had found very hard using the Sweave way of working. More specifically, generating an R markdown file (Rmd) from an R script was much easier than generating a Sweave file (Rnw). Writing the convenience functions for the package started to look very achievable at this point, and so work began. I dug out some old work that wasn’t fit for sharing and converted it to the markdown way of working. There has been sufficient progress in the BrailleR Project that I presented it at UseR!2015 <span class="citation">(Godfrey 2015b)</span>.</p>
 </div>
 <div id="the-ongoing-work" class="section level2">
 <h2>The ongoing work</h2>
 <p>The introduction of R markdown to the BrailleR package has made a huge difference. I’ve been able to write enough example code that once I found a friendly postgraduate student (Timothy Bilton) to put some time into it, we’ve managed to add more convenience functionality. Timothy has improved some of my earlier work and tried a few things of his own. This has left me with the time to add increased functionality for helping blind users get into markdown for themselves.</p>
-<p>One of my irritations of working with markdown is that everyone else seems to write markdown and check their findings using RStudio, which remains inaccessible for me and other screen reader users. I took an old experiment where I wrote an accessible text editor in wxPython, and with the help of a postgraduate student from Computer Science (James Curtis) we’ve modified it to process Rmd files. This is still quite experimental so there is still a need for me to do some other work for processing RmdFiles.</p>
+<p>One of my irritations of working with markdown is that everyone else seems to write markdown and check their findings using RStudio, which remains inaccessible for me and other screen reader users. I took an old experiment where I wrote an accessible text editor in wxPython, and with the help of a postgraduate student from Computer Science (James Curtis) we’ve modified it to process Rmd files. This is still quite experimental so there is still a need for me to do some other work for processing RmdFiles, but it does look very promising.</p>
 </div>
 <div id="acknowledgements" class="section level2">
 <h2>Acknowledgements</h2>
 <p>Contributions to the BrailleR Project are welcome from anyone who has an interest. I will acknowledge assistance in chronological order of the contributions I have received thus far.</p>
 <p>Greg Snow was the first person to assist when he gave me copies of the original R code and help files for the R2txt functions that were part of his TeachingDemos package <span class="citation">(Snow 2010)</span>.</p>
-<p>The Lions clubs of Karlsruhe supported my attendance at the 3<sup>rd</sup> Summer University event in 2013. This gave me the first opportunity to put the package in front of an audience that I hope will gain from the packages existence.</p>
+<p>The Lions clubs of Karlsruhe supported my attendance at the 3<sup>rd</sup> Summer University event in 2013. This gave me the first opportunity to put the package in front of an audience that I hope will gain from the package’s existence.</p>
 <div class="references">
 <h2 id="references" class="unnumbered">References</h2>
+<div id="ref-Godfrey2009AccessibleOral">
 <p>Godfrey, A. Jonathan R. 2009a. “Are Statistics Courses Accessible?”</p>
+</div>
+<div id="ref-Godfrey2009AccessiblePaper">
 <p>———. 2009b. “Are Statistics Courses Accessible?” In <em>Proceedings of the Workshop on E-Inclusion in Mathematics and Science 2009</em>, 72–80. Fukuoka, Japan.</p>
+</div>
+<div id="ref-Godfrey2011SU-R">
 <p>———. 2011. “R.” Telc, The Czech Republic. <a href="http://icchp-su.net/?q=node/108" class="uri">http://icchp-su.net/?q=node/108</a>.</p>
-<p>———. 2012a. “The BrailleR Project.” Nihon University, Tokyo, Japan.</p>
-<p>———. 2012b. “The BrailleR Project.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 89–95. Tokyo, Japan.</p>
-<p>———. 2012c. “Putting It All Together — a Blind Person’s Perspective on Document Preparation.” Nihon University, Tokyo, Japan.</p>
-<p>———. 2012d. “Putting It All Together — a Blind Person’s Perspective on Document Preparation.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 135–41. Tokyo, Japan.</p>
+</div>
+<div id="ref-Godfrey2012PuttingOral">
+<p>———. 2012a. “Putting It All Together — a Blind Person’s Perspective on Document Preparation.” Nihon University, Tokyo, Japan.</p>
+</div>
+<div id="ref-Godfrey2012PuttingPaper">
+<p>———. 2012b. “Putting It All Together — a Blind Person’s Perspective on Document Preparation.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 135–41. Tokyo, Japan.</p>
+</div>
+<div id="ref-Godfrey2012BrailleROral">
+<p>———. 2012c. “The BrailleR Project.” Nihon University, Tokyo, Japan.</p>
+</div>
+<div id="ref-Godfrey2012BrailleRPaper">
+<p>———. 2012d. “The BrailleR Project.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 89–95. Tokyo, Japan.</p>
+</div>
+<div id="ref-Godfrey2013SU-R">
 <p>———. 2013a. “Using R: The Most Accessible Statistical Software for Blind Students.” Bad Herrenalb, Germany.</p>
+</div>
+<div id="ref-GodfreyRJournal">
 <p>———. 2013b. “Statistical Software from a Blind Person’s Perspective: R Is the Best, but We Can Make It Better.” <em>The R Journal</em> 5 (1): 73–79. <a href=" http://journal.r-project.org/archive/2013-1/godfrey.pdf ">http://journal.r-project.org/archive/2013-1/godfrey.pdf</a>.</p>
+</div>
+<div id="ref-Godfrey2013BlindnessPoster">
 <p>———. 2013c. “Blindness in a Visual Discipline.” University of Waikato, Hamilton.</p>
-<p>———. 2014a. “Introduction to R: The Most Accessible Statistical Software for Blind Students.” Paris, France.</p>
-<p>———. 2014b. “R and LaTeX — a Powerful Combination for Assignment Preparation.” Paris, France.</p>
-<p>———. 2014c. “A Review of Statistical Software for Blind Students.” Paris, France.</p>
-<p>———. 2014d. “Practical Use of R by Blind People.” University of California, Los Angeles.</p>
+</div>
+<div id="ref-Godfrey2014SU-StatsSoft">
+<p>———. 2014a. “A Review of Statistical Software for Blind Students.” Paris, France.</p>
+</div>
+<div id="ref-Godfrey2014SU-R">
+<p>———. 2014b. “Introduction to R: The Most Accessible Statistical Software for Blind Students.” Paris, France.</p>
+</div>
+<div id="ref-Godfrey2014BlindUseROral">
+<p>———. 2014c. “Practical Use of R by Blind People.” University of California, Los Angeles.</p>
+</div>
+<div id="ref-Godfrey2014SU-Sweave">
+<p>———. 2014d. “R and LaTeX — a Powerful Combination for Assignment Preparation.” Paris, France.</p>
+</div>
+<div id="ref-BrailleRPackage">
 <p>———. 2015a. <em>BrailleR: Improved Access for Blind Users</em>. Massey University. <a href="http://CRAN.R-project.org/package=BrailleR" class="uri">http://CRAN.R-project.org/package=BrailleR</a>.</p>
+</div>
+<div id="ref-Godfrey2015BaseRWeepsOral">
 <p>———. 2015b. “While My Base R Gently Weeps.” Aalborg, Denmark.</p>
+</div>
+<div id="ref-GodfreyErhardtRJournalAddendum">
 <p>Godfrey, A. Jonathan R., and Robert Erhardt. 2014. “Addendum to ``Statistical Software from a Blind Person’s Perspective&quot;.” <em>The R Journal</em> 6 (1): 182. <a href="http://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf" class="uri">http://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf</a>.</p>
+</div>
+<div id="ref-GodfreyLoots2014JSS">
 <p>Godfrey, A. Jonathan R., and M. Theodor Loots. 2014. “Statistical Software (R, SAS, SPSS, and Minitab) for Blind Students and Practitioners.” <em>Journal of Statistical Software, Software Reviews</em> 58 (1): 1–25. <a href="http://www.jstatsoft.org/v58/s01" class="uri">http://www.jstatsoft.org/v58/s01</a>.</p>
+</div>
+<div id="ref-TeachingDemos">
 <p>Snow, Greg. 2010. <em>TeachingDemos: Demonstrations for Teaching and Learning</em>.</p>
+</div>
 </div>
 </div>
 

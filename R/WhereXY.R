@@ -17,7 +17,7 @@ XRange=XMax-XMin
 YRange=YMax-YMin
 
 if(xDist=="uniform"){
-XNew=cut(x,breaks=grid[1], labels=FALSE)}
+XNew = cut(x, breaks=grid[1], labels=FALSE)}
 else{
 XMean=mean(x, na.rm=TRUE)
 XSD=sd(x, na.rm=TRUE)
@@ -26,8 +26,9 @@ XNew=cut(x, breaks=XBreaks, labels=FALSE)
 }
 
 if(yDist=="uniform"){
-YBreaks <- seq(YMax,YMin,length.out=grid[2]-1)
-YNew=cut(y,breaks=YBreaks, labels=FALSE)}
+#YBreaks <- seq(YMax+0.001*YRange,YMin-0.001*YRange, length.out=grid[2]+1)
+YNew=cut(y, breaks=grid[2], labels=FALSE)}
+#cut(y,breaks=YBreaks, labels=FALSE)}
 else{
 YMean=mean(y, na.rm=TRUE)
 YSD=sd(y, na.rm=TRUE)

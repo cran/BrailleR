@@ -20,19 +20,20 @@ if(Folder!="."&& !file.exists(Folder)) dir.create(Folder)
 
 # make sure there is a filename to write the markdown to.
 if(is.null(Filename)){
-Filename = paste0(ResponseName, "-UniDesc.Rmd")
+Filename = paste0(.simpleCap(ResponseName), "-UniDesc.Rmd")
 }
 
 
 # Start writing mark down here.
-if(is.null(Title)) {Title=paste0('Univariate analysis for ', ResponseName)}
+if(is.null(Title)) {Title=paste0('Univariate analysis for ', .simpleCap(ResponseName))}
 
 cat('#', Title, '  
-#### Prepared by `r getOption("BrailleR.Author")`  \n\n', file=Filename)
+#### Prepared by',  getOption("BrailleR.Author"), '  \n\n', file=Filename)
 
 cat(paste0('```{r setup, purl=FALSE, include=FALSE}
+library(BrailleR)
 opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
-opts_chunk$set(comment="", echo=FALSE, fig.path="', Folder, '/', ResponseName, '-", fig.width=7)
+opts_chunk$set(comment="", echo=FALSE, fig.path="', Folder, '/', .simpleCap(ResponseName), '-", fig.width=7)
 ```  \n\n'), file=Filename, append=TRUE)
 
 
@@ -50,6 +51,8 @@ cat(paste0('## Basic summary measures
 ', ResponseName, '.IQR = IQR(', ResponseName, ', na.rm = TRUE)
 ', ResponseName, '.sd = sd(', ResponseName, ', na.rm = TRUE)
 ', ResponseName, '.var = var(', ResponseName, ', na.rm = TRUE)
+', ResponseName, '.skew = moments::skewness(', ResponseName, ', na.rm = TRUE)
+', ResponseName, '.kurt = moments::kurtosis(', ResponseName, ', na.rm = TRUE)
 ```  
 
 ### Counts    
@@ -61,11 +64,9 @@ cat(paste0('## Basic summary measures
 
 ### Measures of location    
 
-Mean | Value  
------ | ------  
-All data |  `r ', ResponseName, '.mean`     
-Trimmed 5% | `r ', ResponseName, '.tmean5`     
-Trimmed 10% | `r ', ResponseName, '.tmean10`     
+Data | all | 5% trimmed | 10% trimmed   
+----- | ------ | ----- | ------  
+Mean | `r ', ResponseName, '.mean` | `r ', ResponseName, '.tmean5` | `r ', ResponseName, '.tmean10`     
 
 ### Quantiles    
 
@@ -75,48 +76,44 @@ QList=c("Minimum", "Lower Quartile", "Median", "Upper Quartile", "Maximum")
 Results=data.frame(Quantile=QList, Value=Quantiles[1:5])  
 ```  
 
-```{r Quantiles2, results="asis", purl=FALSE}  
-kable(Results) 
+```{r panderSettings, purl=FALSE}  
+library(pander)
+panderOptions("table.style", "rmarkdown")
+panderOptions("table.alignment.default", "left")
+panderOptions("table.alignment.rownames", "left")
 ```  
+
+`r pander(Results)`
 
 ### Measures of spread    
 
-Measure | Value  
--------- | ------   
-IQR | `r ', ResponseName, '.IQR`    
-Standard deviation | `r ', ResponseName, '.sd`   
-Variance | `r ', ResponseName, '.var`   \n\n'), file=Filename, append=TRUE)
+Measure | IQR | Standard deviation | Variance   
+-------- | ------ | -------- | ------   
+Value | `r ', ResponseName, '.IQR` | `r ', ResponseName, '.sd` | `r ', ResponseName, '.var`   \n\n'), file=Filename, append=TRUE)
 
 if(!Tests){
 cat(paste0('### Other moments     
 
-```{r SimpleMoments}  
-', ResponseName, '.skew = moments::skewness(', ResponseName, ', na.rm = TRUE)
-', ResponseName, '.kurt = moments::kurtosis(', ResponseName, ', na.rm = TRUE)
-```
-
-
-Moment | Value  
--------- | ------  
-Skewness | `r ', ResponseName, '.skew`    
-Kurtosis | `r ', ResponseName, '.kurt`   \n\n'), file=Filename, append=TRUE)
+Moment | Skewness | Kurtosis   
+-------- | ------ | ------  
+Value | `r ', ResponseName, '.skew` | `r ', ResponseName, '.kurt`   \n\n'), file=Filename, append=TRUE)
 }
 }
 
 if(Graphs){
 cat("\n## Basic univariate graphs    \n### Histogram    \n", file=Filename, append=TRUE)
 GraphHead("Hist", "The histogram")
-cat(paste0(ifelse(VI, 'VI(',''), 'hist(', ResponseName, ', xlab="', ResponseName, '", main="Histogram of ', ResponseName, '")', ifelse(VI, ')', '') ), file=Filename, append=TRUE)
+cat(paste0(ifelse(VI, 'VI(',''), 'hist(', ResponseName, ', xlab="', ResponseName, '", main="Histogram of ', .simpleCap(ResponseName), '")', ifelse(VI, ')', '') ), file=Filename, append=TRUE)
 CloseChunk()
 
 cat("\n### Boxplot    \n", file=Filename, append=TRUE)
 GraphHeadWide("Boxplot", "The boxplot")
-cat(paste0(ifelse(VI, 'VI(',''), 'boxplot(', ResponseName, ', horizontal=TRUE, main = "Boxplot of ', ResponseName, '")', ifelse(VI, ')','')), file=Filename, append=TRUE)
+cat(paste0(ifelse(VI, 'VI(',''), 'boxplot(', ResponseName, ', horizontal=TRUE, main = "Boxplot of ', .simpleCap(ResponseName), '")', ifelse(VI, ')','')), file=Filename, append=TRUE)
 CloseChunk()
 
 #cat("\n### Density plot    \n", file=Filename, append=TRUE)
 #GraphHead("Density")
-#cat(paste0('density(', ResponseName, ', na.rm=TRUE, main = "Density plot for ', ResponseName, '")'), file=Filename, a#ppend=TRUE)
+#cat(paste0('density(', ResponseName, ', na.rm=TRUE, main = "Density plot for ', .simpleCap(ResponseName), '")'), file=Filename, a#ppend=TRUE)
 #CloseChunk()
 #MyDensity=plot(density(x, xlab=ResponseName)
 #cat(paste0("The title put on this density plot was: Density plot of",ResponseName,"\n"))
@@ -158,19 +155,19 @@ kable(Results, digits=c(4,', PValDigits, '))
 ```   \n'), file=Filename, append=TRUE)
 
 if(Latex){
-cat('```{r NormalityTestsTex, purl=FALSE}
+cat(paste0('```{r NormalityTestsTex, purl=FALSE}
 library(xtable)  
-', paste0('ThisTexFile = "', Folder, "/", ResponseName, '-Normality.tex"'),'
-TabCapt= "Tests for normality: Variable is', ResponseName, '"
-print(xtable(Results, caption=TabCapt, label=paste0(ResponseName,"Normality"), digits=4, align="lrr"), file=ThisTexFile)
-```   \n', file=Filename, append=TRUE)
+ThisTexFile = "', Folder, "/", ResponseName, '-Normality.tex"
+TabCapt= "Tests for normality: Variable is ', ResponseName, '."
+print(xtable(Results, caption=TabCapt, label=\"', ResponseName, 'Normality", digits=4, align="lrr"), file=ThisTexFile)
+```   \n'), file=Filename, append=TRUE)
 }
 }# end of normality test statistics section
 
 if(Graphs){
 cat("\n### Normality plot    \n", file=Filename, append=TRUE)
 GraphHeadSq("NormPlot", "The normality plot")
-cat(paste0('qqnorm(', ResponseName, ', main = "Normality Plot for ', ResponseName, '")\nqqline(', ResponseName, ')'), file=Filename, append=TRUE)
+cat(paste0('qqnorm(', ResponseName, ', main = "Normality Plot for ', .simpleCap(ResponseName), '")\nqqline(', ResponseName, ')'), file=Filename, append=TRUE)
 CloseChunk()
 }# end of normality plot section
 
@@ -208,7 +205,7 @@ print(xtable(Results, caption=TabCapt, label=\"', ResponseName, 'Moments", digit
 
 if(Process){
 # stop writing markdown and process the written file into html and an R script
-knit2html(Filename, quiet=TRUE, stylesheet=system.file("css", "BrailleR.css", package="BrailleR"))
+knit2html(Filename, quiet=TRUE, stylesheet=FindCSSFile(getOption("BrailleR.Style")))
 file.remove(sub(".Rmd", ".md", Filename))
 purl(Filename, quiet=TRUE)
 if(View) browseURL(sub(".Rmd", ".html", Filename))

@@ -168,7 +168,7 @@ InflObs = data.frame(', ModelName, '$model, Fit=Fits, St.residual=Residuals, Lev
 
 ```{r ListInfObsLatex, purl=FALSE}  
 library(xtable)  
-print(xtable(InflObs, caption="Listing of suspected outliers and influential observations.", label="InflObs', ModelName, '", digits=4), file = "', FolderName, '/InflObs.tex")  
+print(xtable(InflObs, caption="Listing of suspected outliers and influential observations.", label="InflObs', ModelName, '", digits=4), file = "', FolderName, '/Influential.tex")  
 ```  
 
 ```{r ListInfObsKabled, results="asis", purl=FALSE}  
@@ -176,7 +176,7 @@ kable(InflObs)
 ```   \n\n'), file=RmdName, append=TRUE)
 
 # stop writing markdown and process the written file into html and an R script
-knit2html(RmdName, quiet=TRUE, stylesheet=system.file("css", "BrailleR.css", package="BrailleR"))
+knit2html(RmdName, quiet=TRUE, stylesheet=FindCSSFile(getOption("BrailleR.Style")))
 file.remove(sub(".Rmd", ".md", RmdName))
 purl(RmdName, quiet=TRUE)
 if(getOption("BrailleR.View")) browseURL(sub(".Rmd", ".html", RmdName))

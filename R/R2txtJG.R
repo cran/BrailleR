@@ -109,7 +109,7 @@ txtStart <- function(file, commands=TRUE, results=TRUE, append=FALSE,
   options(prompt= paste('txt',R2txt.vars$prompt,sep=''),
           continue= paste('txt',R2txt.vars$continue,sep='') )
 
-  cat('Output being copied to text file,\nuse txtStop to end\n')
+  message('Output being copied to text file,\nuse txtStop() to end.\n')
   addTaskCallback(R2txt, name='r2txt')
   invisible(NULL)
 }

@@ -3,67 +3,127 @@
 # these ones do have arguments
 
 
-ChooseEmbosser=function(Embosser="none", Permanent=TRUE){
+ResetDefaults = function(Local=TRUE){
+    DefSettings=system.file("BrailleROptions", package="BrailleR")
+    PrefSettings = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+    file.copy(DefSettings, PrefSettings, overwrite=TRUE)
+message("You have reset all preferences to the original package defaults.\n")
+if(Local) file.remove("BrailleROptions")
+devtools::reload("BrailleR")
+return(invisible(NULL))
+}
+
+
+ChooseEmbosser=function(Embosser="none", Permanent=TRUE, Local=TRUE){
 if(is.character(Embosser)){
 options(BrailleR.Embosser=Embosser)
-cat(paste0("The BrailleR.Embosser option has been updated to ", Embosser, ".\n"))
+message("The BrailleR.Embosser option has been updated to ", Embosser, ".")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.Embosser=Embosser
 write.dcf(OpSet, file=Prefs)
-cat("and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.Embosser=Embosser
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{warning("A text string was expected. No action taken.\n")}
 return(invisible(NULL))
 }
 
-ChooseStyle=function(css="BrailleR.css", Permanent=TRUE){
+ChooseSlideStyle=function(css="JGSlides.css", Permanent=TRUE, Local=TRUE){
+if(is.character(css)){
+options(BrailleR.SlideStyle=css)
+if(system.file("css", css, package="BrailleR")==""){
+warning("The file", css, "is not in the css folder of the BrailleR package.\nPlease put it there before re-issuing this command.\n")
+}
+else{
+message("The BrailleR.SlideStyle option has been updated to ", css, ".")
+if(Permanent){
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
+OpSet$BrailleR.SlideStyle=css
+write.dcf(OpSet, file=Prefs)
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.SlideStyle=css
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
+}}
+else{warning("A text string was expected. No action taken.\n")}
+return(invisible(NULL))
+}
+
+ChooseStyle=function(css="BrailleR.css", Permanent=TRUE, Local=TRUE){
 if(is.character(css)){
 options(BrailleR.Style=css)
 if(system.file("css", css, package="BrailleR")==""){
-cat("The file", css, "is not in the css folder of the BrailleR package.\nPlease put it there before re-issuing this command.\n")
+warning("The file", css, "is not in the css folder of the BrailleR package.\nPlease put it there before re-issuing this command.\n")
 }
 else{
-cat(paste0("The BrailleR.Style option has been updated to ", css, ".\n"))
+message("The BrailleR.Style option has been updated to ", css, ".")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.Style=css
 write.dcf(OpSet, file=Prefs)
-cat("and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.Style=css
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }}
 else{warning("A text string was expected. No action taken.\n")}
 return(invisible(NULL))
 }
 
 
-SetAuthor=function(name="BrailleR", Permanent=TRUE){
+SetAuthor=function(name="BrailleR", Permanent=TRUE, Local=TRUE){
 if(is.character(name)){
 options(BrailleR.Author=name)
-cat(paste0("The BrailleR.Author option has been updated to ", name, ".\n"))
+message("The BrailleR.Author option has been updated to ", name, ".")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.Author=name
 write.dcf(OpSet, file=Prefs)
-cat("and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.Author=name
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{warning("A text string was expected. No action taken.\n")}
 return(invisible(NULL))
 }
 
 
-SetBRLPointSize = function(pt, Permanent=FALSE){
+SetBRLPointSize = function(pt, Permanent=FALSE, Local=TRUE){
 if((10<pt)&(pt<40)){
 options(BrailleR.BRLPointSize=pt)
-cat(paste0("The BrailleR.BRLPointSize option for the braille font has been changed to ", pt, " inches.\n"))
+message("The BrailleR.BRLPointSize option for the braille font has been changed to ", pt, " inches.")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.BRLPointSize=pt
 write.dcf(OpSet, file=Prefs)
-cat("...and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.BRLPointSize=pt
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{
 warning("The point size must be between 10 and 40 . \nNo change has been made to this setting.\n")
@@ -72,16 +132,47 @@ return(invisible(NULL))
 }
 
 
-SetPaperHeight = function(Inches, Permanent=FALSE){
+
+SetMakeUpper = function(Upper, Permanent=TRUE, Local=TRUE){
+Upper = as.logical(Upper)
+if(is.logical(Upper)){
+options(BrailleR.MakeUpper = Upper)
+message("The BrailleR.MakeUpper option for capitalising the initial letter of variable names has been changed to ", Upper, ".")
+if(Permanent){
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
+OpSet$BrailleR.MakeUpper = Upper
+write.dcf(OpSet, file=Prefs)
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.MakeUpper = Upper
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
+}
+else{
+warning("The option must be either TRUE or FALSE.\nNo change has been made to this setting.\n")
+}
+return(invisible(NULL))
+}
+
+SetPaperHeight = function(Inches, Permanent=FALSE, Local=TRUE){
 if((5<Inches)&(Inches<14)){
 options(BrailleR.PaperHeight=Inches)
-cat(paste0("The BrailleR.PaperHeight option for the height of the embossed images has been changed to ", Inches, " inches.\n"))
+message("The BrailleR.PaperHeight option for the height of the embossed images has been changed to ", Inches, " inches.")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.PaperHeight=Inches
 write.dcf(OpSet, file=Prefs)
-cat("...and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.PaperHeight=Inches
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{
 warning("The height must be between 5 and 14 inches. \nNo change has been made to this setting.\n")
@@ -89,16 +180,22 @@ warning("The height must be between 5 and 14 inches. \nNo change has been made t
 return(invisible(NULL))
 }
 
-SetPaperWidth = function(Inches, Permanent=FALSE){
+SetPaperWidth = function(Inches, Permanent=FALSE, Local=TRUE){
 if((5<Inches)&(Inches<14)){
 options(BrailleR.PaperWidth=Inches)
-cat(paste0("The BrailleR.PaperWidth option for the width of the embossed images has been changed to ", Inches, " inches.\n"))
+message("The BrailleR.PaperWidth option for the width of the embossed images has been changed to ", Inches, " inches.")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.PaperWidth=Inches
 write.dcf(OpSet, file=Prefs)
-cat("...and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.PaperWidth=Inches
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{
 warning("The width must be between 5 and 14 inches. \nNo change has been made to this setting.\n")
@@ -108,17 +205,23 @@ return(invisible(NULL))
 
 
 
-SetPValDigits=function(digits, Permanent=TRUE){
+SetPValDigits=function(digits, Permanent=TRUE, Local=TRUE){
 digits=as.integer(digits)
 if(digits>1){
 options(BrailleR.PValDigits=digits)
-cat(paste0("The BrailleR.PValDigits option for the number of decimal places to display for p values has been changed to ", digits, ".\n"))
+message("The BrailleR.PValDigits option for the number of decimal places to display for p values has been changed to ", digits, ".")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.PValDigits=digits
 write.dcf(OpSet, file=Prefs)
-cat("...and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.PValDigits=digits
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{
 warning("The number of digits must be an integer greater than one.\nNo change has been made to this setting.\n")
@@ -126,16 +229,22 @@ warning("The number of digits must be an integer greater than one.\nNo change ha
 return(invisible(NULL))
 }
 
-SetSigLevel=function(alpha, Permanent=TRUE){
+SetSigLevel=function(alpha, Permanent=TRUE, Local=TRUE){
 if((0<alpha)&(alpha<1)){
 options(BrailleR.SigLevel=alpha)
-cat(paste0("The BrailleR.SigLevel option for the level of alpha has been changed to ", alpha, ".\n"))
+message("The BrailleR.SigLevel option for the level of alpha has been changed to ", alpha, ".")
 if(Permanent){
-Prefs=system.file("PREFERENCES", package="BrailleR")
-OpSet=read.dcf(Prefs, all=TRUE)
+Prefs = paste0(getOption("BrailleR.Folder"), "BrailleROptions")
+OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))
 OpSet$BrailleR.SigLevel=alpha
 write.dcf(OpSet, file=Prefs)
-cat("...and will remain in effect next time you load the package.\n")}
+message("and has overwritten the setting for all folders.")}
+if(Local){
+Prefs="BrailleROptions"
+if(file.exists(Prefs)){OpSet=as.data.frame(read.dcf(Prefs, all=TRUE))}
+OpSet$BrailleR.SigLevel=alpha
+write.dcf(OpSet, file=Prefs)
+message("The new setting will remain in effect next time you load the BrailleR package in this directory.")}
 }
 else{
 warning("The level of alpha must be between 0 and 1. \nNo change has been made to this setting.\n")
@@ -143,50 +252,41 @@ warning("The level of alpha must be between 0 and 1. \nNo change has been made t
 return(invisible(NULL))
 }
 
-# functions below this point have no arguments.
+# functions below this point have no arguments. (yet)
 
 GoSighted = function(){
 options(BrailleR.VI=FALSE)
-cat("By going sighted, you have turned off the automatic generation of text descriptions of graphs.\n")
+message("By going sighted, you have turned off the automatic generation of text descriptions of graphs.\n")
 return(invisible(NULL))
 }
 
 GoBlind = function(){
 options(BrailleR.VI=TRUE)
-cat("By going blind, you have turned on the automatic generation of text descriptions of graphs.\n")
+message("By going blind, you have turned on the automatic generation of text descriptions of graphs.\n")
 return(invisible(NULL))
 }
 
 ViewOn = function(){
 options(BrailleR.View=TRUE)
-cat("You have turned the automatic opening of html pages on.\n.\n")
+message("You have turned the automatic opening of html pages on.\n")
 return(invisible(NULL))
 }
 
 ViewOff = function(){
 options(BrailleR.View=FALSE)
-cat("You have turned the automatic opening of html pages on.\ff.\n")
+message("You have turned the automatic opening of html pages off.\n\n")
 return(invisible(NULL))
 }
 
 LatexOn = function(){
 options(BrailleR.Latex=TRUE)
-cat("You have turned the automatic generation of LaTeX tables on.\n")
+message("You have turned the automatic generation of LaTeX tables on.\n")
 return(invisible(NULL))
 }
 
 LatexOff = function(){
 options(BrailleR.Latex=FALSE)
-cat("You have turned the automatic generation of LaTeX tables off.\n")
+message("You have turned the automatic generation of LaTeX tables off.\n")
 return(invisible(NULL))
 }
 
-
-ResetDefaults = function(){
-    DefSettings=system.file("DEFAULTS", package="BrailleR")
-    PrefSettings=sub("DEFAULTS", "PREFERENCES", DefSettings)
-    file.copy(DefSettings, PrefSettings, overwrite=TRUE)
-cat("You have reset all preferences to the original package defaults.\n")
-devtools::reload("BrailleR")
-return(invisible(NULL))
-}

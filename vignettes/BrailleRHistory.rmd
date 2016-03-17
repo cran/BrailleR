@@ -43,6 +43,7 @@ The basic graph that has been used for almost every presentation of the BrailleR
 ```{r setup, results="hide"}
 library(BrailleR)
 ```
+
 ```{r hist, fig.cap="A histogram of 1000 random values from a normal distribution"}
 x=rnorm(1000)
 VI(hist(x))
@@ -58,14 +59,14 @@ I presented some of my work via a poster [@Godfrey2013BlindnessPoster] at the NZ
 
 I have been asked about the use of R in preference to other statistical software by many blind students, their support staff, and  their teachers. Eventually I joined forces with the only other blind lecturer of statistics (Theodor Loots, University of Pretoria) to compare the most commonly used statistical software for its accessibility [@GodfreyLoots2014JSS]. I summarised this paper at the 5^th^ Summer University event [@Godfrey2014SU-StatsSoft]. 
 
-On my way to the 5^th^ Summer University event, I managed to attend the principal conference for R users (UseR!2015) in Los Angeles where I presented my findings [@Godfrey2014BlindUseROral]. Perhaps the most valuable outcome of this conference was the ability to attend a tutorial on use of the knitr package and then talk to its author, Yihui Xie. I'd already seen the knitr package before attending UseR!2014 and implemented it for some of my teaching material by updating the Sweave documents already in use.  The real value came in realising what I could probably do if I used R markdown to do a few things I had found very hard using the Sweave way of working. More specifically, generating an R markdown file (Rmd) from an R script was much easier than generating a Sweave file (Rnw). Writing the convenience functions for the package started to look very achievable at this point, and so work began. I dug out some old work that wasn't fit for sharing and converted it to the markdown way of working. There has been sufficient progress in the BrailleR Project that I am encouraged to  attend UseR!2015 [@Godfrey2015BaseRWeepsOral]. 
+On my way to the 5^th^ Summer University event, I managed to attend the principal conference for R users (UseR!2015) in Los Angeles where I presented my findings [@Godfrey2014BlindUseROral]. Perhaps the most valuable outcome of this conference was the ability to attend a tutorial on use of the knitr package and then talk to its author, Yihui Xie. I'd already seen the knitr package before attending UseR!2014 and implemented it for some of my teaching material by updating the Sweave documents already in use.  The real value came in realising what I could probably do if I used R markdown to do a few things I had found very hard using the Sweave way of working. More specifically, generating an R markdown file (Rmd) from an R script was much easier than generating a Sweave file (Rnw). Writing the convenience functions for the package started to look very achievable at this point, and so work began. I dug out some old work that wasn't fit for sharing and converted it to the markdown way of working. There has been sufficient progress in the BrailleR Project that I presented it at UseR!2015 [@Godfrey2015BaseRWeepsOral]. 
 
 
 ## The ongoing work
 
 The introduction of R markdown to the BrailleR package has made a huge difference. I've been able to write enough example code that once I found a friendly postgraduate student (Timothy Bilton) to put some time into it, we've managed to add more convenience functionality. Timothy has improved some of my earlier work and tried a few things of his own. This has left me with the time to add increased functionality for helping blind users get into  markdown for themselves.
 
-One of my irritations of working with markdown is that everyone else seems to write markdown and check their findings using RStudio, which remains inaccessible for me and other screen reader users. I took an old experiment where I wrote an accessible text editor in wxPython, and with the help of a postgraduate student from Computer Science (James Curtis) we've modified it to process Rmd files. This is still quite experimental so there is still a need for me to do some other work for processing RmdFiles.
+One of my irritations of working with markdown is that everyone else seems to write markdown and check their findings using RStudio, which remains inaccessible for me and other screen reader users. I took an old experiment where I wrote an accessible text editor in wxPython, and with the help of a postgraduate student from Computer Science (James Curtis) we've modified it to process Rmd files. This is still quite experimental so there is still a need for me to do some other work for processing RmdFiles, but it does look very promising.
 
 ## Acknowledgements
 
@@ -81,10 +82,6 @@ his TeachingDemos package [@TeachingDemos].
 The Lions clubs of Karlsruhe supported my attendance at the 3^rd^ Summer
 University event in 2013. This gave me the first opportunity to
 put the package in front of an audience that I hope will gain from the
-packages existence. 
-
-
-
-
+package's existence. 
 
 ## References

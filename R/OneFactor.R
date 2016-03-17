@@ -45,17 +45,18 @@ if(!is.factor(get(FactorName))) stop("The group variable is not a factor.\nTry u
 # create folder and filenames
 if(is.null(Folder)) Folder=DataName
 if(Folder!="" & !file.exists(Folder)) dir.create(Folder)
-if(is.null(Filename)) Filename = paste0(ResponseName, ".", FactorName, "-OneFactor.Rmd")
+if(is.null(Filename)) Filename = paste0(.simpleCap(ResponseName), ".", .simpleCap(FactorName), "-OneFactor.Rmd")
 
 
 
 # start writing to the R markdown file
-cat('# Analysis of the', DataName, 'data, using', ResponseName, 'as the response variable and', FactorName, 'as the single grouping factor.  
-#### Prepared by `r getOption("BrailleR.Author")`  \n\n', file=Filename)
+cat('# Analysis of the', .simpleCap(DataName), 'data, using', .simpleCap(ResponseName), 'as the response variable and', .simpleCap(FactorName), 'as the single grouping factor.  
+#### Prepared by', getOption("BrailleR.Author"), '  \n\n', file=Filename)
 
 cat(paste0('```{r setup, purl=FALSE, include=FALSE}  
+', ifelse(VI, "library(BrailleR)", "library(knitr)"), '
 opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))  
-opts_chunk$set(echo=FALSE, comment="", fig.path="', Folder, '/', ResponseName, '.', FactorName, '-", fig.width=7)  
+opts_chunk$set(echo=FALSE, comment="", fig.path="', Folder, '/', .simpleCap(ResponseName), '.', .simpleCap(FactorName), '-", fig.width=7)  
 ```    
 
 ## Group summaries 
@@ -82,8 +83,8 @@ kable(as.matrix(DataSummary), row.names=FALSE)
 if(Latex){
 cat(paste0('```{r DataSummaryTex, purl=FALSE}  
 library(xtable)  
-ThisTexFile = "', Folder, '/', ResponseName, '.', FactorName, '-GroupSummary.tex"  
-TabCapt = "Summary statistics for ', ResponseName, ' by level of ', FactorName, '"  
+ThisTexFile = "', Folder, '/', .simpleCap(ResponseName), '.', .simpleCap(FactorName), '-GroupSummary.tex"  
+TabCapt = "Summary statistics for ', .simpleCap(ResponseName), ' by level of ', .simpleCap(FactorName), '"  
 print(xtable(DataSummary, caption=TabCapt, label="', ResponseName, 'GroupSummary", digits=4, align="llrrrr"), include.rownames = FALSE, file = ThisTexFile)  
 ```  \n\n'), file=Filename, append=TRUE)
 }
@@ -99,37 +100,37 @@ Data.n <- with(get(DataName), tapply(get(ResponseName), get(FactorName), nNonMis
 if(min(Data.n)>4){
 cat('## Comparative boxplots  \n\n',
 '```{r boxplots, fig.cap="Comparative boxplots"}  \n',
-paste0(ifelse(VI,'VI(',''), 'boxplot(', ResponseName, '~', FactorName, ', data=', DataName, ', ylab=', InQuotes(ResponseName), ', xlab=', InQuotes(FactorName), ifelse(VI,')', ''), ')  \n'),
+paste0(ifelse(VI,'VI(',''), 'boxplot(', ResponseName, '~', FactorName, ', data=', DataName, ', ylab=', InQuotes(.simpleCap(ResponseName)), ', xlab=', InQuotes(.simpleCap(FactorName)), ifelse(VI,')', ''), ')  \n'),
 '``` \n',
 file=Filename, append=TRUE) }
 
 else{
-cat('## Comparative boxplots  \n\n',
-'```{r NoBoxplots, purl=FALSE}  \n',
-'cat("When boxplots are not included, it is  because at least one group size is too small.")  \n',
-'``` \n',
+cat('## Comparative boxplots  \n
+When boxplots are not included, it is  because at least one group size is too small.  \n\n',
 file=Filename, append=TRUE) }
 
-cat('## Comparative dotplots  \n\n',
-'```{r dotplots, fig.cap="Comparative dotplots"}  \n',
-paste0('with(', DataName, ', ', ifelse(VI,'VI(dotplot(', 'stripchart('), ResponseName, '~', FactorName, ', xlab=', InQuotes(ResponseName), ', ylab=', InQuotes(FactorName), ifelse(VI,')', ''), '))  \n'),
-'``` \n\n',
+cat(paste0('## Comparative dotplots  
+
+```{r dotplots, fig.cap="Comparative dotplots"}  
+with(', DataName, ', 
+', ifelse(VI,'VI(dotplot(', 'stripchart('), ResponseName, '~', FactorName, ', xlab=', InQuotes(.simpleCap(ResponseName)), ', ylab=', InQuotes(.simpleCap(FactorName)), ifelse(VI,')', ''), '))  
+``` \n\n'),
 file=Filename, append=TRUE)
 
 cat(paste0('## One-way Analysis of Variance  
 
-```{r OneWayANOVA1}  \n',
-ifelse(VI, "VI(", ""), 
-"MyANOVA <- aov(", ResponseName, "~", FactorName, ", data=", DataName, ")", 
-ifelse(VI, ")", "")), 
-'\n```  \n\n', file=Filename, append=TRUE)
+```{r OneWayANOVA1}  
+', ifelse(VI, "VI(", ""), '
+MyANOVA <- aov(', ResponseName, '~', FactorName, ', data=', DataName, ')', 
+ifelse(VI, ")", "")), '
+```  \n\n', file=Filename, append=TRUE)
 
 if(Latex){
 cat(paste0('```{r ANOVA-TEX, purl=FALSE}  
 library(xtable)  
-ThisTexFile = "', Folder, '/', ResponseName, '-', FactorName, '-ANOVA.tex"  
-TabCapt = "One-way ANOVA for ', ResponseName, ' with the group factor ', FactorName, '."  
-print(xtable(MyANOVA, caption=TabCapt, label="', ResponseName, '-', FactorName, '-ANOVA", digits=4), file = ThisTexFile)  
+ThisTexFile = "', Folder, '/', .simpleCap(ResponseName), '-', .simpleCap(FactorName), '-ANOVA.tex"  
+TabCapt = "One-way ANOVA for ', .simpleCap(ResponseName), ' with the group factor ', .simpleCap(FactorName), '."  
+print(xtable(MyANOVA, caption=TabCapt, label="', .simpleCap(ResponseName), '-', .simpleCap(FactorName), '-ANOVA", digits=4), file = ThisTexFile)  
 ```  \n\n'), file=Filename, append=TRUE)
 }
 
@@ -164,7 +165,7 @@ plot(MyHSD)
 
 
 # stop writing markdown and process the written file into html and an R script
-knit2html(Filename, quiet=TRUE, stylesheet=system.file("css", "BrailleR.css", package="BrailleR"))
+knit2html(Filename, quiet=TRUE, stylesheet=FindCSSFile(getOption("BrailleR.Style")))
 file.remove(sub(".Rmd", ".md", Filename))
 purl(Filename, quiet=TRUE, documentation=0)
 if(View) browseURL(sub(".Rmd", ".html", Filename))

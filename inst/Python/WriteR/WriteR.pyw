@@ -1,12 +1,13 @@
-import wx
+# WriteR Version 0.160105.3
+
+import wx, sys #, json
 from wx.py.shell import Shell
 from wx.aui import AuiManager, AuiPaneInfo
 from threading import Thread, Event
 from subprocess import Popen, PIPE, STDOUT
-from os.path import join, split, isdir, expanduser
+from os.path import join, split, isdir, expanduser, realpath
 from os import walk
 from time import asctime, sleep
-import json
 
 print_option = False
 
@@ -32,8 +33,32 @@ ID_SETTINGS = wx.NewId()
 # set up global text strings
 SBText = "This program is for starting R Markdown files"
 
+
+def dcf_dumps(data, sort_keys=True):
+    string = ""
+    for k, v in sorted(data.iteritems()):
+        if v is None: v = 'None'
+        string += "{:}: {:}\n".format(k, v.replace('\n', '\n '))
+    return string
+
+
+def dcf_loads(string):
+    dictionary = {}
+    last_key = None
+    for l in string.split('\n'):
+        if l == '': continue
+        elif l[0] == ' ': dictionary[last_key] += "\n{:}".format(l[1:])
+        else:
+            k, v = l.split(': ')
+            if v == 'None': v = None
+            dictionary[k] = v
+            last_key = k
+    return dictionary
+
+
 def printing(*args):
     if print_option: print args
+
 
 class BashProcessThread(Thread):
     def __init__(self, flag, input_list, writelineFunc):
@@ -47,7 +72,6 @@ class BashProcessThread(Thread):
         self.comp_thread = Popen(input_list, stdout=PIPE, stderr=STDOUT)
 
     def run(self):
-
         printing('hello')
         self.writelineFunc(self.comp_thread.communicate()[0])
 
@@ -62,6 +86,7 @@ class BashProcessThread(Thread):
         #         printing("line", line)
         #         self.writelineFunc(line)
         printing("on my way out")
+
 
 class MyInterpretor(object):
     def __init__(self, locals, rawin, stdin, stdout, stderr):
@@ -100,7 +125,7 @@ class MyInterpretor(object):
         command = command.strip()
         if not command: return
 
-        self.bp.stdin.write(command+"\n")
+        self.bp.stdin.write(command + "\n")
         # wait a bit
         sleep(.1)
 
@@ -115,9 +140,10 @@ ID_DIRECTORY_CHANGE = wx.NewId()
 ID_R_PATH = wx.NewId()
 ID_BUILD_COMMAND = wx.NewId()
 
+
 class SettingsDialog(wx.Dialog):
     def __init__(self, parent, ID, title, size=wx.DefaultSize, pos=wx.DefaultPosition,
-            style=wx.DEFAULT_DIALOG_STYLE):
+                 style=wx.DEFAULT_DIALOG_STYLE):
         wx.Dialog.__init__(self, parent, wx.ID_ANY, "Settings", pos, size, style)
 
         self._frame = parent
@@ -133,7 +159,7 @@ class SettingsDialog(wx.Dialog):
 
         s2 = wx.BoxSizer(wx.HORIZONTAL)
         self._default_CRAN = wx.TextCtrl(self, ID_DIRECTORY_CHANGE, parent.settings['repo'],
-                                              wx.Point(0, 0), wx.Size(350, 20))
+                                         wx.Point(0, 0), wx.Size(350, 20))
         s2.Add((1, 1), 1, wx.EXPAND)
         s2.Add(wx.StaticText(self, -1, "Default CRAN server"))
         s2.Add(self._default_CRAN)
@@ -151,7 +177,7 @@ class SettingsDialog(wx.Dialog):
 
         s4 = wx.BoxSizer(wx.HORIZONTAL)
         self._build_command = wx.TextCtrl(self, ID_BUILD_COMMAND, parent.settings['buildcommand'],
-                                              wx.Point(0, 0), wx.Size(350, 60), wx.TE_MULTILINE)
+                                          wx.Point(0, 0), wx.Size(350, 60), wx.TE_MULTILINE)
         s4.Add((1, 1), 1, wx.EXPAND)
         s4.Add(wx.StaticText(self, -1, "Built command\n(The braces {} denote\nthe file path placeholder.)"))
         s4.Add(self._build_command)
@@ -160,7 +186,7 @@ class SettingsDialog(wx.Dialog):
 
         s5 = wx.BoxSizer(wx.HORIZONTAL)
         self._window_text = wx.TextCtrl(self, ID_BUILD_COMMAND, parent.settings['newText'],
-                                              wx.Point(0, 0), wx.Size(350, 60), wx.TE_MULTILINE)
+                                        wx.Point(0, 0), wx.Size(350, 60), wx.TE_MULTILINE)
         s5.Add((1, 1), 1, wx.EXPAND)
         s5.Add(wx.StaticText(self, -1, "The default text included in all new files."))
         s5.Add(self._window_text)
@@ -194,7 +220,7 @@ class SettingsDialog(wx.Dialog):
         btn_sizer.AddButton(btn)
         btn_sizer.Realize()
 
-        cont_sizer.Add(btn_sizer, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
+        cont_sizer.Add(btn_sizer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
         self.SetSizer(cont_sizer)
         cont_sizer.Fit(self)
@@ -204,8 +230,8 @@ class SettingsDialog(wx.Dialog):
 class MainWindow(wx.Frame):
     def __init__(self, parent=None, id=-1, title="", pos=wx.DefaultPosition,
                  size=(400, 300), style=wx.DEFAULT_FRAME_STYLE |
-                                            wx.SUNKEN_BORDER |
-                                            wx.CLIP_CHILDREN, filename="untitled.Rmd"):
+                                        wx.SUNKEN_BORDER |
+                                        wx.CLIP_CHILDREN, filename="untitled.Rmd"):
         super(MainWindow, self).__init__(parent, id, title, pos, size, style)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self._mgr = AuiManager()
@@ -214,22 +240,44 @@ class MainWindow(wx.Frame):
         self.font = wx.Font(11, wx.MODERN, wx.NORMAL, wx.NORMAL, False, u'Consolas')
         # self.font.SetPointSize(int) # to change the font size
 
-        self.settingsFile = "WriteR.init"
+        self.settingsFile = "WriteROptions"
         self.settings = {'repo': "http://cran.stat.auckland.ac.nz/",
-                         'dirname': expanduser('~'),
-                         'filename': filename,
+                         'dirname': 'none',
+                         'templates': 'none',
+                         'lastdir': expanduser('~'),
+                         'filename': 'none',
                          'newText': "WriteR",
                          'RDirectory': self.GetRDirectory(),
                          'buildcommand': '''rmarkdown::render("{}")'''}
 
         self.settings = self.getSettings(self.settingsFile, self.settings)
 
-        self.filename = filename
-        self.dirname = self.settings['dirname']
-        printing(self.dirname)
-        self.CreateExteriorWindowComponents()
-        self.CreateInteriorWindowComponents()
-        self.OnNewFile(self)  # automatic save on start
+        if len(sys.argv) > 1:
+            self.settings['lastdir'], self.settings['filename'] = split(realpath(sys.argv[-1]))
+            self.filename = self.settings['filename']
+            self.dirname = self.settings['lastdir']
+
+            self.CreateExteriorWindowComponents()
+            self.CreateInteriorWindowComponents()
+
+            self.fileOpen(self.dirname, self.filename)
+        elif self.settings['filename'] == 'none':
+            self.filename = filename
+            self.dirname = self.settings['lastdir']
+
+            self.CreateExteriorWindowComponents()
+            self.CreateInteriorWindowComponents()
+
+            self.OnOpen(self)
+            #  set the save flag to true if OnOpen is cancelled
+        else:
+            self.filename = self.settings['filename']
+            self.dirname = self.settings['lastdir']
+
+            self.CreateExteriorWindowComponents()
+            self.CreateInteriorWindowComponents()
+
+            self.fileOpen(self.dirname, self.filename)
 
         printing(self.settings['RDirectory'])
 
@@ -273,8 +321,9 @@ class MainWindow(wx.Frame):
                  (wx.ID_OPEN, "&Open\tCtrl+O", "Open an existing file", self.OnOpen),
                  (wx.ID_SAVE, "&Save\tCtrl+S", "Save the current file", self.OnSave),
                  (wx.ID_SAVEAS, "Save &As\tCtrl+Shift+S", "Save the file under a different name", self.OnSaveAs),
-                 (None,)*4,
-                 (wx.ID_EXIT, "Quit && save\tCtrl+Q", "Saves the current file and closes the program", self.OnSafeExit)]:
+                 (None,) * 4,
+                 (
+                 wx.ID_EXIT, "Quit && save\tCtrl+Q", "Saves the current file and closes the program", self.OnSafeExit)]:
             if id == None:
                 fileMenu.AppendSeparator()
             else:
@@ -290,7 +339,7 @@ class MainWindow(wx.Frame):
                  (wx.ID_PASTE, "&Paste\tCtrl+V", "Paste text from clipboard", self.OnPaste),
                  (wx.ID_SELECTALL, "Select all\tCtrl+A", "Highlight entire text", self.OnSelectAll),
                  (wx.ID_DELETE, "&Delete", "Delete highlighted text", self.OnDelete),
-                 (None,)*4,
+                 (None,) * 4,
                  (ID_SETTINGS, 'Settings', "Setup the editor to your liking", self.OnSettings)]:
             if id == None:
                 editMenu.AppendSeparator()
@@ -301,7 +350,8 @@ class MainWindow(wx.Frame):
 
         buildMenu = wx.Menu()
         for id, label, helpText, handler in \
-                [(ID_TEST, "Test the console\tF6", "Runs a test in the console", self.OnTest),
+                [
+                 # (ID_TEST, "Test the console\tF6", "Runs a test in the console", self.OnTest),
                  (ID_BUILD, "Build\tF5", "Build the script", self.OnBuild)]:
             if id == None:
                 buildMenu.AppendSeparator()
@@ -323,14 +373,13 @@ class MainWindow(wx.Frame):
         self.SetMenuBar(menuBar)  # Add the menuBar to the Frame
 
     def CreateShellCtrl(self):
-        shell = Shell(self, -1, wx.Point(0,0), wx.Size(150, 90),
-                           wx.NO_BORDER | wx.TE_MULTILINE, InterpClass=MyInterpretor)
+        shell = Shell(self, -1, wx.Point(0, 0), wx.Size(150, 90),
+                      wx.NO_BORDER | wx.TE_MULTILINE, InterpClass=MyInterpretor)
         shell.SetFont(self.font)
         return shell
 
-
     def CreateTextCtrl(self, text):
-        text = wx.TextCtrl(self,-1, text, wx.Point(0, 0), wx.Size(150, 90),
+        text = wx.TextCtrl(self, -1, text, wx.Point(0, 0), wx.Size(150, 90),
                            wx.NO_BORDER | wx.TE_MULTILINE)
         text.SetFont(self.font)
         return text
@@ -361,7 +410,7 @@ class MainWindow(wx.Frame):
         dialog = wx.MessageDialog(self, "WriteR is a  first attempt  at developing an R Markdown editor\n"
                                         "using wxPython, developed by Jonathan Godfrey\n"
                                         "and James Curtis in 2015.\nVersion: 0.150302",
-                                        "About this R Markdown Editor", wx.OK)
+                                  "About this R Markdown Editor", wx.OK)
         dialog.ShowModal()
         dialog.Destroy()
 
@@ -379,10 +428,14 @@ class MainWindow(wx.Frame):
 
     def OnOpen(self, event):
         if self.askUserForFilename(style=wx.OPEN, **self.defaultFileDialogOptions()):
-            textfile = open(join(self.dirname, self.filename), "r")
+            self.fileOpen(self.dirname, self.filename)
+
+    def fileOpen(self, dirname, filename):
+            textfile = open(join(dirname, filename), "r")
             self.editor.SetValue(textfile.read())
             textfile.close()
 
+    # what?
     def OnNewFile(self, event):
         self.olddirname = self.dirname
         self.dirname = ".\\templates"
@@ -395,9 +448,7 @@ class MainWindow(wx.Frame):
     def OnSaveAs(self, event):
         if self.askUserForFilename(defaultFile=self.filename, style=wx.SAVE, **self.defaultFileDialogOptions()):
             self.OnSave(event)
-
-
-        # edit menu events
+            # edit menu events
 
     def OnCut(self, event):
         self.editor.Cut()
@@ -455,9 +506,11 @@ class MainWindow(wx.Frame):
         self.OnSave(event)
 
         self.StartThread([self.settings['RDirectory'], "-e",
-         '''if (!is.element('rmarkdown', installed.packages()[,1])){{'''.format() +
-         '''install.packages('rmarkdown', repos="{0}")}};require(rmarkdown);'''.format(self.settings['repo']) +
-         self.settings['buildcommand'].format(join(self.dirname, self.filename).replace('\\','\\\\'))])
+                          '''if (!is.element('rmarkdown', installed.packages()[,1])){{'''.format() +
+                          '''install.packages('rmarkdown', repos="{0}")}};require(rmarkdown);'''.format(
+                              self.settings['repo']) +
+                          self.settings['buildcommand'].format(
+                              join(self.dirname, self.filename).replace('\\', '\\\\'))])
 
     # format menu events
     def OnBold(self, event):
@@ -509,6 +562,10 @@ class MainWindow(wx.Frame):
         self.editor.SetInsertionPoint(to + 14)
 
     def OnClose(self, event):
+        self.settings['filename'] = self.filename
+        self.settings['lastdir'] = self.dirname
+        self.setSettings(self.settingsFile, self.settings)
+
         if event.CanVeto() and self.editor.IsModified():
             hold = wx.MessageBox("Your file has not been saved. Would you like to save your work?",
                                  "Save before exit?",
@@ -520,7 +577,8 @@ class MainWindow(wx.Frame):
                 self.Destroy()
             else:
                 event.Veto()
-        else: self.Destroy()
+        else:
+            self.Destroy()
 
     def GetRDirectory(self):
         def splitter(path, interest):
@@ -537,11 +595,14 @@ class MainWindow(wx.Frame):
         choice = None
 
         if "No settings file reference to settings":
-            if isdir("C:\\Program Files\\R"): hold = "C:\\Program Files\\R"
-            elif isdir("C:\\Program Files (x86)\\R"): hold = "C:\\Program Files (x86)\\R"
-            else: print warn; return
+            if isdir("C:\\Program Files\\R"):
+                hold = "C:\\Program Files\\R"
+            elif isdir("C:\\Program Files (x86)\\R"):
+                hold = "C:\\Program Files (x86)\\R"
+            else:
+                print warn; return
 
-            options = [join(r, rscript) for r,d,f in walk(hold) if rscript in f]
+            options = [join(r, rscript) for r, d, f in walk(hold) if rscript in f]
 
             printing('options', options)
             if len(options) > 0:
@@ -558,7 +619,8 @@ class MainWindow(wx.Frame):
                         elif 'i386' not in choice and 'x64' not in choice:
                             choice = op
                             version = vv
-            else: print warn; return
+            else:
+                print warn; return
         else:
             'something to get the information out of the settings file.'
 
@@ -577,25 +639,26 @@ class MainWindow(wx.Frame):
             sets = file.read()
             file.close()
             if len(sets) > 0:
-                try:
-                    sets = json.loads(sets)
-                    assert(set(settings.keys())==set(sets.keys()))
-                    return sets
-                except Exception as e: pass
-            print "Settings file incorrectly formatted. 'WriteR.init' has been reset."
-        except: pass
+                # sets = json.loads(sets)
+                sets = dcf_loads(sets)
+                assert (set(settings.keys()) == set(sets.keys()))
+                return sets
+        except:
+            pass
+        # print "Settings file incorrectly formatted. 'WriteR.init' has been reset."
         return self.setSettings(filepath, settings)
 
     def setSettings(self, filepath, settings):
         file = open(filepath, 'w')
-        file.write(json.dumps(settings, sort_keys=True, indent=4, separators=(',', ': ')))
+        # file.write(json.dumps(settings, sort_keys=True, indent=4, separators=(',', ': ')))
+        file.write(dcf_dumps(settings))
         file.close()
         return settings
 
     def OnSettings(self, event):
 
         dlg = SettingsDialog(self, -1, "Sample Dialog", size=(350, 200),
-                            style=wx.DEFAULT_DIALOG_STYLE)
+                             style=wx.DEFAULT_DIALOG_STYLE)
         dlg.CenterOnScreen()
 
         # this does not return until the dialog is closed.
@@ -605,6 +668,8 @@ class MainWindow(wx.Frame):
             self.settings = self.setSettings(self.settingsFile,
                                              {'repo': dlg._default_CRAN.GetValue(),
                                               'dirname': dlg._default_directory.GetValue(),
+                                              'lastdir': dlg._default_directory.GetValue(),
+                                              'template': dlg._default_directory.GetValue(),
                                               'filename': self.settings['filename'],
                                               'newText': dlg._window_text.GetValue(),
                                               'RDirectory': dlg._r_path.GetValue(),
@@ -630,6 +695,7 @@ class MainWindow(wx.Frame):
 
     def OnEnumerate(self, event):
         self.editor.WriteText(" \\begin{enumerate}\n\\item \n\\item \n\\end{enumerate}\n")
+
 
 # manditory lines to get program running.
 if __name__ == "__main__":

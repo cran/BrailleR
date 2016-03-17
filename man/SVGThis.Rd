@@ -15,10 +15,15 @@ SVGThis(x, file = "test.svg")
   \item{file}{The SVG file to be created.}
 }
 \details{
-The Cairo SVG device found in the gr.devices package does not create a structured SVG file that includes the semantics of the graphic being displayed. The SVG created by the gridSVG package does meet this need, but only works on graphs drawn using the grid package. Any graph created using functions from the more common graphics package can be converted to the grid package system using the gridGraphics package.}
-\value{NULL. This function is solely for the purpose of creating SVG files in thne current working directory or in a path of the user's choosing.}
+The Cairo SVG device found in the gr.devices package does not create a structured SVG file that includes the semantics of the graphic being displayed. The SVG created by the \pkg{gridSVG} package does meet this need, but only works on graphs drawn using the grid package. Any graph created using functions from the more common graphics package can be converted to the grid package system using the \pkg{gridGraphics} package.}
+\value{NULL. This function is solely for the purpose of creating SVG files in the current working directory or in a path of the user's choosing.}
 \references{
-Need Murrell for gridGraphics and Murrell and Potter for gridSVG.
+P. Murrell and S. Potter (2014) \dQuote{{The \pkg{gridSVG} package}} The R Journal 6/1, pp. 133-143. http://journal.r-project.org/archive/2014-1/RJournal_2014-1_murrell-potter.pdf
+
+P. Murrell (2015) \dQuote{The {\pkg{gridGraphics}} package},
+  The R Journal 7/1 pp. 151-162. http://journal.r-project.org/archive/2015-1/murrell.pdf
+
+P. Dengler et al. (2011) Scalable vector graphics (SVG) 1.1, second edition. W3C recommendation, W3C. http://www.w3.org/TR/2011/REC-SVG11-20110816/
 }
 \author{A. Jonathan R. Godfrey and Paul Murrell}
 \examples{

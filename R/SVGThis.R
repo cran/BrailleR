@@ -34,7 +34,7 @@ UseMethod("SVGThis")
 }
 
 SVGThis.default=function(x, file="test.svg"){
-if(interactive()){ # must be running interactively
+if(is.null(x)){ # must be running interactively
 if(dev.cur()>1){ # there must also be an open graphics/grid device
 
 if(length(grid::grid.ls(print=FALSE)$name) == 0) {# if not grid already, then convert
@@ -49,7 +49,7 @@ else{ # no current device
 warning("There is no current graphics device to convert to SVG.\n")} 
 } # end interactive condition
 else{ # not interactive session
-warning("The default SVGThis() method only works while running interactively.\n")}
+warning("The default SVGThis() method only works for objects of specific classes.\nThe object supplied does not yet have a a method written for it.\n")}
 return(invisible(NULL))
 }
 

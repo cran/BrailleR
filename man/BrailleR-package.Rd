@@ -10,8 +10,8 @@ Improved Access for Blind Users}
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.22.0\cr
-Date: \tab 2015-06-26\cr
+Version: \tab 0.24.0\cr
+Date: \tab 2016-03-17\cr
 License: \tab GPL-2\cr
 }
 }
@@ -21,6 +21,6 @@ A. Jonathan R. Godfrey and Timothy P. Bilton; with other contributions.
 Maintainer: A. Jonathan R. Godfrey <a.j.godfrey@massey.ac.nz>
 }
 \references{
-Godfrey, A.J.R. (2013) \sQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-79.
+Godfrey, A.J.R. (2013) \dQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-79.
 }
 \keyword{ package }
