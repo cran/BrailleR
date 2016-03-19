@@ -6,9 +6,9 @@
 #  chooseCRANmirror(ind=1)
 #  update.packages(ask=FALSE)
 
-## ----start---------------------------------------------------------------
-library(BrailleR)
+## ----start, eval=FALSE---------------------------------------------------
+#  library(BrailleR)
 
-## ----SetAuthor-----------------------------------------------------------
-SetAuthor("Jonathan Godfrey")
+## ----SetAuthor, eval=FALSE-----------------------------------------------
+#  SetAuthor("Jonathan Godfrey")
 
