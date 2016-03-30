@@ -1,4 +1,4 @@
-de7d51caf23ab6afee4a6468a0354024 *DESCRIPTION
+2c3940679fbfb590efddf54af10a3300 *DESCRIPTION
 cd5f4560106a287cce1db5540dcf3414 *NAMESPACE
 aa62a38dcd929d158ddf9688842fa127 *R/BRLThis.R
 a9dec63487a52d0b1c40a89db9744e83 *R/BrailleRHome.R
@@ -37,7 +37,7 @@ dcebdfa1f56af90b8d3abdf656379338 *R/zzz.R
 e42b1586864327276feeeb592ec014a2 *build/vignette.rds
 75b79924ed53bee69439e588f1073e9b *inst/BrailleROptions
 80af6e4c5600c0a89f9b377a55117e6c *inst/CITATION
-f5f6c6801bc966588894a6d5c6a5189e *inst/NEWS
+66aff5e5c5a7083f8c5b2d6d073a7fd8 *inst/NEWS
 e972d66ebdb40d004eb176b6d506c41b *inst/Python/FixLineBreaks.py
 71315d70ef256e3a759f3c1a644b9d23 *inst/Python/RemoveTabs.py
 7949a6db00d39426edfb8b1ad73f7a49 *inst/Python/WriteR/Basics.Rmd
@@ -50,10 +50,10 @@ d0869b5a03448af9b30e47d1ce4629e9 *inst/WriteROptions
 8cd28258c853b86a2cb0b2975bb0e7b4 *inst/css/Inverted.css
 552daf16a92ba57f1df75ff5dc0e1127 *inst/css/JGSlides.css
 35ea89b924cfd1c905785f1c715c6eea *inst/doc/BrailleRHistory.R
-8cba073f97e963289ddce9795a4fb090 *inst/doc/BrailleRHistory.html
+576c7e0bf48f4537754fc7ff454f376e *inst/doc/BrailleRHistory.html
 651b342dcbef606a10ff2acfb093d70a *inst/doc/BrailleRHistory.rmd
 e1069cf0543d56fde27b864235936906 *inst/doc/Ex1histograms.R
-039c5ff34134cbd86cc13b06ba365a08 *inst/doc/Ex1histograms.html
+e4d9016776030d2aac643e82b193df70 *inst/doc/Ex1histograms.html
 7b0204833273cdd0fc3b2de4e03378b1 *inst/doc/Ex1histograms.rmd
 66c006b3024cb9f264bf9de054f04bbb *inst/doc/Ex2BasicNumerical.R
 94c53312bcd7d5c54d4fbbeca5b1b2a8 *inst/doc/Ex2BasicNumerical.html
@@ -71,7 +71,7 @@ d26d2da99626de3cbe6da37eaf0c16f3 *inst/doc/Ex4SingleResponseOneGroupingFactor.rm
 407c4a5d26ba75e07c154c35af1726d4 *inst/fonts/BRAILLE1.txt
 3256de42a60df5d7d25ab651a8358539 *inst/foo.pandoc
 77dd765fab76088c8a4e16eafe71af81 *man/BRLThis.Rd
-124ca7719334238fbc5d796921685d49 *man/BrailleR-package.Rd
+c5288da9d221c520512a9c6a69c7de8f *man/BrailleR-package.Rd
 c6e49506172396ad0cfe9b9737c1574b *man/BrailleRHome.Rd
 cc6ee2c27e8856c7796d74e5a65242a7 *man/DataViewer.Rd
 ad7a1a0f00b47dfd969711172e43cfd5 *man/Embossers.Rd
