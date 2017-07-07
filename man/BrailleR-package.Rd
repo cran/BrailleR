@@ -10,13 +10,13 @@ Improved Access for Blind Users}
 \tabular{ll}{
 Package: \tab BrailleR\cr
 Type: \tab Package\cr
-Version: \tab 0.24.2\cr
-Date: \tab 2016-03-30\cr
+Version: \tab 0.26.0\cr
+Date: \tab 2017-06-29\cr
 License: \tab GPL-2\cr
 }
 }
 \author{
-A. Jonathan R. Godfrey and Timothy P. Bilton; with other contributions.
+A. Jonathan R. Godfrey Volker Sorge and Timothy P. Bilton with other contributions.
 
 Maintainer: A. Jonathan R. Godfrey <a.j.godfrey@massey.ac.nz>
 }

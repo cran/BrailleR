@@ -22,7 +22,7 @@ An object of class boxplot.
 }
 \references{
 The problem of not including class attributes for graphs was identified in: 
-Godfrey, A.J.R. (2013) \sQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-80.
+Godfrey, A.J.R. (2013) \sQuote{Statistical Software from a Blind Person's Perspective: R is the Best, but we can make it better}, The R Journal 5(1), pp73-79.
 }
 \author{
 A. Jonathan R. Godfrey
@@ -49,7 +49,3 @@ MyBoxplot
 # The VI() method then uses the extra information stored
 VI(MyBoxplot)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
