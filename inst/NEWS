@@ -1,3 +1,36 @@
+
+# v0.27.3
+- added internal functions for pulling the WxPython module and checking if the necessary Python and WxPython systems are in place.
+- updated GetWxPython27() so that it uses a Python pip install command in the shell instead of a convoluted download and save process. This should obviate the need to have a manual installation of wxPython which is needed for WriteR.
+- added Marshall Flax to contributors for substantial work on WriteR
+- added a Python27 folder to the Python folder which contains copies of scripts installed in subfolders of the Python27 installation folder that may not be on the system path. First set of scripts pulled over and readme.txt created accordingly.
+- added reticulate package to imports list
+- added Require() for loading/installing pacakages.
+- added WriteR updates
+- changed VIgrep() and VIsort() to grep.VIgraph() and sort.VIgraph()
+- added gsub.VIgraph()
+- finally fixed GetPython27 now that installr::install_python() is available to all (Windows) users.
+
+# v0.27.2
+- introduced reference to the BrailleR in Action text
+- updated vignettes with more direct links to BrailleR in Action
+
+# v0.27.1
+- altered DESCRIPTION file to raise Paul and Debra to author from contributor in preparation for pull requests for VI.ggplot() work.
+- imported Debra Warren's work <smiles> via a PR on GitHub. This offers huge gains in VI.ggplot()
+- changed R dependency sought by CRAN on 29/9/17 by email.
+- internalised the R2txt.vars (should have done this ages ago!)
+ 
+
+# v0.27.0
+- added ProcessAllMd() for rendering plain markdown files.
+- removed dependency on pander package by altering UniDesc(). Reason: Nice results, but possibly over the top for introductory students.
+- added Language to the set of package options to be chosen by the user. This is necessary to then have the SpellCheckFiles() work properly.
+- added GetExampleText() to help extract the example text from help pages.
+
+
+
+
 # v0.26.0 for Annabelle
 Pushed to CRAN on 6 July 2017
 
