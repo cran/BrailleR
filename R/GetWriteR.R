@@ -47,7 +47,7 @@ GetPandoc =
               message(
                 "This command will download a file and save it to your hard drive.\n")
               installr::install.pandoc(
-                to_restart = FALSE, download_dir = getOption("BrailleR.Folder"),
+                download_dir = getOption("BrailleR.Folder"),
                 keep_install_file = TRUE)
               message(
                 "The installer file has been added to your MyBrailleR folder.")
@@ -76,7 +76,7 @@ GetRStudio =
               message(
                 "This command will download a file and save it to your hard drive.\n")
               installr::install.RStudio(
-                to_restart = FALSE, download_dir = getOption("BrailleR.Folder"),
+                download_dir = getOption("BrailleR.Folder"),
                 keep_install_file = TRUE)
               message(
                 "The installer file has been added to your MyBrailleR folder.")
@@ -130,7 +130,8 @@ GetPython27 =
             if (requireNamespace("installr")) {
               message(
                 "This command will download a file and save it to your hard drive.")
-            installr::install.python(version_number = 2, download_dir=getOption("BrailleR.Folder"), keep_install_file = TRUE)
+            #installr::
+.install.python(version_number = 2, download_dir=getOption("BrailleR.Folder"), keep_install_file = TRUE)
             message(
                 "The installer file has been added to your MyBrailleR folder.")
               message(
@@ -168,7 +169,8 @@ GetPython3 =
             if (requireNamespace("installr")) {
               message(
                 "This command will download a file and save it to your hard drive.")
-            installr::install.python(version_number = version, download_dir=getOption("BrailleR.Folder"), keep_install_file = TRUE)
+#            installr::
+.install.python(version_number = version, download_dir=getOption("BrailleR.Folder"), keep_install_file = TRUE)
             message(
                 "The installer file has been added to your MyBrailleR folder.")
               message(
@@ -225,6 +227,7 @@ GetWriteR = function(UseGitHub = TRUE) {
     else{
         system("pip install wxPython")
         }
+        return(invisible(TRUE))
     }
 
 
@@ -264,7 +267,7 @@ if(x64){
               if(installr::is.x64()) bit=64
               }
       installr::install.cygwin(bit=bit,
-                to_restart = FALSE, download_dir = getOption("BrailleR.Folder"),
+                download_dir = getOption("BrailleR.Folder"),
                 keep_install_file = TRUE)
               message(
                 "The installer file has been added to your MyBrailleR folder.")
@@ -280,4 +283,26 @@ if(x64){
         warning("This function is meant for use in interactive mode only.\n")
       }
       return(invisible(NULL))
+    }
+
+GetWxPython3 =
+    function() {
+      Success = FALSE
+      if (interactive()) {
+        if (.Platform$OS.type == "windows") {
+          if(reticulate::py_available(TRUE)){
+            if(reticulate::py_config()$version > 3){
+              Success = .PullWxUsingPip()
+            } else {
+              warning("There is no installation of Python 3.\n")
+            }
+          }
+        } else {
+          warning(
+              "This function is for users running R under the Windows operating system.\n")
+        }
+      } else {
+        warning("This function is meant for use in interactive mode only.\n")
+      }
+      return(invisible(Success))
     }

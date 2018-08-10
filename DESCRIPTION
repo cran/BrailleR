@@ -1,8 +1,8 @@
 Package: BrailleR
 Type: Package
 Title: Improved Access for Blind Users
-Version: 0.28.0
-Date: 2018-06-07
+Version: 0.29.1
+Date: 2018-08-3
 Author: A. Jonathan R. Godfrey [aut, cre],
   Debra Warren [aut],
   Donal Fitzpatrick [ctb],
@@ -45,9 +45,10 @@ Description: Blind users do not have access to the graphical output from R
 Repository: CRAN
 License: GPL-2
 Depends: R (>= 3.4.0)
-Imports: devtools, extrafont, ggplot2, grid, gridGraphics, gridSVG,
-        hunspell, knitr, magrittr, moments, nortest, reticulate,
-        rmarkdown, utils, whisker, XML, xtable
+Imports: devtools, dplyr, extrafont, ggplot2, grid, gridGraphics,
+        gridSVG, hunspell, knitr, magrittr, moments, nortest,
+        reticulate, rmarkdown, roloc, rolocISCCNBS, utils, whisker,
+        XML, xtable
 Suggests: installr
 SystemRequirements: Python 2.7 and wxPython 2.8
 VignetteBuilder: knitr
@@ -55,5 +56,5 @@ URL: https://github.com/ajrgodfrey/BrailleR
 BugReports: https://github.com/ajrgodfrey/BrailleR/issues
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-06-05 01:48:08 UTC; ajgodfre
-Date/Publication: 2018-06-05 05:25:55 UTC
+Packaged: 2018-08-10 11:10:59 UTC; ajgodfre
+Date/Publication: 2018-08-10 12:40:07 UTC

@@ -263,6 +263,10 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
     name = names[i]
     mapping = labels[[i]]
     scale = .getGGScale(x, xbuild, name)
+    ## From ggplot2 3.0.0 can have x$labels without any corresponding
+    ## xbuild$plot$scales
+    if (is.null(scale))
+        break;
     scalediscrete = if ("ScaleDiscrete" %in% class(scale)) TRUE
     hidden = if (.isGuideHidden(x, xbuild, name)) TRUE
     maplevels = data.frame(col1=scale$map(scale$range$range), stringsAsFactors=FALSE)
@@ -518,7 +522,7 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
 # Convert aesthetic values to something more friendly for the user
 # Takes a dataframe and converts all of its columns if possible
 # *** ONLY HANDLING LINETYPES AND SHAPES SO FAR - and not defaults 42, 22, ...
-# SHOULD DO COLOURS BY FINDING CLOSEST
+# Colours defined using roloc and related packages
 .convertAes = function(values) {
   linetypes = c("0"="blank", "1"="solid", "2"="dashed",
                 "3"="dotted", "4"="dotdash", "5"="longdash", "6"="twodash")
@@ -536,6 +540,8 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
                        c[,col])  # If not found just return what we got
     } else if (aes == "shape") {
       c[,col] = ifelse(values[,col] %in% 1:25, shapes[values[,col]+1], c[,col])
+    } else if (aes %in% c("colour", "fill")) {
+      c[,col] = colourName(values[,col], ISCCNBScolours)
     }
   }
   return(c)  
@@ -550,7 +556,10 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
     line[[paste0(nonconstantAes[aes],"varying")]] = TRUE
   aesvars = aesvars[nvals == 1]
   aesvals = .convertAes(groupdata[1,aesvars,drop=FALSE])
-  aesmap = .mapAesDataValues(x, xbuild, layeri, aesvars, aesvals[1,,drop=FALSE])
+  ## Use unconverted aesthetics for reverse lookup of mappings
+  ## groupdata[1,aesvars,drop=FALSE] rather than aesvals[1,,drop=FALSE]
+  aesmap = .mapAesDataValues(x, xbuild, layeri, aesvars,
+                            groupdata[1,aesvars,drop=FALSE])
   line[aesvars] = aesvals
   if (length(aesmap) > 0) {
     names(aesmap) = paste0(names(aesmap), "map")
