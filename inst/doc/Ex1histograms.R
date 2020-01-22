@@ -1,4 +1,4 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 library(knitr)
 opts_chunk$set(fig.width=7, fig.height=5, comment="")
 library(BrailleR)
@@ -7,6 +7,6 @@ library(BrailleR)
 x=rnorm(1000)
 VI(hist(x))
 
-## ----BrailleRHistExample-------------------------------------------------
+## ----BrailleRHistExample------------------------------------------------------
 example(hist)
 

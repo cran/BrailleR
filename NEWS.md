@@ -1,4 +1,40 @@
+# BrailleR 0.30.2
+- trying to ensure examples that create files pass CRAN checks; see UniDesc() etc.
+
+# BrailleR 0.30.1
+- made sure to use tempdir() in some examples so that CRAN checks on Devian see clean folders
+
+# BrailleR 0.30.0
+- making ready for upload to CRAN
+- attempting to remove all references to the reticulate package
+- added TestPython() and TestWX() functions which test system setup.
+- added Messages.R and Warnings.R to create text strings that get used in multiple functions. All now use internal functions
+- deprecated GetPython27() and GetWxPython27(); updated help pages to show deprocation
+
+
+
+# BrailleR 0.29.5
+- work to remove Python 2.7 from package files
+- GetPython27() and GetWxPython27() kept just in case someone wants them.
+- small updates to GetPython3() to guide user to use custom installation.
+
+# BrailleR 0.29.4
+- testing for new version of whisker package (dependency)
+- removed trash from some Rd files that spat a warning on package creation
+
+
+# BrailleR 0.29.3
+- added more detail to Describe() methods
+
+# BrailleR 0.29.2
+- added a starting template for the WriteR files
+- added Notepad(), notepad(), Explorer(), explorer(), CMD(), and cmd() functions to make life a little easier for Windows users
+- added check_it(), CheckIt(), WhatIs(), and what_is() for investigating objects in the middle of a pipe chain
+- added R4DS() and r4ds() to open the home page for the R for Data Science book and Google() and google()  for helping get to commonly used websites quickly.
+ 
+
 # BrailleR 0.29.1
+- pushed to CRAN, successfully
 - got to successful build status on travis-ci; yippee!
 - dependent packages now on CRAN; thanks Paul.
 - added travis-ci stuff
@@ -11,7 +47,6 @@
 - introduced use of roloc package to define colours in human readable form.
 
 # BrailleR 0.28.0
-
 - submitted to CRAN
 
 # BrailleR 0.27.3

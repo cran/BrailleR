@@ -1,13 +1,15 @@
+
 .IsWriteRAvailable =
     function(){
       Success = FALSE
-      if(reticulate::py_config()$version > 2.6 && reticulate::py_module_available("wx")){
+      PyExists = TestPython()
+      if(PyExists && .IsWxAvailable()){
         Success=TRUE
       }else{
-        if(reticulate::py_config()$version > 2.6){
+        if(PyExists){
           Success = .PullWxUsingPip()
         }else{
-          warning("This function requires installation of Python 2.7 or above.\n")
+          .NeedsPython()
         }
       }
       return(invisible(Success))
@@ -23,24 +25,22 @@ WriteR =
           if (.IsWriteRAvailable()) {
             if (!is.null(file)) {
               if (!file.exists(file)) {
-                cat("Starting new file\n", file = file)
+                #cat("Starting new file\n", file = file)
+                file.copy(system.file("Templates/simpleYAMLHeader.Rmd", package="BrailleR"), file)
               }
             }
             shell(paste0('"', file.path(system.file(
                             "Python/WriteR/WriteR.pyw", package = "BrailleR")), '" ',
                         ifelse(is.null(file), "", file)), wait=FALSE)
           } else {
-            warning(
-                "This function requires an installation of Python and wxPython.\n")
-            message(
-                "You could use GetPython27() and GetWxPython27() to help install them.\n")
+            .NeedsWX()
+            .InstallPython()
           }
         } else {
-          warning(
-              "This function is for users running R under the Windows operating system.\n")
+          .WindowsOnly()
         }
       } else {
-        warning("This function is meant for use in interactive mode only.\n")
+        .InteractiveOnly()
       }
       return(invisible(NULL))
     }

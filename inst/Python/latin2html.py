@@ -1,4 +1,3 @@
-#!c:\python27\python.exe
 #
 #  latin2html.py - converts a subset of latin1 characters into html presentable characters.
 #  based on a script shipped in the pdfminer package.
@@ -114,7 +113,7 @@ def latin2ascii(s):
 def main(argv):
     import getopt, fileinput
     def usage():
-        print 'usage: %s [-c codec] file ...' % argv[0]
+        print('usage: %s [-c codec] file ...' % argv[0])
         return 100
     try:
         (opts, args) = getopt.getopt(argv[1:], 'c')

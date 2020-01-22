@@ -31,6 +31,8 @@ to complete}
 The \code{\link{OneFactor}} script was the basis for this function;.
 }
 \examples{
+DIR = getwd()
+setwd(tempdir())
 TG <- ToothGrowth
 TG$dose <- as.factor(TG$dose)
 
@@ -44,6 +46,7 @@ TwoFactors('len', 'supp', 'dose', Data=TG, Inter=TRUE)
 TG_Unb <- TG[-c(53:60),]
 TwoFactors('len', 'supp', 'dose', Data=TG_Unb, Inter=TRUE)
 rm(TG); rm(TG_Unb)
+# N.B. Various files and a folder were created in a temporary directory. 
+# Please investigate them to see how this function worked.
+setwd(DIR)
 }
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

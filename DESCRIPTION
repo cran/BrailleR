@@ -1,8 +1,7 @@
 Package: BrailleR
 Type: Package
 Title: Improved Access for Blind Users
-Version: 0.29.1
-Date: 2018-08-3
+Version: 0.30.2
 Author: A. Jonathan R. Godfrey [aut, cre],
   Debra Warren [aut],
   Donal Fitzpatrick [ctb],
@@ -50,11 +49,11 @@ Imports: devtools, dplyr, extrafont, ggplot2, grid, gridGraphics,
         reticulate, rmarkdown, roloc, rolocISCCNBS, utils, whisker,
         XML, xtable
 Suggests: installr
-SystemRequirements: Python 2.7 and wxPython 2.8
+SystemRequirements: Python 3 and wxPython 4.0
 VignetteBuilder: knitr
 URL: https://github.com/ajrgodfrey/BrailleR
 BugReports: https://github.com/ajrgodfrey/BrailleR/issues
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-08-10 11:10:59 UTC; ajgodfre
-Date/Publication: 2018-08-10 12:40:07 UTC
+Packaged: 2020-01-21 22:14:53 UTC; ajgodfre
+Date/Publication: 2020-01-22 11:20:19 UTC
