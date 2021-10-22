@@ -1,9 +1,9 @@
-# NB xlab() and ylab() are also functions in ggplot2; 
-# this BrailleR  implementation is inconsistent with ggplot2.
+# NB xlab() and ylab() are functions in the ggplot2 package; 
+# the original BrailleR  implementation was inconsistent with ggplot2 so the function names were chantged to camel case.
 
-main = xlab = ylab = function(graph, label=NULL){
+Main = XLab = YLab = function(graph, label=NULL){
     arg = as.character(match.call()[[1]])
-    Obj = as.character(match.call()[["graph"]])
+    Obj = tolower(as.character(match.call()[["graph"]]))
     if(any(class(graph)=="Augmented")){
         if(is.null(label)){
             Out = .GetGraphText(graph, arg)

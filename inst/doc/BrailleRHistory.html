@@ -8,7 +8,7 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="A. Jonathan R. Godfrey" />
 
@@ -16,32 +16,49 @@
 
 <title>History of the BrailleR package</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -50,9 +67,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -109,225 +126,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 800px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 20px;
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-#header {
-text-align: center;
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-#TOC {
-clear: both;
-margin: 0 0 10px 0;
-padding: 4px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
 }
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
+div.csl-indent {
+  margin-left: 2em;
 }
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table:not([class]) {
-margin: auto;
-min-width: 40%;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table[summary="R argblock"] {
-width: 100%;
-border: none;
-}
-table:not([class]) th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table:not([class]) td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table:not([class]), table:not([class]) th, table:not([class]) td {
-border-left-style: none;
-border-right-style: none;
-}
-table:not([class]) tr.odd {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 13px;
-padding-bottom: 1px;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f5f5f5;
-border-radius: 3px;
-color: #333;
-}
-pre {
-overflow-x: auto;
-border-radius: 3px;
-margin: 5px 0 10px 0;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: white;
-border: #f5f5f5 1px solid;
-}
-pre:not([class]) code {
-color: #444;
-background-color: white;
-}
-code {
-font-family: monospace;
-font-size: 90%;
-}
-p > code, li > code {
-padding: 2px 4px;
-color: #d14;
-border: 1px solid #e1e1e8;
-white-space: inherit;
-}
-div.figure {
-text-align: center;
-}
-table > caption, div.figure p.caption {
-font-style: italic;
-}
-table > caption span, div.figure p.caption span {
-font-style: normal;
-font-weight: bold;
-}
-p {
-margin: 0 0 10px;
-}
-table:not([class]) {
-margin: auto auto 10px auto;
-}
-img:not([class]) {
-background-color: #FFFFFF;
-padding: 2px;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-max-width: 100%;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f5f5f5;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f5f5f5;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f5f5f5;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-div.r-help-page {
-background-color: #f9f9f9;
-border-bottom: #ddd 1px solid;
-margin-bottom: 10px;
-padding: 10px;
-}
-div.r-help-page:hover {
-background-color: #f4f4f4;
-}
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20800px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%2020px%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%200%3B%0Apadding%3A%204px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20%7B%0Amargin%3A%20auto%3B%0Amin%2Dwidth%3A%2040%25%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%5Bsummary%3D%22R%20argblock%22%5D%20%7B%0Awidth%3A%20100%25%3B%0Aborder%3A%20none%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%2C%20table%3Anot%28%5Bclass%5D%29%20th%2C%20table%3Anot%28%5Bclass%5D%29%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20tr%2Eodd%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%2013px%3B%0Apadding%2Dbottom%3A%201px%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0A%7D%0Apre%20%7B%0Aoverflow%2Dx%3A%20auto%3B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200%2010px%200%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20white%3B%0Aborder%3A%20%23f5f5f5%201px%20solid%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20code%20%7B%0Acolor%3A%20%23444%3B%0Abackground%2Dcolor%3A%20white%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20monospace%3B%0Afont%2Dsize%3A%2090%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%204px%3B%0Acolor%3A%20%23d14%3B%0Aborder%3A%201px%20solid%20%23e1e1e8%3B%0Awhite%2Dspace%3A%20inherit%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Atable%20%3E%20caption%2C%20div%2Efigure%20p%2Ecaption%20%7B%0Afont%2Dstyle%3A%20italic%3B%0A%7D%0Atable%20%3E%20caption%20span%2C%20div%2Efigure%20p%2Ecaption%20span%20%7B%0Afont%2Dstyle%3A%20normal%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%200%2010px%3B%0A%7D%0Atable%3Anot%28%5Bclass%5D%29%20%7B%0Amargin%3A%20auto%20auto%2010px%20auto%3B%0A%7D%0Aimg%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0Amax%2Dwidth%3A%20100%25%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f5f5f5%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f5f5f5%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f5f5f5%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Adiv%2Er%2Dhelp%2Dpage%20%7B%0Abackground%2Dcolor%3A%20%23f9f9f9%3B%0Aborder%2Dbottom%3A%20%23ddd%201px%20solid%3B%0Amargin%2Dbottom%3A%2010px%3B%0Apadding%3A%2010px%3B%0A%7D%0Adiv%2Er%2Dhelp%2Dpage%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23f4f4f4%3B%0A%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -345,7 +167,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<p>I am one of only two blind people in the world today who are working as full-time lecturers of statistics, that is, teaching statistics classes and doing research in theoretical matters as against applying statistical techniques. For years, I tried to keep my blindness separate from my research but I took some opportunities that came my way and heeded the advice of some colleagues to put more energy into improving the ability of blind students around the world to have greater access to statistics courses and statistical understanding. This document shows you a bit more insight into how I (with the help of some useful collaborations) got the BrailleR package to where it is now.</p>
+<p>I am one of only two blind people in the world today who gained full-time employment as lecturers of statistics, that is, teaching statistics classes and doing research in theoretical matters as against applying statistical techniques. For years, I tried to keep my blindness separate from my research but I took some opportunities that came my way and heeded the advice of some colleagues to put more energy into improving the ability of blind students around the world to have greater access to statistics courses and statistical understanding. This document shows you a bit more insight into how I (with the help of some useful collaborations) got the BrailleR package to where it is now.</p>
 <div id="my-background" class="section level2">
 <h2>My background</h2>
 <p>My adult life has been centred around Massey University, initially as an extramural student and then studying on campus. I have undergraduate degrees in Finance and Operations Research, a Master’s degree in Operations Research and a PhD in Statistics. I was a Graduate Assistant from 1998 to 2002, and then Assistant Lecturer from January 2003 to June 2004 when I became a Lecturer in Statistics. I was promoted to Senior Lecturer in late 2014.</p>
@@ -355,53 +177,55 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="getting-started" class="section level2">
 <h2>getting started</h2>
 <p>I used to keep my research interests separate from my blindness, but I was regularly called upon to discuss how a blind person could study and teach Statistics by many people within New Zealand and occasionally from overseas. In 2009, I attended the Workshop on E-Inclusion in Mathematics and Science (WEIMS09) where I met other people interested in improving the success rates of blind students in the mathematical sciences. My paper was about accessibility of statistics courses, but I did point out the usefulness of R in preference to other tools I had used to that point in time <span class="citation">(Godfrey 2009)</span>.</p>
-<p>I discovered that there is room for me to take a leading role in the development of ideas that can help other blind people learn about statistical concepts. I have been invited to all six Summer University events run by the organizers of the International Conference on Computers Helping People (ICCHP), but have been unable to attend twice due to the high cost of transporting me to Europe. I have delivered an introductory workshop on using R at four of these events <span class="citation">(Godfrey 2011, 2013a, 2014b, and @Godfrey2016SU–R)</span>.</p>
+<p>I discovered that there is room for me to take a leading role in the development of ideas that can help other blind people learn about statistical concepts. I have been invited to all six Summer University events run by the organizers of the International Conference on Computers Helping People (ICCHP), but have been unable to attend twice due to the high cost of transporting me to Europe. I have delivered an introductory workshop on using R at four of these events <span class="citation">Godfrey (2016b)</span>.</p>
 <p>Having observed the attendees at the 2011 Summer University as they came to grips with R, I knew there was more I could do to help them and other blind students. I started work on the BrailleR package <span class="citation">(Godfrey 2018)</span> in the second half of 2011 and first proposed it could work for blind users at the Digitisation and E-Inclusion in Mathematics and Science (DEIMS12) workshop held in Tokyo during February 2012 <span class="citation">(Godfrey 2012b)</span>.</p>
 <p>I wasn’t to know the value of another talk I gave at DEIMS12 for another two years; this second talk and associated conference paper focused on how I was using Sweave to create accessible statistical reports for me and more beautifully formatted ones for my statistical consulting clients. <span class="citation">(Godfrey 2012a)</span>. I now know that the groundwork I had done contributed to my desire to present my workflow as a workshop at the 5<sup>th</sup> Summer University in 2014 <span class="citation">(Godfrey 2014d)</span>. It also stood me in good stead for the work that followed in the way the package developed in late 2014 and early 2015.</p>
 </div>
 <div id="the-starting-point-example" class="section level2">
 <h2>The starting point example</h2>
 <p>The basic graph that has been used for almost every presentation of the BrailleR package is a histogram. There is a more detailed example, but the following commands create a set of numbers that can be kept for further processing once the graph has been created. It is the re-processing of these numbers that leads to the text description that follows.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(BrailleR)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BrailleR)</span></code></pre></div>
 <pre><code>## The BrailleR.View,  option is set to FALSE.</code></pre>
 <pre><code>## 
-## Attaching package: 'BrailleR'</code></pre>
-<pre><code>## The following objects are masked from 'package:graphics':
+## Attaching package: &#39;BrailleR&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:graphics&#39;:
 ## 
 ##     boxplot, hist</code></pre>
-<pre><code>## The following object is masked from 'package:utils':
+<pre><code>## The following object is masked from &#39;package:utils&#39;:
 ## 
 ##     history</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     grep, gsub</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">x=<span class="kw">rnorm</span>(<span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">VI</span>(<span class="kw">hist</span>(x))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VI</span>(<span class="fu">hist</span>(x))</span></code></pre></div>
 <div class="figure">
-<img src="data:image/png;base64,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" alt="A histogram of 1000 random values from a normal distribution" width="672" />
+<img src="data:image/png;base64,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ZKJAASATBQoAmShQAMhEgQJAJgoUADJRoACQiQIFgEwUKABkokABIBMFCgCZKFAAyESBAkAmChQAMlGgAJCJAgWATBQoAGSiQAEgEwUKAJkoUADIRIECQCYKFAAyUaAAkIkCBYBMFCgAZKJAASATBQoAmShQAMhEgQJAJgoUADJRoACQiQIFgEwUKABkokABIBMFCgCZKFAAyESBAkAmChSRLavq9/yn36pa+K4FX4gCRWh1VV//cPBdCr4QBYrQNlW1bP53VVUb77Xg+1CgiG1RVbt//3Y8gIcHChSxHepq9u/fjAfw8ECBIrh1Vf38VNXaex34RhQooptXR3PvVeArUaCIbt8U6N57FfhKFCjCW1XVynsN+E4UKKLjHijcUKCIjudA4YYCRXCb86vwvI0eDihQxMb7QOGIAkVsfBIJjihQhPb3WfglD+LhgAJFaPdXY/JdCb4RBYrIHq4HuvRdC74QBQoAmShQAMhEgQJAJgoUADJRoACQiQIFgEwUKABkokABIBMFCgCZKFAAyESBAkAmChQAMlGgAJCJAgWATBQoAGSiQAEgEwUKAJkoUADIRIECQCYKFAAyUaAAkIkCBYBMFCgAZKJAASATBQoAmShQAMhEgQJAJgoUADJRoACQiQIFgEwUKABkokABIBMFCgCZKFAAyESBAkAmChQAMlGgAJCJAgWATBQoAGSiQAEgEwUKAJkoUADIRIECQCYKFAAyUaAAkIkCBYBMFCgAZKJAASATBQoAmf4HeFMy03ggWO4AAAAASUVORK5CYII=" alt="A histogram of 1000 random values from a normal distribution" width="672" />
 <p class="caption">
 A histogram of 1000 random values from a normal distribution
 </p>
 </div>
 <pre><code>## This is a histogram, with the title: Histogram of x
 ## &quot;x&quot; is marked on the x-axis.
-## Tick marks for the x-axis are at: -3, -2, -1, 0, 1, 2, and 3 
+## Tick marks for the x-axis are at: -3, -2, -1, 0, 1, 2, 3, and 4 
 ## There are a total of 1000 elements for this variable.
 ## Tick marks for the y-axis are at: 0, 50, 100, 150, and 200 
-## It has 12 bins with equal widths, starting at -3 and ending at 3 .
+## It has 14 bins with equal widths, starting at -3 and ending at 4 .
 ## The mids and counts for the bins are:
-## mid = -2.75  count = 3 
-## mid = -2.25  count = 19 
-## mid = -1.75  count = 41 
-## mid = -1.25  count = 94 
-## mid = -0.75  count = 162 
-## mid = -0.25  count = 207 
-## mid = 0.25  count = 179 
-## mid = 0.75  count = 147 
-## mid = 1.25  count = 87 
-## mid = 1.75  count = 39 
-## mid = 2.25  count = 18 
-## mid = 2.75  count = 4</code></pre>
+## mid = -2.75  count = 2 
+## mid = -2.25  count = 16 
+## mid = -1.75  count = 45 
+## mid = -1.25  count = 89 
+## mid = -0.75  count = 169 
+## mid = -0.25  count = 181 
+## mid = 0.25  count = 193 
+## mid = 0.75  count = 152 
+## mid = 1.25  count = 89 
+## mid = 1.75  count = 47 
+## mid = 2.25  count = 14 
+## mid = 2.75  count = 2 
+## mid = 3.25  count = 0 
+## mid = 3.75  count = 1</code></pre>
 <p>This first example showed me what was possible if only I could get a few things sorted out. All histograms are created by a function that stores the results (both numeric and text details) and called the stored set of numbers a “histogram”. The main issue is that storing the set of details is not consistent in R, nor is the fact that the stored object gets given a “class” to tell me what type of object it is. This problem haunted me for quite some time because I was talking to the wrong people about the problem; it was time to find people that held the solution instead of talking to the people that would benefit if a solution was found.</p>
 </div>
 <div id="exposure-of-the-brailler-package-outside-the-blind-community" class="section level2">
@@ -427,74 +251,74 @@ A histogram of 1000 random values from a normal distribution
 <p>Contributions to the BrailleR Project are welcome from anyone who has an interest. I will acknowledge assistance in chronological order of the contributions I have received thus far.</p>
 <p>Greg Snow was the first person to assist when he gave me copies of the original R code and help files for the R2txt functions that were part of his TeachingDemos package <span class="citation">(Snow 2010)</span>.</p>
 <p>The Lions clubs of Karlsruhe supported my attendance at the 3<sup>rd</sup> Summer University event in 2013. This gave me the first opportunity to put the package in front of an audience that I hope will gain from the package’s existence.</p>
-<p>I’ve already mentioned the following contributors above:Paul Murrell, Yihui Xie, Timothy Bilton, and James Curtis. In December 2016, I was visiting Donal Fitzpatrick at Dublin City University and we were joined by Volker Sorge for a few days. Volker’s work in creating an accessible tool for explorationof chemical molecules is being broadened into statistical graphs.</p>
+<p>I’ve already mentioned the following contributors above:Paul Murrell, Yihui Xie, Timothy Bilton, and James Curtis. In December 2016, I was visiting Donal Fitzpatrick at Dublin City University and we were joined by Volker Sorge for a few days. Volker’s work in creating an accessible tool for exploration of chemical molecules is now being broadened into statistical graphs.</p>
 <p>I also need to acknowledge the value of attending the Summer University events. I gain so much from my interactions with the students who attend, the other workshop leaders who gave me feedback, and the other professionals who assist blind students in their own countries.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-Godfrey2009AccessiblePaper">
-<p>Godfrey, A. Jonathan R. 2009. “Are Statistics Courses Accessible?” In <em>Proceedings of the Workshop on E-Inclusion in Mathematics and Science 2009</em>, 72–80. Fukuoka, Japan.</p>
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Godfrey2009AccessiblePaper" class="csl-entry">
+Godfrey, A. Jonathan R. 2009. <span>“Are Statistics Courses Accessible?”</span> In <em>Proceedings of the Workshop on e-Inclusion in Mathematics and Science 2009</em>, 72–80. Fukuoka, Japan.
 </div>
-<div id="ref-Godfrey2011SU-R">
-<p>———. 2011. “R.” Telc, The Czech Republic.</p>
+<div id="ref-Godfrey2011SU-R" class="csl-entry">
+———. 2011. <span>“R.”</span> Telc, The Czech Republic.
 </div>
-<div id="ref-Godfrey2012PuttingPaper">
-<p>———. 2012a. “Putting It All Together — a Blind Person’s Perspective on Document Preparation.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 135–41. Tokyo, Japan.</p>
+<div id="ref-Godfrey2012PuttingPaper" class="csl-entry">
+———. 2012a. <span>“Putting It All Together — a Blind Person’s Perspective on Document Preparation.”</span> In <em>Proceedings of Digitization and e-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 135–41. Tokyo, Japan.
 </div>
-<div id="ref-Godfrey2012BrailleRPaper">
-<p>———. 2012b. “The BrailleR Project.” In <em>Proceedings of Digitization and E-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 89–95. Tokyo, Japan.</p>
+<div id="ref-Godfrey2012BrailleRPaper" class="csl-entry">
+———. 2012b. <span>“The <span>BrailleR</span> Project.”</span> In <em>Proceedings of Digitization and e-Inclusion in Mathematics and Science</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 89–95. Tokyo, Japan.
 </div>
-<div id="ref-Godfrey2013SU-R">
-<p>———. 2013a. “Using R: The Most Accessible Statistical Software for Blind Students.” Bad Herrenalb, Germany.</p>
+<div id="ref-Godfrey2013SU-R" class="csl-entry">
+———. 2013a. <span>“Using <span>R</span>: The Most Accessible Statistical Software for Blind Students.”</span> Bad Herrenalb, Germany.
 </div>
-<div id="ref-GodfreyRJournal">
-<p>———. 2013b. “Statistical Software from a Blind Person’s Perspective: R Is the Best, but We Can Make It Better.” <em>The R Journal</em> 5 (1):73–79. <a href=" https://journal.r-project.org/archive/2013-1/godfrey.pdf ">https://journal.r-project.org/archive/2013-1/godfrey.pdf</a>.</p>
+<div id="ref-GodfreyRJournal" class="csl-entry">
+———. 2013b. <span>“Statistical Software from a Blind Person’s Perspective: <span>R</span> Is the Best, but We Can Make It Better.”</span> <em>The R Journal</em> 5 (1): 73–79. <a href="https://journal.r-project.org/archive/2013-1/godfrey.pdf">https://journal.r-project.org/archive/2013-1/godfrey.pdf</a>.
 </div>
-<div id="ref-Godfrey2013BlindnessPoster">
-<p>———. 2013c. “Blindness in a Visual Discipline.” University of Waikato, Hamilton.</p>
+<div id="ref-Godfrey2013BlindnessPoster" class="csl-entry">
+———. 2013c. <span>“Blindness in a Visual Discipline.”</span> University of Waikato, Hamilton.
 </div>
-<div id="ref-Godfrey2014SU-StatsSoft">
-<p>———. 2014a. “A Review of Statistical Software for Blind Students.” Paris, France.</p>
+<div id="ref-Godfrey2014SU-StatsSoft" class="csl-entry">
+———. 2014a. <span>“A Review of Statistical Software for Blind Students.”</span> Paris, France.
 </div>
-<div id="ref-Godfrey2014SU-R">
-<p>———. 2014b. “Introduction to R: The Most Accessible Statistical Software for Blind Students.” Paris, France.</p>
+<div id="ref-Godfrey2014SU-R" class="csl-entry">
+———. 2014b. <span>“Introduction to <span>R</span>: The Most Accessible Statistical Software for Blind Students.”</span> Paris, France.
 </div>
-<div id="ref-Godfrey2014BlindUseROral">
-<p>———. 2014c. “Practical Use of R by Blind People.” University of California, Los Angeles.</p>
+<div id="ref-Godfrey2014BlindUseROral" class="csl-entry">
+———. 2014c. <span>“Practical Use of <span>R</span> by Blind People.”</span> University of California, Los Angeles.
 </div>
-<div id="ref-Godfrey2014SU-Sweave">
-<p>———. 2014d. “R and LaTeX — a Powerful Combination for Assignment Preparation.” Paris, France.</p>
+<div id="ref-Godfrey2014SU-Sweave" class="csl-entry">
+———. 2014d. <span>“R and <span>LaTeX</span> — a Powerful Combination for Assignment Preparation.”</span> Paris, France.
 </div>
-<div id="ref-Godfrey2015BaseRWeepsOral">
-<p>———. 2015. “While My Base R Gently Weeps.” Aalborg, Denmark.</p>
+<div id="ref-Godfrey2015BaseRWeepsOral" class="csl-entry">
+———. 2015. <span>“While My Base <span>R</span> Gently Weeps.”</span> Aalborg, Denmark.
 </div>
-<div id="ref-Godfrey2016SU-StatsSoft">
-<p>———. 2016a. “A Review of Statistical Software for Blind Students.” Linz, Austria.</p>
+<div id="ref-Godfrey2016SU-StatsSoft" class="csl-entry">
+———. 2016a. <span>“A Review of Statistical Software for Blind Students.”</span> Linz, Austria.
 </div>
-<div id="ref-Godfrey2016SU-R">
-<p>———. 2016b. “Introduction to R: The Most Accessible Statistical Software for Blind Students.” Linz, Austria.</p>
+<div id="ref-Godfrey2016SU-R" class="csl-entry">
+———. 2016b. <span>“Introduction to <span>R</span>: The Most Accessible Statistical Software for Blind Students.”</span> Linz, Austria.
 </div>
-<div id="ref-BrailleRPackage">
-<p>———. 2018. <em>BrailleR: Improved Access for Blind Users</em>. Massey University. <a href="https://CRAN.R-project.org/package=BrailleR" class="uri">https://CRAN.R-project.org/package=BrailleR</a>.</p>
+<div id="ref-BrailleRPackage" class="csl-entry">
+———. 2018. <em>BrailleR: Improved Access for Blind Users</em>. Massey University. <a href="https://CRAN.R-project.org/package=BrailleR">https://CRAN.R-project.org/package=BrailleR</a>.
 </div>
-<div id="ref-GodfreyBilton2016UseROral">
-<p>Godfrey, A. Jonathan R., and Timothy P. Bilton. 2016. “R Markdown: Lifesaver or Death Trap?” Stanford University, California.</p>
+<div id="ref-GodfreyBilton2016UseROral" class="csl-entry">
+Godfrey, A. Jonathan R., and Timothy P. Bilton. 2016. <span>“R Markdown: Lifesaver or Death Trap?”</span> Stanford University, California.
 </div>
-<div id="ref-GodfreyCurtis2016WriteRPaper">
-<p>Godfrey, A. Jonathan R., and James M. P. Curtis. 2016. “Simple Authoring of Statistical Analyses by and for Blind People.” In <em>Proceedings of the International Workshop on Digitization and E-Inclusion in Mathematics and Science 2016</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 47–54. Kanegawa, Japan. <a href="http://workshop.sciaccess.net/DEIMS2016/index.html" class="uri">http://workshop.sciaccess.net/DEIMS2016/index.html</a>.</p>
+<div id="ref-GodfreyCurtis2016WriteRPaper" class="csl-entry">
+Godfrey, A. Jonathan R., and James M. P. Curtis. 2016. <span>“Simple Authoring of Statistical Analyses by and for Blind People.”</span> In <em>Proceedings of the International Workshop on Digitization and e-Inclusion in Mathematics and Science 2016</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 47–54. Kanegawa, Japan. <a href="https://workshop.sciaccess.net/DEIMS2016/index.html">https://workshop.sciaccess.net/DEIMS2016/index.html</a>.
 </div>
-<div id="ref-GodfreyErhardtRJournalAddendum">
-<p>Godfrey, A. Jonathan R., and Robert Erhardt. 2014. “Addendum to “Statistical Software from a Blind Person’s Perspective&quot;.” <em>The R Journal</em> 6 (1):182. <a href="https://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf" class="uri">https://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf</a>.</p>
+<div id="ref-GodfreyErhardtRJournalAddendum" class="csl-entry">
+Godfrey, A. Jonathan R., and Robert Erhardt. 2014. <span>“Addendum to “Statistical Software from a Blind Person’s Perspective&quot;.”</span> <em>The R Journal</em> 6 (1): 182. <a href="https://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf">https://journal.r-project.org/archive/2014-1/godfrey-erhardt.pdf</a>.
 </div>
-<div id="ref-GodfreyLoots2014JSS">
-<p>Godfrey, A. Jonathan R., and M. Theodor Loots. 2014. “Statistical Software (R, SAS, SPSS, and Minitab) for Blind Students and Practitioners.” <em>Journal of Statistical Software, Software Reviews</em> 58 (1):1–25. <a href="https://www.jstatsoft.org/v58/s01" class="uri">https://www.jstatsoft.org/v58/s01</a>.</p>
+<div id="ref-GodfreyLoots2014JSS" class="csl-entry">
+Godfrey, A. Jonathan R., and M. Theodor Loots. 2014. <span>“Statistical Software (<span>R</span>, <span>SAS</span>, <span>SPSS</span>, and <span>Minitab</span>) for Blind Students and Practitioners.”</span> <em>Journal of Statistical Software, Software Reviews</em> 58 (1): 1–25. <a href="https://www.jstatsoft.org/v58/s01">https://www.jstatsoft.org/v58/s01</a>.
 </div>
-<div id="ref-GodfreyMurrell2016TactileGraphsPaper">
-<p>Godfrey, A. Jonathan R., and Paul Murrell. 2016. “Statistical Graphs Made Tactile.” In <em>Proceedings of the International Workshop on Digitization and E-Inclusion in Mathematics and Science 2016</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 69–74. Kanegawa, Japan.</p>
+<div id="ref-GodfreyMurrell2016TactileGraphsPaper" class="csl-entry">
+Godfrey, A. Jonathan R., and Paul Murrell. 2016. <span>“Statistical Graphs Made Tactile.”</span> In <em>Proceedings of the International Workshop on Digitization and e-Inclusion in Mathematics and Science 2016</em>, edited by Katsuhito Yamaguchi and Masakazu Suzuki, 69–74. Kanegawa, Japan.
 </div>
-<div id="ref-TeachingDemos">
-<p>Snow, Greg. 2010. <em>TeachingDemos: Demonstrations for Teaching and Learning</em>.</p>
+<div id="ref-TeachingDemos" class="csl-entry">
+Snow, Greg. 2010. <em>TeachingDemos: Demonstrations for Teaching and Learning</em>.
 </div>
 </div>
 </div>

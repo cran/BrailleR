@@ -12,6 +12,7 @@
 \alias{Describe.tsplot}
 \alias{Describe.TukeyHSD}
 \alias{print.description}
+\alias{print.VI}
 \alias{VI}
 \alias{VI.default}
 \alias{VI.aov}
@@ -20,9 +21,11 @@
 \alias{VI.dotplot}
 \alias{VI.histogram}
 \alias{VI.hist}
+\alias{VI.htest}
 \alias{VI.list}
 \alias{VI.lm}
 \alias{VI.matrix}
+\alias{VI.qcc}
 \alias{VI.summary.lm}
 \alias{VI.tsplot}
 \alias{VI.TukeyHSD}
@@ -43,11 +46,15 @@ VI(x, Describe=FALSE, ...)
 
 \method{VI}{aov}(x, Describe=FALSE, ...)
 
+\method{VI}{htest}(x, Describe=FALSE, digits = getOption("digits"),  ...) 
+
+
 \method{VI}{lm}(x, Describe=FALSE, ...)
 }
 \arguments{
   \item{x}{any \R object}
 \item{Describe,VI}{Should the other function be called at the same time}
+\item{digits }{number of decimal places to show}
 \item{...}{other arguments, currently ignored}
 }
 \details{
@@ -77,8 +84,6 @@ A. Jonathan R. Godfrey and Timothy P. Bilton
 \examples{
 RandomX=rnorm(500)
 PlottedFig=hist(RandomX)
-rm(RandomX)
 VI(PlottedFig)
 Describe(PlottedFig)
-rm(PlottedFig)
 }

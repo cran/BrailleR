@@ -46,18 +46,24 @@
 
 .getGGXTicks = function(x, xbuild, layer) {
   # The location of this item is changing in an upcoming ggplot version
-  if ("panel_ranges" %in% names(xbuild$layout))
+  if ("panel_ranges" %in% names(xbuild$layout)) {
     return(xbuild$layout$panel_ranges[[layer]]$x.labels)   # ggplot 2.2.1
-  else
-    return(xbuild$layout$panel_params[[layer]]$x.labels)   # dev version as at 5 Sept 2017
+  }
+  else {
+    xlabs <- xbuild$layout$panel_params[[1]]$x$get_labels()
+    return (xlabs[!is.na(xlabs)])
+  }
 }
 
 .getGGYTicks = function(x, xbuild, layer) {
   # The location of this item is changing in an upcoming ggplot version
-  if ("panel_ranges" %in% names(xbuild$layout))
+  if ("panel_ranges" %in% names(xbuild$layout)) {
     return(xbuild$layout$panel_ranges[[layer]]$y.labels)   # ggplot 2.2.1
-  else
-    return(xbuild$layout$panel_params[[layer]]$y.labels)   # dev version as at 5 Sept 2017
+  }
+  else {
+    ylabs <- xbuild$layout$panel_params[[1]]$y$get_labels()
+    return (ylabs[!is.na(ylabs)])
+  }
 }
 
 # Guides
@@ -76,6 +82,15 @@
 # Coordinates
 .getGGCoord = function(x, xbuild) {
   return(class(x$coordinates)[1])
+}
+
+#Bar Orientation
+.findBarOrientation = function(x, xbuild, layer) {
+  flipped = xbuild$plot$layers[[layer]]$geom_params$flipped_aes
+  if (rlang::is_true(flipped))
+    return("horizontal")
+  else
+    return("vertical")
 }
 
 ## Scales
@@ -247,13 +262,26 @@
 }
 
 # Smooth layer details
+
+.getGGSmoothParams = function(x, xbuild, layer) {
+  return(xbuild$plot$layers[[layer]]$stat_params)
+}
+
 .getGGSmoothMethod = function(x, xbuild, layer) {
-  return(xbuild$plot$layers[[layer]]$stat_params$method)
+  Out = xbuild$plot$layers[[layer]]$stat_params$method
+  if(is.null(Out))          Out = c("lowess")
+  return(Out)
 }
 
 .getGGSmoothSEflag = function(x, xbuild, layer) {
   return(xbuild$plot$layers[[layer]]$stat_params$se)
 }
+
+.getGGSmoothLevel = function(x, xbuild, layer) {
+ Out = xbuild$plot$layers[[layer]]$stat_params$level
+  if(is.null(Out))           Out = 0.95
+  return(Out) 
+} 
 
 .isGuideHidden = function(x, xbuild, aes) {
 #  Need to look through all layers to figure out whether this aesthetic is involved, and
@@ -279,4 +307,11 @@
     return(TRUE)
   return(FALSE)
 }
-  
+#Helper list for finding whether words start with vowels to give them an/a accordingly
+.giveAnOrA =function(wordChosen){
+  vowels = c("a", "e", "i", "o", "u")
+  AnA = ifelse(is.element(substr(wordChosen, 1,1), vowels), "an", "a")
+  return(AnA)
+}
+
+

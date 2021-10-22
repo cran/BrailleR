@@ -14,7 +14,7 @@
       result[[i]] = character(0)
     } else {
       render = whisker::whisker.render(templates[names(x[i])], x[[i]], partials=templates)
-    result[[i]] = as.vector(strsplit(render, "<br>", fixed=TRUE)[[1]])
+      result[[i]] = as.vector(strsplit(render, "<br>", fixed=TRUE)[[1]])
     }
   }
   names(result) = names(x)
@@ -44,7 +44,7 @@
     x$xaxis$xtickitems = .listifyVars(list(label=x$xaxis$xticklabels))
   if (!is.null(x$yaxis$yticklabels))
     x$yaxis$ytickitems = .listifyVars(list(label=x$yaxis$yticklabels))
-  
+
   for (legendi in 1:length(x$legends)) {
     if (!is.null(x$legends[[legendi]]$scalelevels))
       x$legends[[legendi]]$scalelevelitems = 
@@ -168,49 +168,45 @@ sort.VIgraph <- function(x, decreasing = FALSE, by="x", ...) {
 }
 
 grep <- function(pattern, x, ...) {
-    ## Dispatch on 'x' rather than 'pattern' !!!
-    UseMethod("grep", x)
+  ## Dispatch on 'x' rather than 'pattern' !!!
+  UseMethod("grep", x)
 }
 
-grep.default <-
-    function(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE,
-             fixed = FALSE, useBytes = FALSE, invert = FALSE, ...) {
-        base::grep(pattern, x, ignore.case, perl, value,
-                   fixed, useBytes, invert)
-    }
+grep.default <- function(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE, ...) {
+  base::grep(pattern, x, ignore.case, perl, value, fixed, useBytes, invert)
+}
 
 # Returns the VIgraph object with the text trimmed down to only those rows
 # containing the specified pattern.  Passes extra parameters on to grepl.
 # Note that only the text portion of the VIgraph is modified; the complete
 # VIgg structure is still included
 grep.VIgraph <- function(pattern, x, ...) {
-    x$text = grep(pattern, x$text, value=TRUE, ...)
-    x
+  x$text = grep(pattern, x$text, value=TRUE, ...)
+  x
 }
 
 gsub <- function(pattern, replacement, x, ...) {
-    ## Dispatch on 'x' rather than 'pattern' !!!
-    UseMethod("gsub", x)
+  ## Dispatch on 'x' rather than 'pattern' !!!
+  UseMethod("gsub", x)
 }
-  
+
 gsub.default <-
-    function(pattern, replacement, x,
-             ignore.case = FALSE, perl = FALSE,
-             fixed = FALSE, useBytes = FALSE, ...) {
-        base::gsub(pattern, replacement, x, ignore.case, perl, 
-                   fixed, useBytes)
-    }
+  function(pattern, replacement, x,
+           ignore.case = FALSE, perl = FALSE,
+           fixed = FALSE, useBytes = FALSE, ...) {
+    base::gsub(pattern, replacement, x, ignore.case, perl, 
+               fixed, useBytes)
+  }
 
 gsub.VIgraph <- function(pattern, replacement, x, ...) {
-    x$text = gsub(pattern, replacement, x$text, ...)
-    x
+  x$text = gsub(pattern, replacement, x$text, ...)
+  x
 }
 
 # threshold specifies how many points, lines, etc will be explicitly listed.
 # Greater numbers will be summarised (e.g. "is a set of 32 horizontal lines" vs
 # "is a set of 3 horizontal lines at 5, 7.5, 10")
-VI.ggplot = function(x, Describe=FALSE, threshold=10, 
-                     template=system.file("whisker/VIdefault.txt", package="BrailleR"), ...) {
+VI.ggplot = function(x, Describe=FALSE, threshold=10, template=system.file("whisker/VIdefault.txt", package="BrailleR"), ...) {
   VIstruct = .VIstruct.ggplot(x)
   text = .VItextify(list(VIgg=.VIpreprocess(VIstruct, threshold)), template)[[1]]
   VIgraph = list(VIgg=VIstruct, text=text, threshold=threshold, template=template)
@@ -249,7 +245,7 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
   panelcols = as.list(.getGGFacetCols(x, xbuild))
   layerCount = .getGGLayerCount(x, xbuild);
   VIstruct = .VIlist(annotations=annotations, xaxis=xaxis, yaxis=yaxis, legends=legends, panels=panels,
-              npanels=length(panels), nlayers=layerCount, panelrows=panelrows, panelcols=panelcols, type="ggplot")
+                     npanels=length(panels), nlayers=layerCount, panelrows=panelrows, panelcols=panelcols, type="ggplot")
   class(VIstruct) = "VIstruct"
   return(VIstruct)
 }
@@ -266,7 +262,7 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
     ## From ggplot2 3.0.0 can have x$labels without any corresponding
     ## xbuild$plot$scales
     if (is.null(scale))
-        break;
+      break;
     scalediscrete = if ("ScaleDiscrete" %in% class(scale)) TRUE
     hidden = if (.isGuideHidden(x, xbuild, name)) TRUE
     maplevels = data.frame(col1=scale$map(scale$range$range), stringsAsFactors=FALSE)
@@ -311,12 +307,12 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
       panel[["yticklabels"]] = .getGGYTicks(x, xbuild, i)
       panel[["xlabel"]] = .getGGXLab(x, xbuild) # Won't actually change over the panels
       panel[["ylabel"]] = .getGGYLab(x, xbuild) # But we still want to mention them
-      
+
     }
     vars = list()
-      for (j in seq_along(panelvars)) {
-        vars[[j]] = list(varname=as.character(panelvars[j]), value=as.character(f[[i, panelvars[j]]]))
-      }
+    for (j in seq_along(panelvars)) {
+      vars[[j]] = list(varname=as.character(panelvars[j]), value=as.character(f[[i, panelvars[j]]]))
+    }
     panel[["vars"]] = vars
     panel[["panellayers"]] = .buildLayers(x, xbuild, i)
     panels[[i]] = panel
@@ -352,8 +348,8 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
       layer$scaledata = map$value
       # Also report on any aesthetic variables that vary across the layer
       layer = .addAesVars(x, xbuild, cleandata, layeri, layer, panel)
-      
-    # POINT
+
+      # POINT
     } else if (layerClass == "GeomPoint") {
       layer$type = "point"
       # Mark as hidden points that go outside the bounds of the plot,
@@ -369,10 +365,10 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
       layer$scaledata = map$value
       # Also report on any aesthetic variables that vary across the layer
       layer = .addAesVars(x, xbuild, cleandata, layeri, layer, panel)
-      
+
 
       # BAR
-    } else if (layerClass == "GeomBar") {
+    } else if (layerClass == "GeomBar" | layerClass =="GeomCol") {
       layer$type = "bar"
       # Discard bars that go outside the bounds of the plot,
       # as they won't be displayed
@@ -390,10 +386,12 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
       width = cleandata$xmax - cleandata$xmin
       if (max(width) - min(width) > .0001)   # allow for small rounding error
         layer$scaledata = cbind(layer$scaledata, xmin=cleandata$xmin, xmax=cleandata$xmax)
+      # Whether the bar is vertical or horizontal
+      layer$orientation = .findBarOrientation(x, xbuild, layeri)
       # Also report on any aesthetic variables that vary across the layer
       layer = .addAesVars(x, xbuild, cleandata, layeri, layer, panel)
-      
-    # LINE
+
+      # LINE
     } else if (layerClass == "GeomLine") {
       layer$type = "line"
       # Lines are funny - each item in the data is a point
@@ -423,17 +421,17 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
         line = .addLineAesVars(x, xbuild, line, layeri, groupdata, panel)
         layer$lines[[length(layer$lines) + 1]] = line
       }
-      
-    #BOXPLOT
+
+      #BOXPLOT
     } else if (layerClass == "GeomBoxplot") {
       layer$type = "box"
       cleandata = layer$data   # No need for cleaning since this data is already aggregated
       layer$n = nrow(layer$data)
       nOutliers = sapply(cleandata$outliers,length)
       map = .mapDataValues(x, xbuild,list("x", "ymin", "lower", "middle", "upper", "ymax"), panel,
-                          list(x=cleandata$x, ymin=cleandata$ymin, lower=cleandata$lower, 
-                               middle=cleandata$middle, upper=cleandata$upper, 
-                               ymax=cleandata$ymax))
+                           list(x=cleandata$x, ymin=cleandata$ymin, lower=cleandata$lower, 
+                                middle=cleandata$middle, upper=cleandata$upper, 
+                                ymax=cleandata$ymax))
       if (!is.null(map$badTransform)) {
         layer$badtransform = TRUE
         layer$transform = map$badTransform
@@ -445,22 +443,65 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
       # scaledata is currently a list of vectors.  If we wanted to include outliers
       # within each boxes object for reporting, then boxes would need to become
       # a list of lists.
-      
       # Also report on any aesthetic variables that vary across the layer
       layer = .addAesVars(x, xbuild, cleandata, layeri, layer, panel)
-      
-    # SMOOTH
+
+      # SMOOTH
     } else if (layerClass == "GeomSmooth") {
       layer$type = "smooth"
       layer$method = .getGGSmoothMethod(x, xbuild, layeri)
-      layer$ci = if (.getGGSmoothSEflag(x, xbuild, layeri)) TRUE
-      
-    #U UNKNOWN
+      layer$ci = .getGGSmoothSEflag(x, xbuild, layeri)
+      #adding confidence level as a percentage
+      deci = toString(.getGGSmoothLevel(x, xbuild, layeri)*100)
+      layer$level = paste(deci, "%", sep = "")
+
+      #U UNKNOWN
     } else {
       layer$type = "unknown"
+      #Name the unknown type and give it a/an accordingly
+      className = tolower(gsub("^.*?Geom","",layerClass))
+      layer$assign = className
+      layer$anA = .giveAnOrA(className)
     }
-    layers[[layeri]] = layer  
-  }
+    
+    ##Positioning
+    layerPos = .getGGLayerPosition(x, xbuild, layeri)
+    if (is.null(layerPos)){
+      layer$hasPos = FALSE
+    }else{
+      if (layerPos == "dodge"){
+        layer$position = "adjacent, as sorted by"
+      }else if (layerPos == "fill"){
+        if(layerClass == "GeomBar"){
+         layer$position = "stacked and shown as propotions of"
+         layer$hasPos = TRUE
+         }
+      }else if (layerPos == "identity"){
+        if(layerClass == "GeomBar"){
+          layer$position = "stacked, as sorted by"
+          layer$hasPos = TRUE
+        }
+      }else if (layerPos == "stack"){
+        layer$position = "stacked, as sorted by"
+        layer$hasPos = TRUE
+      }else if (layerPos == "jitter"){
+        layer$position = "offset by added random noise, and sorted by"
+        layer$hasPos = TRUE
+      }else if (layerPos == "jitterdodge"){
+        layer$position = "offset along the x axis to avoid overlapping points, and sorted by"
+        layer$hasPos = TRUE
+      }else if (layerPos == "nudge"){
+        if(layerClass == "GeomText"){"adjusted text placement for tidier graph"
+          layer$hasPos = TRUE
+          }
+      }
+    }#End of Layer Position checks
+    layer$mapping2 = .getGGGuideLabels(x, xbuild)
+    if(length(layer$mapping2) == 0){layer$hasPos = FALSE}
+    
+    layers[[layeri]] = layer
+    
+  }##END OF THE LAYER FOR LOOP
   return(layers)
 }
 
@@ -469,7 +510,7 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
   for (var in varlist) {
     value = valuelist[[var]]
     scale = .getGGScale(x, xbuild, var)
-    
+
     if (is.null(scale))   # No scale found
       next
     else if (("ScaleDiscrete" %in% class(scale))) { # Try to map back to levels
@@ -559,7 +600,7 @@ VI.ggplot = function(x, Describe=FALSE, threshold=10,
   ## Use unconverted aesthetics for reverse lookup of mappings
   ## groupdata[1,aesvars,drop=FALSE] rather than aesvals[1,,drop=FALSE]
   aesmap = .mapAesDataValues(x, xbuild, layeri, aesvars,
-                            groupdata[1,aesvars,drop=FALSE])
+                             groupdata[1,aesvars,drop=FALSE])
   line[aesvars] = aesvals
   if (length(aesmap) > 0) {
     names(aesmap) = paste0(names(aesmap), "map")

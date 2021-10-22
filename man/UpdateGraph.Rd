@@ -1,21 +1,21 @@
 \name{UpdateGraph}
 \alias{UpdateGraph}
-\alias{main}
+\alias{Main}
 \alias{update.fittedlineplot}
 \alias{update.scatterplot}
 \alias{update.tsplot}
-\alias{xlab}
-\alias{ylab}
+\alias{XLab}
+\alias{YLab}
 \title{extract or alter graph parameters}
 \description{Either grabs the specified label or sets it to a newly specified value. In this case the graph is re-drawn and the graph object is updated.}
 \usage{
 UpdateGraph(object, ...)
 
-main(graph, label = NULL)
+Main(graph, label = NULL)
 
-xlab(graph, label = NULL)
+XLab(graph, label = NULL)
 
-ylab(graph, label = NULL)
+YLab(graph, label = NULL)
 }
 \arguments{
   \item{graph,object}{The graph object to be updated.}
@@ -30,9 +30,9 @@ Specify the label to be an empty text string if the desire is to delete the curr
 attach(airquality)
 op = par(mfcol=c(3,2))
 test1 = TimeSeriesPlot(Wind, col=4)
-xlab(test1, "Day")
+XLab(test1, "Day")
 # check the change is permanent by doing another change
-test1 %>% main("titles are important") # nice that the pipe works!
+test1 %>% Main("titles are important") # nice that the pipe works!
 
 test2 = TimeSeriesPlot(Ozone)
 # using the update method
@@ -41,5 +41,4 @@ update(test2, main="important title", sub="subtitles aren't always present", yla
 update(test2) # to fix
 par(op)
 detach(airquality)
-rm(test1); rm(test2); rm(op)
 }

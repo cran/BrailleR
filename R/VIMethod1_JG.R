@@ -3,6 +3,12 @@ VI = function(x, Describe=FALSE, ...) {
        UseMethod("VI")
      }
 
+print.VI = function(x, ...){
+cat(x, sep="\n")
+return(invisible(x))
+}
+
+
 VI.default =
     function(x, Describe=FALSE, ...) {
       message("There is no specific method written for  this type of object.\n")
@@ -129,6 +135,34 @@ VI.histogram =
     }
 
 
+VI.htest = function (x, Describe=FALSE, digits = getOption("digits"),  ...) 
+{
+    cat("\n")
+    cat(strwrap(x$method ), sep = "\n")
+    if (!is.null(x$statistic)) 
+cat(paste("\n", names(x$statistic), "=", format(x$statistic, 
+            digits = max(1L, digits - 2L))))
+    if (!is.null(x$parameter)) 
+cat(paste("\n", names(x$parameter), "=", format(x$parameter, 
+            digits = max(1L, digits - 2L))))
+    if (!is.null(x$p.value)) {
+        fp <- format.pval(x$p.value, digits = max(1L, digits - 
+            3L))
+cat(paste("\n", "p-value", if (substr(fp, 1L, 1L) == 
+            "<") fp else paste("=", fp)))
+    }
+
+
+    if (!is.null(x$conf.int)) {
+cat("\n\n")
+        cat(format(100 * attr(x$conf.int, "conf.level")), " percent confidence interval:\n", 
+            " ", paste(format(x$conf.int[1:2], digits = digits), 
+                collapse = " "), sep = "")
+    }
+    cat("\n\n")
+    invisible(x)
+}
+
 
 
 VI.list =
@@ -229,6 +263,30 @@ kable(InflObs)
 VI.matrix = function(x, Describe=FALSE, ...) {
               VI(as.data.frame.matrix(x), Describe=Describe, ...)
             }
+
+
+
+VI.qcc = function (x, ...) 
+{
+TypeText = paste("This control chart is a", x$type, "chart.")
+SubgroupSizesConst = diff(range(x$sizes))==0 
+PointText = paste("Data for", length(x$statistics), "subgroups of", ifelse(SubgroupSizesConst, "equal", "varying"), "size are marked.")
+CenterText = ifelse(length(x$center)==1,
+    paste0("The center line is marked at ", signif(x$center,4),  "."),
+    "There is more than one center line.")
+CLText = ifelse(length(x$limits)==2,
+   paste0("The LCL is at ", signif(x$limits[,1], 4), " and the UCL is at ", signif(x$limits[,2],4), "."),
+    "There are more than one set of control limits.")
+NoBL = length(x$violations$beyond.limits)
+BLText = paste("There",  ifelse(NoBL==1, "is", "are"), ifelse(NoBL==0, "no", NoBL), ifelse(NoBL==1, "point", "points"), "that breach the control limits.")
+NoVR = length(x$violations$violating.runs) 
+VRText = paste0("There ", ifelse(NoVR==1, "is", "are"), " ", ifelse(NoVR==0, "no", NoVR), " violating run", ifelse(NoVR==1, "", "s"), ".")
+
+Out = c(TypeText, PointText, CenterText, CLText, BLText, VRText)
+class(Out) = "VI"
+return(Out)
+}
+
 
 VI.tsplot =
     function(x, Describe=FALSE, ...) {

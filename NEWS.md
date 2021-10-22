@@ -1,3 +1,57 @@
+# BrailleR 0.32.1
+- feedback from manual CRAN inspection
+- removed commented code from examples in Rd files.
+- removed other aspects of examples that fail CRAN checking such as rm()
+- removed use of installed.packages()
+- had to search for specified text strings and for files lacking specified sections. The new function WhichFiles() was key in making sure this did not take forever.
+- updated a few of the templates in inst/templates; these are meant to be snippets, not completely stand alone files.
+
+# BrailleR 0.32.0
+- attempted return to CRAN
+
+# BrailleR 0.31.4
+- Testing for a return to CRAN; looked right.
+- changed dates and version numbers in readiness for CRAN
+- had to remove orientation checking for bars in ggplot() graphs; see VI.internals. this forced introduction of rlang package dependency
+- forced option to be set that is equivalent to GoBlind() to get VI.ggplot() to be automatic
+- fixed doubling of VI() output for ggplot() output in qplot.Rmd vignette
+- minor cosmetic updates for Rmd files
+- Some improved messaging.
+
+
+
+# BrailleR 0.31.3
+- cleaned Sophie's code. We now have geom_smooth() reporting method and existence of confidence intervals.
+- renamed BrailleR functions xlab() and ylab() to use upper camel case to resolve conflict with ggplot2.
+- getting ready for contributions from Sophie Banks; added her to contributors list
+
+# BrailleR 0.31.2
+- removed travis-ci package service as it will move to a fee-for-service model in 2021
+- added GitHub actions to workflow; found trivial issues to fix.
+- added spell checking
+- added use of pkgdown
+
+# BrailleR 0.31.1
+- removed the unclean check directory problem that would frustrate return to CRAN
+- added a .onDetach() function to remove options in the (unlikely) event that a user detaches BrailleR.
+- axis labels proven to be back for ggplot() graphs
+
+
+
+# BrailleR 0.31.0
+- merged PR26 to fix ggplot() axis labels.
+- added VI.htest()
+- added RemoveBOM function for taking the BOM off an Rmd file
+- fixed .ProcessAll() so that it avoids the BOM problems created by use of the wrong text editor in Windows.
+- added PandocAll() to convert files of one type to another
+- added print method for objects of class VI so that the VI() functions can be enriched.
+- added VI.qcc() for helping with control charts created using the qcc package
+- altered History2Rmd() and R2Rmd() to insert minimal YAML header
+- added details to DESCRIPTION to prepare for using mathjax in Rd files
+
+
+
+
 # BrailleR 0.30.2
 - trying to ensure examples that create files pass CRAN checks; see UniDesc() etc.
 
@@ -97,7 +151,7 @@ Pushed to CRAN on 6 July 2017
 - changes from VS merged via GitHub (not to be reported again)
 - moved knitr package to imports. This means some of the Rmd files need more explicit mention of the package to get chunk options working properly.
 - JG implemented the ViewSVG() so that anyone can use the interactive graph viewing system; required various internal functions to move and write necessary files 
-- added FittedLinePlot() which adds a fitted line to the ScatterPlot() implmented through ScatterPlot(); these use a few internal functions, found in ScatterPlot.R
+- added FittedLinePlot() which adds a fitted line to the ScatterPlot() implemented through ScatterPlot(); these use a few internal functions, found in ScatterPlot.R
 - added plot and print methods for various graph types. The print method refers to the plot function so acts just like the ggplot and lattice packages.
 - restructured the storage of graph parameters and arguments for a variety of the masked functions. The intention is to make cleaning things up easier.
 - adding examples to the graph making help pages to show that the BrailleR functions replicate base graphics functions
@@ -237,7 +291,7 @@ type; it will also include the code chunks that are reused frequently in other f
 # BrailleR 0.23.5
 - Implemented use of local settings stored in .BrailleROptions object (hidden)
 - There is now  a set of defaults that can be restored in addition to the currently active set of preferences in the BrailleROptions file within the package.
-- SaveMySettings() and RestoreMySettings() functions created for obvious outcomes. These are needed to protec from losing settings when the package is updated.
+- SaveMySettings() and RestoreMySettings() functions created for obvious outcomes. These are needed to protect from losing settings when the package is updated.
 - A wrapper for WriteR is now included.
 - MakeAllFormats() added to create pandoc settings files based on the foo.pandoc file in the inst folder.
 - What's this figure? function WTF() now incorporated.
