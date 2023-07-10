@@ -35,35 +35,39 @@
   return(invisible(text))
 }
 
-## Axes
-.getGGXLab = function(x, xbuild) {
-  return(x$labels$x)
-}
-
-.getGGYLab = function(x, xbuild) {
-  return(x$labels$y)
-}
-
-.getGGXTicks = function(x, xbuild, layer) {
-  # The location of this item is changing in an upcoming ggplot version
-  if ("panel_ranges" %in% names(xbuild$layout)) {
-    return(xbuild$layout$panel_ranges[[layer]]$x.labels)   # ggplot 2.2.1
-  }
-  else {
-    xlabs <- xbuild$layout$panel_params[[1]]$x$get_labels()
-    return (xlabs[!is.na(xlabs)])
+.getGGAxisLab = function(x, xbuild, axis) {
+  if (!.isGGCoordFlipped(x)) {
+    # Make sure it has axis ticks for it to have a axis
+    if (is.null(.getGGTicks(x, xbuild, axis = axis)))
+      return(NULL)
+    else 
+      return(x$labels[[axis]])
+  } else {
+    # Return the opposite of the axis because the coord are flipped
+    if (axis == 'y') {
+      return(x$labels$x)
+    } else {
+      return(x$labels$y)
+    }
   }
 }
 
-.getGGYTicks = function(x, xbuild, layer) {
-  # The location of this item is changing in an upcoming ggplot version
-  if ("panel_ranges" %in% names(xbuild$layout)) {
-    return(xbuild$layout$panel_ranges[[layer]]$y.labels)   # ggplot 2.2.1
+.getGGTicks = function(x, xbuild, layer, axis) {
+  if (.getGGCoord(x, xbuild) == "CoordPolar") {
+    if (.isGGAxisTheta(x,axis)) {
+      labs = xbuild$layout$panel_params[[1]]$theta.labels
+    } else {
+      labs = xbuild$layout$panel_params[[1]]$r.labels
+    }
+  } else {
+    labs = xbuild$layout$panel_params[[1]][[axis]]$get_labels()
   }
-  else {
-    ylabs <- xbuild$layout$panel_params[[1]]$y$get_labels()
-    return (ylabs[!is.na(ylabs)])
+  if (all(labs[!is.na(labs)] != '')) {
+    return(labs[!is.na(labs)])
+  } else {
+    return(NULL)
   }
+
 }
 
 # Guides
@@ -81,16 +85,44 @@
 
 # Coordinates
 .getGGCoord = function(x, xbuild) {
-  return(class(x$coordinates)[1])
+  coords = class(x$coordinates)
+  if (sum("CoordFlip" %in% coords) > 0) return("CoordFlip")
+  if (sum("CoordPolar" %in% coords) > 0) return("CoordPolar")
+  if (sum("CoordCartesian" %in% coords) > 0) return("CoordCartesian")
+  return('unknown')
 }
 
 #Bar Orientation
-.findBarOrientation = function(x, xbuild, layer) {
-  flipped = xbuild$plot$layers[[layer]]$geom_params$flipped_aes
-  if (rlang::is_true(flipped))
-    return("horizontal")
-  else
+# It is done by looking at the the flipped_aes in the build object
+.findBarOrientation = function(x, xbuild, layeri) {
+  layer = xbuild$data[[layeri]]
+  #Vertical bars
+  if (sum(layer$flipped_aes == T) == 0) {
     return("vertical")
+    #Horizontal bars
+  } else if (sum(layer$flipped_aes == T) == length(layer$count)) {
+    return("horizontal")
+  } else {
+    return("(error with orientation)")
+  }
+}
+
+#Get number of bars in a geom_bar
+.getNumOfBars = function(data, flipped_aes) {
+  #Vertical bars
+  if (flipped_aes == "vertical") {
+    min = data$xmin
+    max = data$xmax
+  #Horizontal bars
+  } else {
+    min = data$ymin
+    max = data$ymax
+  }
+  widths = vector()
+  for (i in 1:length(min)) {
+    widths[length(widths)+1] = paste(toString(min[i]), " to ", toString(max[i]))
+  }
+  length(unique(widths))
 }
 
 ## Scales
@@ -255,7 +287,7 @@
 # facets are present or a stat other than identity is in play
 .getGGRawValues = function(x, xbuild, layer, var) {
   map = .getGGMapping(x, xbuild, layer, var)
-  if (class(x$layers[[layer]]$data) == "waiver")
+  if (inherits(x$layers[[layer]]$data, "waiver"))
     return(eval(map,x$data))
   else
     return(eval(map,x$layers[[layer]]$data))
@@ -310,8 +342,108 @@
 #Helper list for finding whether words start with vowels to give them an/a accordingly
 .giveAnOrA =function(wordChosen){
   vowels = c("a", "e", "i", "o", "u")
-  AnA = ifelse(is.element(substr(wordChosen, 1,1), vowels), "an", "a")
+  AnA = .ifelse(is.element(substr(wordChosen, 1,1), vowels), "an", "a")
   return(AnA)
 }
 
 
+#Get the area which is filled in by the ymin and ymax found in the layer.
+#Useful for geomRibbon and geomSmooth
+.getGGShadedArea = function(x, xbuild, layer, useX = TRUE) {
+  data = xbuild$data[[layer]]
+  
+  #Width of the shaded area
+  if (useX) {
+    width = data$ymax - data$ymin
+    axis_values = sort(data$x)
+  } else {
+    width = data$xmax - data$xmin
+    axis_values = sort(data$y)
+  }
+  #Get the length of each shaded area
+  #I believe they might be constant
+  
+  
+  distances = rep(0, length(axis_values))
+  for (i in 1:(length(axis_values)-1)) {
+    distances[i] = axis_values[i+1]-axis_values[i]
+  }
+  
+  #Length of x and y axis
+  xaxis = xbuild$layout$panel_scales_x[[1]]$range$range
+  yaxis = xbuild$layout$panel_scales_y[[1]]$range$range
+  
+  #Calculate area approximations
+  shadedArea = sum(abs(distances) * abs(width))
+  totalArea = (xaxis[2] - xaxis[1]) * (yaxis[2] - yaxis[1])
+  
+  #Get percentage
+  areaProportion = shadedArea / totalArea
+  areaPercentageStr = (areaProportion*100) |>
+    signif(2) |>
+    toString() |>
+    paste("%", sep="")
+  
+  
+  return(areaPercentageStr)
+}
+
+
+#Get the number of points that can be individually seen
+#This will help for users to tell how much overlap there really is
+.getGGVisiblePoints = function(cleandata) {
+  # This model is hardcoded in to keep it simple.
+  # It was achieved by getting a whole bunch of data by manually plotting 
+  # points and working out how many distinct points will fit in a fig dimmensions
+  # for a given point size.
+  # The model was run on this data was "number ~ figDim * log(size)- 1"
+  getNumber = function(figDim, size) 18.8451775594414 * figDim + -0.670862804568509 * log(size) + -5.94685845490627 * log(size) * figDim
+  size = dev.size()
+  axes = c('x', 'y')
+  #Get grid for points to be put into
+  roundedPoints = list()
+  for (axis in axes) {
+    data = cleandata[axis]
+    range = max(data) - min(data)
+    avgPointSize = mean(cleandata$size)
+    figDim = size[which(axes == axis)]
+    #print(avgPointSize)
+    numberOfPoints = getNumber(figDim, avgPointSize)
+    #print(numberOfPoints)
+    cellWidth = range / numberOfPoints
+    
+    roundedPoints[axis] = cellWidth * round(data/cellWidth)
+  }
+  #Return proportion of indiviual points
+  numberOfVisiblePoints = data.frame(roundedPoints) |> distinct() |> nrow()
+  numberOfPoints = length(roundedPoints$x)
+  (numberOfVisiblePoints / numberOfPoints)
+}
+
+#####################################################################
+##-----------------Coordinate system helper functions--------------##
+#####################################################################
+
+
+##########################
+## Flipped coordinates
+##########################
+
+## Gets whether the plot is CoordFlip or not
+.isGGCoordFlipped = function(x) {
+  return(.getGGCoord(x) == "CoordFlip")
+}
+
+##########################
+## Polar coordinates
+##########################
+
+## Tests if the plot is GGCoordFlipped
+.isGGCoordPolar = function(x) {
+  return(.getGGCoord(x) == "CoordPolar")
+}
+
+## Tests if the given axis is the theta axis
+.isGGAxisTheta = function(x, axis) {
+  x$coordinates$theta == axis
+}

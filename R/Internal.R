@@ -1,3 +1,11 @@
+
+.ifelse = function(condition, yes, no){
+    if(condition){
+      return(yes)}
+    else {
+     return(no)}
+}
+
 FindCSSFile =
     function(file) {
       out = NULL
@@ -27,3 +35,69 @@ InQuotes = function(x) {
   }
   return(out)
 }
+
+
+
+.GetOldStyleScatterText = function(ResponseName, PredictorName, DataName){
+TextOut = paste0(
+              '```{r ScatterPlot, fig.cap="Scatter Plot"}
+# Remove the missing values
+completeCases <- complete.cases(Data[ResponseName])*complete.cases(Data[PredictorName])
+assign(DataName, Data[completeCases==1,])
+
+plot(',
+              ResponseName, '~', PredictorName, ', data=', DataName, ', ylab=',
+              .simpleCap(ResponseName), ', xlab=', .simpleCap(PredictorName),
+              ')
+attach(', DataName, ')
+WhereXY(', ResponseName, ',',
+              PredictorName, ')
+detach(', DataName, ')
+```  \n\n')
+return(TextOut)
+}
+
+.GetModernStyleScatterText = function(ResponseName, PredictorName, DataName){
+TextOut=UseTemplate(file="ScatterPlot.Rmd", find=c("library\\(ggplot2\\)", "DataName", "ResponseName", "PredictorName"), 
+replace=c("# N.B. using the ggplot2 package", DataName, ResponseName, PredictorName))
+return(TextOut)
+}
+
+.GetOldStyleFittedText = function(ResponseName, PredictorName, DataName, ModelName){
+TextOut = paste0('
+```{r FittedLinePlot}
+plot(', ResponseName, '~',
+              PredictorName, ', data=', DataName, ', ylab=',
+              .simpleCap(ResponseName), ', xlab=', .simpleCap(PredictorName),
+              ')
+abline(', ModelName,
+              ')
+```\n\n')
+return(TextOut)
+}
+
+.GetModernStyleFittedText = function(ResponseName, PredictorName, DataName, ModelName){
+TextOut=UseTemplate(file="FittedLinePlot.Rmd", find=c("library\\(ggplot2\\)", "DataName", "ResponseName", "PredictorName"), 
+replace=c("# N.B. using the ggplot2 package", DataName, ResponseName, PredictorName))
+return(TextOut)
+}
+
+
+.GetOldStyleResidualText = function(ModelName){
+TextOut=paste0('
+```{r SimpleLinModResAnal, fig.cap="Residual analysis"}
+par(mfrow=c(2,2))
+plot(',
+              ModelName, ')
+```  \n\n')
+return(TextOut)
+}
+
+
+.GetModernStyleResidualText = function(ModelName){
+TextOut=UseTemplate(file="ResidualAnalysis.Rmd", find=c("library\\(ggfortify\\)", "ModelName"), 
+replace=c("# N.B. using the ggfortify package", ModelName))
+return(TextOut)
+}
+
+

@@ -4,7 +4,7 @@ ThreeFactors =
     function(Response, Factor1, Factor2, Factor3, Data = NULL,
              Filename = NULL, Folder = NULL, VI = getOption("BrailleR.VI"),
              Latex = getOption("BrailleR.Latex"),
-             View = getOption("BrailleR.View")) {
+             View = getOption("BrailleR.View"), Modern=TRUE) {
 
       # Check inputs are right form
       if (length(Response) == 1) {
@@ -50,25 +50,22 @@ ThreeFactors =
         } else {
           DataName = as.character(match.call()$Data)
         }
-        if (!is.data.frame(Data)) stop("The named dataset is not a data.frame.")
+        if (!is.data.frame(Data)) .NotADataFrame()
       }
 
       with(
           Data,
           {
             if (!is.numeric(get(ResponseName)))
-              stop("The response variable is not numeric.")
+              .ResponseNotNumeric()
             if (!is.vector(get(ResponseName)))
-              stop("Input response is not a vector.")
+              .ResponseNotAVector()
             if (!is.factor(get(Factor1Name)))
-              stop(
-                  "The first factor is not a factor.\nTry using as.factor() on a copy of the data.frame.")
+              .FactorNotFactor(which="first")
             if (!is.factor(get(Factor2Name)))
-              stop(
-                  "The second factor is not a factor.\nTry using as.factor() on a copy of the data.frame.")
+              .FactorNotFactor(which="second")
             if (!is.factor(get(Factor3Name)))
-              stop(
-                  "The third factor is not a factor.\nTry using as.factor() on a copy of the data.frame.")
+              .FactorNotFactor(which="third")
           })  # end data checking
 
       # create folder and filenames
@@ -91,12 +88,19 @@ ThreeFactors =
       cat(paste0(
               '```{r setup, include=FALSE}
 ',
-              ifelse(VI, "library(BrailleR)", "library(knitr)"),
+              .ifelse(VI, "library(BrailleR)", ""),
+              .ifelse(Modern, "\nlibrary(tidyverse)\nlibrary(ggfortify)", ""),
               '
 knitr::opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
 knitr::opts_chunk$set(echo=FALSE, comment="", fig.path="',
               Folder, '/', ResponseName, '.', Factor1Name, '.', Factor2Name,
               '-", fig.width=7)
+```
+
+<!--- IMPORTANT NOTE: This Rmd file does not yet import the data it uses. 
+You will need to add a data import command of some description into the next R chunk to use the file as a stand alone file. --->
+
+```{r importData}
 ```
 
 ## Group summaries
@@ -145,7 +149,7 @@ TabCapt = "Summary statistics for ',
 print(xtable(DataSummary, caption=TabCapt, label="',
                 ResponseName,
                 'GroupSummary", digits=4, align="lllrrrrr"), include.rownames = FALSE, file = ThisTexFile)
-    ```  \n\n'),
+```  \n\n'),
             file = Filename, append = TRUE)
       }
 
@@ -203,7 +207,7 @@ TabCapt = "Summary statistics for ',
 print(xtable(DataSummary, caption=TabCapt, label="',
                 ResponseName,
                 'GroupSummary", digits=4, align="llrrrrr"), include.rownames = FALSE, file = ThisTexFile)
-    ```  \n\n'),
+```  \n\n'),
             file = Filename, append = TRUE)
       }
 
@@ -250,7 +254,7 @@ TabCapt = "Summary statistics for ',
 print(xtable(DataSummary, caption=TabCapt, label="',
                 ResponseName,
                 'GroupSummary", digits=4, align="llrrrrr"), include.rownames = FALSE, file = ThisTexFile)
-    ```  \n\n'),
+```  \n\n'),
             file = Filename, append = TRUE)
       }
 
@@ -297,7 +301,7 @@ TabCapt = "Summary statistics for ',
 print(xtable(DataSummary, caption=TabCapt, label="',
                 ResponseName,
                 'GroupSummary", digits=4, align="llrrrrr"), include.rownames = FALSE, file = ThisTexFile)
-    ```  \n\n'),
+```  \n\n'),
             file = Filename, append = TRUE)
       }
 
@@ -311,7 +315,7 @@ MyANOVA <- aov(',
               ResponseName, '~', Factor1Name, '*', Factor2Name, '*', 
               Factor3Name, ', data=', DataName, ')
 ',
-              ifelse(VI, "VI(MyANOVA)", ""),
+              .ifelse(VI, "VI(MyANOVA)", ""),
               '
 summary(MyANOVA)
 ```  \n\n'),
@@ -335,9 +339,9 @@ print(xtable(MyANOVA, caption=TabCapt, label="',
             file = Filename, append = TRUE)
       }
 
-      # stop writing markdown and process the written file into html and an R script
+      # finish writing markdown and process the written file into html and an R script
       knit2html(Filename, quiet = TRUE, envir=globalenv(),
-                stylesheet = FindCSSFile(getOption("BrailleR.Style")))
+                meta = list(css = FindCSSFile(getOption("BrailleR.Style"))))
       file.remove(sub(".Rmd", ".md", Filename))
       purl(Filename, quiet = TRUE, documentation = 0)
       if (View) browseURL(sub(".Rmd", ".html", Filename))

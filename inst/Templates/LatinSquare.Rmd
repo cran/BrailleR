@@ -1,16 +1,20 @@
-```{r DataName.lm}
-DataName.lm = lm(ResponseName ~ RowFactor+ColFactor+FactorName, data=DataName)
-anova(DataName.lm)
+
+```{r}
+#| label = "{{DataName}}.lm"
+{{DataName}}.lm = lm({{ResponseName}} ~ {{RowFactor}}+{{ColFactor}}+{{FactorName}}, data = {{DataName}})
+{{DataName}}.lm |> anova()
 ```
 
 
-```{r plotDataName.lm, fig.cap="Residual analysis for DataName.lm"}
+```{r}
+#| label = "plot{{DataName}}.lm",
+#| fig.cap = "Residual analysis for {{DataName}}.lm"
 library(ggfortify)
-autoplot((DataName.lm)
+{{DataName}}.lm |> autoplot()
 ```
 
 
 ```{GetMeans}
 library(emmeans)
-emmeans(DataName.lm, pairwise ~FactorName)
+emmeans({{DataName}}.lm, pairwise ~{{FactorName}})
 ```

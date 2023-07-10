@@ -9,9 +9,29 @@ UniDesc =
 
       if (is.null(Response)) {
         if (length(ResponseName) == 0)
-          stop("You must specify either the Response or the ResponseName.")
+          .NoResponse() 
         Response = get(ResponseName)
       }
+
+      if(VI){
+        VIOpenText = "VI("
+        VICloseText = ")"
+        }
+      else {
+        VIOpenText = ""
+        VICloseText = ""
+        }
+
+
+      if(Latex){
+        LatexOpenText = "VI("
+        LatexCloseText = ")"
+        }
+      else {
+        LatexOpenText = ""
+        LatexCloseText = ""
+        }
+
 
       # to ensure consistent and predictable appearance
       StartChunk =
@@ -64,7 +84,13 @@ opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
 opts_chunk$set(comment="", echo=FALSE, fig.path="',
               Folder, '/', .simpleCap(ResponseName),
               '-", fig.width=7)
-```  \n\n'), file = Filename, append = TRUE)
+```  
+
+<!--- IMPORTANT NOTE: This Rmd file does not yet import the data it uses. 
+You will need to add a data import command of some description into the next R chunk to use the file as a stand alone file. --->
+
+```{r importData}
+```\n\n'), file = Filename, append = TRUE)
 
 
       if (Basic) {
@@ -207,17 +233,17 @@ Value | `r ',
         cat("\n## Basic univariate graphs    \n### Histogram    \n",
             file = Filename, append = TRUE)
         GraphHead("Hist", "The histogram")
-        cat(paste0(ifelse(VI, 'VI(', ''), 'hist(', ResponseName, ', xlab="',
+        cat(paste0(VIOpenText, 'hist(', ResponseName, ', xlab="',
                    ResponseName, '", main="Histogram of ',
-                   .simpleCap(ResponseName), '")', ifelse(VI, ')', '')),
+                   .simpleCap(ResponseName), '")', VICloseText),
             file = Filename, append = TRUE)
         CloseChunk()
 
         cat("\n### Boxplot    \n", file = Filename, append = TRUE)
         GraphHeadWide("Boxplot", "The boxplot")
-        cat(paste0(ifelse(VI, 'VI(', ''), 'boxplot(', ResponseName,
+        cat(paste0(VIOpenText, 'boxplot(', ResponseName,
                    ', horizontal=TRUE, main = "Boxplot of ',
-                   .simpleCap(ResponseName), '")', ifelse(VI, ')', '')),
+                   .simpleCap(ResponseName), '")', VICloseText),
             file = Filename, append = TRUE)
         CloseChunk()
 
@@ -350,9 +376,9 @@ print(xtable(Results, caption=TabCapt, label=\"',
       }  # end of formal tests of normality via moments section
 
       if (Process) {
-        # stop writing markdown and process the written file into html and an R script
+        # finish writing markdown and process the written file into html and an R script
         knit2html(Filename, quiet = TRUE,
-                  stylesheet = FindCSSFile(getOption("BrailleR.Style")))
+                meta = list(css = FindCSSFile(getOption("BrailleR.Style"))))
         file.remove(sub(".Rmd", ".md", Filename))
         purl(Filename, quiet = TRUE)
         if (View) browseURL(sub(".Rmd", ".html", Filename))

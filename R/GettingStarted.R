@@ -1,24 +1,19 @@
 GetGoing =
     function() {
       if (interactive()) {
-        message(
-            "You will be asked to enter answers for a series of questions.\nHit <enter> to use the default shown in parentheses.")
+        .AnswerQuestionsMSG()
 
-        message("\nEnter the name you want to use for authoring content. (",
-                getOption("BrailleR.Author"), ")")
+        .AuthorNameMSG()
         name = readLines(n = 1)
         if (name != "") SetAuthor(name)
 
-        message(
-            "\nHow many decimal places do you wish p values to be rounded to? (",
-            getOption("BrailleR.PValDigits"), ")\n")
+        .PValueDigitsMSG()
+
         digits = as.numeric(readLines(n = 1))
         if (!is.na(digits)) SetSigLevel(digits)
 
-        message(
-            "\nWhat is the level of significance you plan to use as your default? (",
-            getOption("BrailleR.SigLevel"), ")")
-        alpha = as.numeric(readLines(n = 1))
+        .DefaultSignificanceMSG()
+       alpha = as.numeric(readLines(n = 1))
         if (!is.na(alpha)) SetSigLevel(alpha)
 
         message(
@@ -63,7 +58,7 @@ GetGoing =
 
         #end interactive section.
       } else {
-        warning("This function is only intended for interactive R sessions.\n")
+        .InteractiveOnly()
       }
       return(invisible(NULL))
     }

@@ -1,12 +1,13 @@
 
 
-ScatterPlot = function(x, y=NULL, ...){
+ScatterPlot = function(.data, x, y=NULL, base=FALSE, ...){
     MC <- match.call(expand.dots = TRUE)
+if(base){
     Out = list()
     Out$data = .CleanData4TwoWayPlot(x, y)
     Out$ExtraArgs  = .GrabExtraArgs(MC)
-    Out$ExtraArgs$xlab =     MC$xlab= ifelse(is.null(MC$xlab), as.character(MC$x), MC$xlab)
-    Out$ExtraArgs$ylab =     MC$ylab= ifelse(is.null(MC$ylab), as.character(MC$y), MC$ylab)
+    Out$ExtraArgs$xlab =     MC$xlab= .ifelse(is.null(MC$xlab), as.character(MC$x), MC$xlab)
+    Out$ExtraArgs$ylab =     MC$ylab= .ifelse(is.null(MC$ylab), as.character(MC$y), MC$ylab)
     Out = .checkTextLabels(MC, Out)
     MC[[1L]] <- quote(graphics::plot)
     MC$x <- Out$data$x
@@ -17,17 +18,24 @@ ScatterPlot = function(x, y=NULL, ...){
     Out=Augment(Out)
     return(invisible(Out))
 }
+else{ ## do it in ggplot2
+Out=ggplot(.data, aes(x=x, y=y)) + geom_point()
+    return(Out)
+}
+}
 
 
-FittedLinePlot = function(x, y, line.col=2, ...){
+FittedLinePlot = function(.data, x, y, line.col=2, base=FALSE, ...){
     MC <- match.call(expand.dots = TRUE)
+if(base){
+
     Out = list()
     Out$data = .CleanData4TwoWayPlot(x, y)
     Out$fittedline = list(coef = coef(lm(y~x, data=Out$data)),
                     col = line.col)
     Out$ExtraArgs  = .GrabExtraArgs(MC)
-    Out$ExtraArgs$xlab  = MC$xlab = ifelse(is.null(MC$xlab), as.character(MC$x), MC$xlab)
-    Out$ExtraArgs$ylab  =     MC$ylab= ifelse(is.null(MC$ylab), as.character(MC$y), MC$ylab)
+    Out$ExtraArgs$xlab  = MC$xlab = .ifelse(is.null(MC$xlab), as.character(MC$x), MC$xlab)
+    Out$ExtraArgs$ylab  =     MC$ylab= .ifelse(is.null(MC$ylab), as.character(MC$y), MC$ylab)
     Out = .checkTextLabels(MC, Out)
     MC$x <- Out$data$x
     MC$y <- Out$data$y
@@ -38,6 +46,11 @@ FittedLinePlot = function(x, y, line.col=2, ...){
     Out=Augment(Out)
     do.call(abline, Out$fittedline)
     return(invisible(Out))
+}
+else{ ## do it in ggplot2
+Out=ggplot(.data, aes(x=x, y=y)) + geom_point() + geom_smooth(method="lm", col=line.col)
+    return(Out)
+}
 }
 
 
@@ -53,9 +66,7 @@ plot.fittedlineplot = function(x, ...){
     return(invisible(NULL))
 }
 
-plot.scatterplot = plot.fittedlineplot
-print.fittedlineplot = plot.fittedlineplot
-print.scatterplot = plot.scatterplot
+plot.scatterplot = print.fittedlineplot = print.scatterplot = plot.fittedlineplot
 
 .RemoveExtraGraphPars = function(x){
 ToRemoveBrailleRBits = c("xTicks", "yTicks", "par", "GroupSummaries", "Continuous", "coef", "data", "fittedline", "main", "sub", "xlab", "ylab", "ExtraArgs", "line.col")

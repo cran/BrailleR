@@ -1,3 +1,4 @@
+# do we need this given spelling package now exists??
 SpellCheck =
     function(file) {
       if (interactive()) {
@@ -5,9 +6,8 @@ SpellCheck =
           cat(paste0(ThisFile, ": "))
           if (file.exists(ThisFile)) {
             file.copy(ThisFile, paste0(ThisFile, ".bak"), overwrite = FALSE)
-            cat("\n", file = ThisFile, append = TRUE)  # otherwise warnings
-                                                       # returned on readLines()
-                                                       # below
+            cat("\n", file = ThisFile, append = TRUE)  # otherwise problems 
+                                                       # on readLines() below
             OldText <- readLines(con = ThisFile)
             Mistakes = SpellCheckFiles(file = ThisFile)
             for (i in names(Mistakes[[1]])) {
@@ -54,15 +54,15 @@ SpellCheck =
               }
             }
             writeLines(OldText[1:NoLines], con = ThisFile)
-            message("Done.")
+            .Done()
           }  # end ThisFile exists condition
               else {
-            warning("The specified file does not exist.\n")
+            .FileDoesNotExist(file)
           }
         }  # end for loop for files
       }  # end interactive ondition
           else {
-        warning("This function is meant for use in interactive mode only.\n")
+        .InteractiveOnly()
       }
       return(invisible(NULL))
     }

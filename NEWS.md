@@ -1,3 +1,76 @@
+# BrailleR 1.0.2
+- improved CRAN test picked up inconsistencies with internal functions
+
+# BrailleR 1.0.1
+- deleted detritus
+
+# BrailleR 1.0.0
+- first production release. Still plenty to add, but the original intention of the package has now been met.
+- removed explicit CITATION file. This then required explicit date specification in DESCRIPTION.
+
+# BrailleR 0.99.0
+- did some cleaning up to de-clutter, check examples, add documentation, and all the good things that must be done prior to v1.0.0
+- removed dependency on magrittr as now using native pipe
+- removed rlang as a dependency; redundant for some time probably
+- removed other dependencies (on base packages) from imports
+- responded to June 28 CRAN check
+
+# BrailleR 0.33.4
+- fix issue #35 with incorrect bin counts
+- fix issue #24, correcting base r plot titles in VI
+- Add shaded area for geom_smooth CI info to VI output.
+- Add geom_ribbon support
+- Add geom_area support. This has been added to the geom_ribbon branch and is treated like a geom_ribbon almost exactly the same.
+- Add support for showing expand_limit effect on graph.
+- add functionality for winget tools into new winget.R file; should streamline software installation down the track
+- deprecated functions relating to Python 2.7 and functions for making slide shows
+- updated template files so that chunk options are moved from opening fence to commented lines (should be ready for Quarto)
+- added several functions to make basic Quarto documents from history and an R script
+- changed to use whisker templates by adding {{.}} around the items that need to be changed
+- added a few functions to choose a template and be given some guidance on its use; see ChooseTemplate()
+- resolve issue #31, add default shape message.
+- resolve issue #34, add information about visible points. It only works at the moment up to point size of 18.
+- resolve issue #62, add ggplot support for TimeSeries
+- resolve issue #61, fix geom_boxplot VI output and add outlier information to VI output.
+- Add ggplot to describe
+- Add basic CoordFlip and CoordPolar support to VI()
+- Refresh SVG functions and documentation. Move all SVG over to whisker templates.
+
+# BrailleR 0.33.3
+-Update author files
+-Change the VI.ggplot output for unrecognized graphs to correct spelling of cannot
+
+# BrailleR 0.33.2
+- updated batch file creation so that they search for current version of R. Batch files should not require updating as a consequence.
+- start adding support for quarto.
+- converted templates to use the native pipe instead of the magrittr pipe
+
+
+# BrailleR 0.33.1
+- working on modernising other convenience functions
+- serious compaction of code was possible; used new internal functions where code is repeated over convenience functions
+- WriteR was updated so that it does not create a settings file anywhere. Python 3.8 works but 3.10 has issues getting the necessary wxpython module installed. This creates incentive for getting stand alone version up and running.
+- added new verbosity setting for VI output. At this stage it hasno  impact.
+
+
+
+# BrailleR 0.33.0
+- updated ScatterPlot(), FittedLinePlot(), and TimeSeriesPlot() functions  to have both base and ggplot style graphics.
+- updated qplot.Rmd vignette to remove all but one `VI()` command as they are redundant now that we get automatic descriptions of ggplot objects.
+- moved all stop() error message commands to stop.r and used hidden commands to pull the errors. Will make translation easier.
+- moved a lot of message() and warning() calls to use specific functions instead. Should reduce the number of text strngs that need translation.
+- added use of pkgdown
+- updated templates to make use of pipe chains where possible
+- updated examples to use dplyr syntax
+- added quite a few more templates for tests that will help VI users
+- added UseTemplateList() as a fast wrapper for UseTemplate()
+- added use of Rdpack package for use of bibtex references in Rd files
+- brought ggplot style graphics into OnePredictor() with new `Modern=TRUE` while still allowing old-style graphs (must set `Modern=FALSE`)
+- tried to reduce package dependencies list. Added packages to suggests list.
+
+# BrailleR 0.32.2 
+(Temporary while waiting for CRAN approval)
+
 # BrailleR 0.32.1
 - feedback from manual CRAN inspection
 - removed commented code from examples in Rd files.

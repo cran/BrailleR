@@ -7,7 +7,7 @@ A convenience function that creates an analysis for a continuous response variab
 OneFactor(Response, Factor, Data = NULL, HSD = TRUE, AlphaE = 0.05, 
 Filename = NULL, Folder = NULL, 
 VI = getOption("BrailleR.VI"), Latex = getOption("BrailleR.Latex"), 
-View = getOption("BrailleR.View"))
+View = getOption("BrailleR.View"), Modern=TRUE)
 }
 \arguments{
   \item{Response}{Name of the continuous response variable.}
@@ -20,6 +20,7 @@ View = getOption("BrailleR.View"))
   \item{VI}{Logical: Should the VI method for blind users be employed?}
   \item{Latex}{Logical: Should the tabulated sections be saved in LaTeX format?}
   \item{View}{Logical: Should the HTML file be opened for inspection?}
+  \item{Modern}{Logical: Should the graphics be createdusing ggplot?}
 }
 \details{This function writes an R markdown file that is knitted into HTML and purled into an R script. All graphs are saved in subdirectories in png, eps, pdf and svg formats. Tabulated results are stored in files suitable for importing into LaTeX documents.}
 \value{This function is used for creation of the files saved in the working directory and a few of its subdirectories.}
@@ -31,13 +32,12 @@ View = getOption("BrailleR.View"))
 DIR = getwd()
 setwd(tempdir())
 data(airquality)
-
+library(dplyr)
+library(knitr)
 # the following line  returns an error:
-## OneFactor("Ozone", "Month", airquality, Folder=tempdir(), View=FALSE)
+## OneFactor("Ozone", "Month", airquality, View=FALSE)
 # so we make a copy of the data.frame, and fix that:
-
-airquality2 = airquality
-airquality2$Month = as.factor(airquality$Month)
+airquality2 = airquality |> mutate(Month = as.factor(Month))
 # and now all is good to try:
 OneFactor("Ozone", "Month", airquality2)
 # N.B. Various files and a folder were created in a temporary directory. 

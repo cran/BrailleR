@@ -1,10 +1,10 @@
 ## add this back in when the VI.anova() is done
-#  ', ifelse(VI, "VI(", ""), 'anova(', ModelName, ifelse(VI,")", ""), ')
+#  ', .ifelse(VI, "VI(", ""), 'anova(', ModelName, .ifelse(VI,")", ""), ')
 
 OnePredictor =
     function(Response, Predictor, Data = NULL, Filename = NULL, Folder = NULL,
              VI = getOption("BrailleR.VI"), Latex = getOption("BrailleR.Latex"),
-             View = getOption("BrailleR.View")) {
+             View = getOption("BrailleR.View"), Modern=TRUE) {
 
       # Need to redefine the environment for VI.lm function
       VI.env <- environment(VI.lm)
@@ -40,14 +40,34 @@ OnePredictor =
         } else {
           DataName = as.character(match.call()$Data)
         }
-        if (!is.data.frame(Data)) stop("The named dataset is not a data.frame.")
+        if (!is.data.frame(Data)) .NotADataFrame()
       }
+
+
+      if(VI){
+        VIOpenText = "VI("
+        VICloseText = ")"
+        }
+      else {
+        VIOpenText = ""
+        VICloseText = ""
+        }
+
+
+      if(Latex){
+        LatexOpenText = "VI("
+        LatexCloseText = ")"
+        }
+      else {
+        LatexOpenText = ""
+        LatexCloseText = ""
+        }
 
       with(Data, {
                    if (!is.numeric(get(ResponseName)))
-                     stop("The response variable is not numeric.")
+                     .ResponseNotNumeric()
                    if (!is.numeric(get(PredictorName)))
-                     stop("The Predictor variable is not numeric.")
+                     .PredictorNotNumeric()
                  })  # end data checking
 
       # create folder and filenames
@@ -71,13 +91,21 @@ OnePredictor =
       cat(paste0(
               '```{r setup2, purl=FALSE, include=FALSE}
 ',
-              ifelse(VI, "library(BrailleR)", "library(knitr)"),
+              .ifelse(VI, "library(BrailleR)", ""),
+              .ifelse(Modern, "\nlibrary(tidyverse)\nlibrary(ggfortify)", ""),
               '
-knitr::opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
-knitr::opts_chunk$set(echo=FALSE, comment="", fig.path="',
+library(knitr)
+opts_chunk$set(dev=c("png", "pdf", "postscript", "svg"))
+opts_chunk$set(echo=FALSE, comment="", fig.path="',
               Folder, '/', .simpleCap(ResponseName), '.',
               .simpleCap(PredictorName),
               '-", fig.width=7)
+```
+
+<!--- IMPORTANT NOTE: This Rmd file does not yet import the data it uses. 
+You will need to add a data import command of some description into the next R chunk to use the file as a stand alone file. --->
+
+```{r importData}
 ```
 
 ## Variable summaries
@@ -114,6 +142,56 @@ kable(t(SummaryTable), row.names=T, align=rep("c",8))
 ```  \n\n'),
           file = Filename, append = TRUE)
 
+
+      if (Latex) {
+      }
+
+
+      cat('## Scatter Plot\n\n', file = Filename, append = TRUE)
+
+
+ScatterText = .ifelse(Modern, .GetModernStyleScatterText(ResponseName=ResponseName, PredictorName=PredictorName, DataName=DataName),
+ .GetOldStyleScatterText(ResponseName=ResponseName, PredictorName=PredictorName, DataName=DataName))
+      cat(ScatterText, file = Filename, append = TRUE)
+
+      cat(paste0('## Linear regression
+
+```{r ', ModelName,
+              '}
+', ModelName,
+              ' <- lm(', ResponseName, '~', PredictorName, ', data=', DataName,
+              ')
+', .ifelse(VI, paste("VI(", ModelName, ")"), ""), '
+',
+              .ifelse(VI, paste0("VI(summary(", ModelName, "))"), ""),
+              '
+summary(', ModelName,
+              ')
+```\n\n'),
+          file = Filename, append = TRUE)
+
+FittedText = .ifelse(Modern, .GetModernStyleFittedText(ResponseName=ResponseName, PredictorName=PredictorName, DataName=DataName, ModelName=ModelName),
+.GetOldStyleFittedText(ResponseName=ResponseName, PredictorName=PredictorName, DataName=DataName, ModelName=ModelName))
+      cat(FittedText, file = Filename, append = TRUE)
+
+ResidualText = .ifelse(Modern, .GetModernStyleResidualText(ModelName=ModelName), .GetOldStyleResidualText(ModelName=ModelName))
+      cat(ResidualText, file = Filename, append = TRUE)
+
+
+      if (VI) {
+        cat(paste0(
+                'A separate html page showing the residual analysis and model validity checking for ',
+                ModelName, ' is at [', ModelName, '.Validity.html](', ModelName,
+                '.Validity.html)  \n\n'), file = Filename, append = TRUE)
+      }
+
+      cat(paste0('### One-way Analysis of Variance
+
+```{r ANOVA', ModelName, '}
+anova(',
+              ModelName, ')
+```  \n\n'), file = Filename, append = TRUE)
+
       if (Latex) {
         cat(paste0(
                 '```{r VariableSummaryTex, purl=FALSE}
@@ -128,79 +206,9 @@ TabCapt = "Summary statistics for variables ',
 print(xtable(t(SummaryTable), caption=TabCapt, label="',
                 .simpleCap(ResponseName),
                 '-VariableSummary", digits=4, align="lrrrrrrrr"), include.rownames = FALSE, file = ThisTexFile)
-```  \n\n'),
-            file = Filename, append = TRUE)
-      }
-
-      cat(paste0(
-              '## Scatter Plot
-
-```{r ScatterPlot, fig.cap="Scatter Plot"}
-# Remove the missing values
-completeCases <- complete.cases(Data[ResponseName])*complete.cases(Data[PredictorName])
-assign(DataName, Data[completeCases==1,])
-
-plot(',
-              ResponseName, '~', PredictorName, ', data=', DataName, ', ylab=',
-              .simpleCap(ResponseName), ', xlab=', .simpleCap(PredictorName),
-              ')
-attach(', DataName, ')
-WhereXY(', ResponseName, ',',
-              PredictorName, ')
-detach(', DataName, ')
-```  \n\n'),
-          file = Filename, append = TRUE)
-
-
-      cat(paste0(
-              '## Linear regression
-
-```{r SimpleLinMod}
-', ModelName,
-              ' <- lm(', ResponseName, '~', PredictorName, ', data=', DataName,
-              ')
-', ifelse(VI, paste("VI(", ModelName, ")"), ""), '
-',
-              ifelse(VI, paste0("VI(summary(", ModelName, "))"), ""),
-              '
-summary(', ModelName,
-              ')
 ```
 
-```{r FittedLinePlot}
-plot(', ResponseName, '~',
-              PredictorName, ', data=', DataName, ', ylab=',
-              .simpleCap(ResponseName), ', xlab=', .simpleCap(PredictorName),
-              ')
-abline(', ModelName,
-              ')
-```
-
-
-```{r SimpleLinModResAnal, fig.cap="Residual analysis"}
-par(mfrow=c(2,2))
-plot(',
-              ModelName, ')
-```  \n\n'), file = Filename, append = TRUE)
-
-      if (VI) {
-        cat(paste0(
-                'A separate html page showing the residual analysis and model validity checking for ',
-                ModelName, ' is at [', ModelName, '.Validity.html](', ModelName,
-                '.Validity.html)  \n\n'), file = Filename, append = TRUE)
-      }
-
-      cat(paste0(
-              '### One-way Analysis of Variance
-
-```{r OneWayANOVA1}
-anova(',
-              ModelName, ')
-```  \n\n'), file = Filename, append = TRUE)
-
-      if (Latex) {
-        cat(paste0(
-                '```{r SimpleLinMod-TEX, purl=FALSE}
+```{r SimpleLinMod-TEX, purl=FALSE}
 ThisTexFile = "', Folder,
                 '/', .simpleCap(ResponseName), '-', .simpleCap(PredictorName),
                 '-lm.tex"
@@ -226,11 +234,12 @@ print(xtable(anova(', ModelName,
             file = Filename, append = TRUE)
       }
 
-      # stop writing markdown and process the written file into html and an R script
+      # finish writing markdown and process the written file into html and an R script
       knit2html(Filename, quiet = TRUE,
-                stylesheet = FindCSSFile(getOption("BrailleR.Style")))
+                meta = list(css = FindCSSFile(getOption("BrailleR.Style"))))
       file.remove(sub(".Rmd", ".md", Filename))
       purl(Filename, quiet = TRUE, documentation = 0)
       if (View) browseURL(sub(".Rmd", ".html", Filename))
       environment(VI.lm) <- VI.env
     }  # end of OnePredictor function
+

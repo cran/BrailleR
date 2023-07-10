@@ -1,4 +1,5 @@
 # file contains MakeAllInOneSlide(), MakeSlidy(),  and MakeSlideShow()
+## all deprecated
 
 MakeAllInOneSlide =
     function(Folder, Style = getOption("BrailleR.SlideStyle"), file = NULL) {
@@ -34,11 +35,12 @@ MakeAllInOneSlide =
 
         }  # end css file condition
             else {
-          warning("Cannot find the specified css file.")
+          ## war ning("Cannot find the specified css file.")
         }
       }  # end folder existence condition
           else {
-        warning("Specified folder does not exist. No action taken.")
+        .FolderNotFound()
+ .NoActionTaken()
       }
       return(invisible(NULL))
     }
@@ -68,7 +70,8 @@ Slidy presentation
           rmarkdown::render(OutRMD, output_format=slidy_presentation())
       }  # end folder existence condition
           else {
-        warning("Specified folder does not exist. No action taken.")
+        .FolderNotFound()
+ .NoActionTaken()
       }
       return(invisible(NULL))
     }
@@ -130,11 +133,20 @@ MakeSlideShow =
 
         }  # end css file condition
             else {
-          warning("Cannot find the specified css file.")
+          ## war ning("Cannot find the specified css file.")
         }
       }  # end folder existence condition
           else {
-        warning("Specified folder does not exist. No action taken.")
+        .FolderNotFound()
+ .NoActionTaken()
       }
       return(invisible(NULL))
     }
+
+MakeAllInOneSlide = MakeSlidy = MakeSlideShow =
+    function(...){
+.DeprecatedFunction() 
+}
+
+
+ 
